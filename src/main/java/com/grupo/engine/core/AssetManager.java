@@ -1,6 +1,6 @@
-package com.denniseckerskorn.engine.core;
+package com.grupo.engine.core;
 
-import com.denniseckerskorn.engine.audio.Sound;
+import com.grupo.engine.audio.Sound;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

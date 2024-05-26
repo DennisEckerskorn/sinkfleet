@@ -1,9 +1,9 @@
-package com.denniseckerskorn.engine.graphics.swing;
+package com.grupo.engine.graphics.swing;
 
-import com.denniseckerskorn.engine.core.Blackboard;
-import com.denniseckerskorn.engine.core.ResizeListener;
-import com.denniseckerskorn.engine.entities.Entity;
-import com.denniseckerskorn.engine.graphics.RenderAPI;
+import com.grupo.engine.core.Blackboard;
+import com.grupo.engine.core.ResizeListener;
+import com.grupo.engine.entities.Entity;
+import com.grupo.engine.graphics.RenderAPI;
 
 import javax.swing.*;
 import java.awt.*;

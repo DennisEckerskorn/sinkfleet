@@ -1,4 +1,4 @@
-package com.denniseckerskorn.engine.math;
+package com.grupo.engine.math;
 
 /**
  * Una clase de utilidad que proporciona funciones matemáticas comunes.

@@ -1,4 +1,4 @@
-package com.denniseckerskorn.engine.audio;
+package com.grupo.engine.audio;
 
 import javax.sound.sampled.*;
 import java.io.File;

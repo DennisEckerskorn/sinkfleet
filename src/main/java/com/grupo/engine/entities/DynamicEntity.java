@@ -1,7 +1,7 @@
-package com.denniseckerskorn.engine.entities;
+package com.grupo.engine.entities;
 
-import com.denniseckerskorn.engine.input.KeyboardManager;
-import com.denniseckerskorn.engine.math.Vector2;
+import com.grupo.engine.input.KeyboardManager;
+import com.grupo.engine.math.Vector2;
 
 import java.awt.image.BufferedImage;
 

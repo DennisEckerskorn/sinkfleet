@@ -1,10 +1,10 @@
-package com.denniseckerskorn.engine.entities;
+package com.grupo.engine.entities;
 
-import com.denniseckerskorn.engine.core.Collider;
-import com.denniseckerskorn.engine.core.Updateable;
-import com.denniseckerskorn.engine.math.MathUtil;
-import com.denniseckerskorn.engine.math.Vector2;
-import com.denniseckerskorn.engine.pool.Poolable;
+import com.grupo.engine.core.Collider;
+import com.grupo.engine.core.Updateable;
+import com.grupo.engine.math.MathUtil;
+import com.grupo.engine.math.Vector2;
+import com.grupo.engine.pool.Poolable;
 
 import java.awt.image.BufferedImage;
 

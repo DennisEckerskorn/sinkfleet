@@ -1,8 +1,8 @@
-package com.denniseckerskorn.engine.core;
+package com.grupo.engine.core;
 
-import com.denniseckerskorn.engine.entities.Entity;
-import com.denniseckerskorn.engine.entities.PlayableEntity;
-import com.denniseckerskorn.engine.pool.ObjectPool;
+import com.grupo.engine.entities.Entity;
+import com.grupo.engine.entities.PlayableEntity;
+import com.grupo.engine.pool.ObjectPool;
 
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;

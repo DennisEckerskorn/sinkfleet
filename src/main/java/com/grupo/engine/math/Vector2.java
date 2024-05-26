@@ -1,4 +1,4 @@
-package com.denniseckerskorn.engine.math;
+package com.grupo.engine.math;
 
 import java.util.Vector;
 

@@ -1,8 +1,8 @@
-package com.denniseckerskorn.engine.entities;
+package com.grupo.engine.entities;
 
-import com.denniseckerskorn.engine.core.Collider;
-import com.denniseckerskorn.engine.input.KeyboardManager;
-import com.denniseckerskorn.engine.math.Vector2;
+import com.grupo.engine.core.Collider;
+import com.grupo.engine.input.KeyboardManager;
+import com.grupo.engine.math.Vector2;
 
 import java.awt.image.BufferedImage;
 
@@ -44,9 +44,11 @@ public abstract class PlayableEntity extends DynamicEntity {
         return keyboardManager;
     }
 
+    /*
     public void setDirection(Direction direction) {
 
     }
+     */
 
     public abstract void processInput();
 }

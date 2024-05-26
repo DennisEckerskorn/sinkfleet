@@ -1,6 +1,6 @@
-package com.denniseckerskorn.engine.core;
+package com.grupo.engine.core;
 
-import com.denniseckerskorn.engine.graphics.RenderAPI;
+import com.grupo.engine.graphics.RenderAPI;
 
 public abstract class Game implements Runnable, Updateable, ResizeListener {
     private int width;

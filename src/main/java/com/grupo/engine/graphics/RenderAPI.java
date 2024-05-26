@@ -1,4 +1,4 @@
-package com.denniseckerskorn.engine.graphics;
+package com.grupo.engine.graphics;
 
 public interface RenderAPI {
     void render();

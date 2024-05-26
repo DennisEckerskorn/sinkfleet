@@ -1,4 +1,4 @@
-package com.denniseckerskorn.engine.pool;
+package com.grupo.engine.pool;
 
 public interface Poolable {
     void reset();

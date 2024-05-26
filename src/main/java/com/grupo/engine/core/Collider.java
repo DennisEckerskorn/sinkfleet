@@ -1,6 +1,6 @@
-package com.denniseckerskorn.engine.core;
+package com.grupo.engine.core;
 
-import com.denniseckerskorn.engine.entities.Entity;
+import com.grupo.engine.entities.Entity;
 
 public class Collider {
     private float xLeft;
