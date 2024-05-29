@@ -48,7 +48,7 @@ public class Ship extends Entity {
      * @param hitY Coordenada Y del golpe.
      * @return true si el golpe está dentro del área del barco y no ha sido golpeado antes.
      */
-    public boolean checkHitPosition(float hitX, float hitY) {
+    public boolean isHitPosition(float hitX, float hitY) {
         for (int i = 0; i < positionsX.size(); i++) {
             if (positionsX.get(i).equals(hitX) && positionsY.get(i).equals(hitY) && !hits.get(i)) {
                 hits.set(i, true);
