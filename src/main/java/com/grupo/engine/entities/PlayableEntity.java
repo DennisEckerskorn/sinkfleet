@@ -46,7 +46,7 @@ public abstract class PlayableEntity extends DynamicEntity {
 
     /*
     public void setDirection(Direction direction) {
-
+        setVelocity(direction.getDirection().getX(), direction.getDirection().getY());
     }
      */
 

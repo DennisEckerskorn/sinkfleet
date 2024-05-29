@@ -49,17 +49,6 @@ public abstract class Entity implements Updateable, Poolable {
         this(x, y, width, height, hp, damage, null);
     }
 
-    @Override
-    public void reset() {
-        //this.position.setPosition(0, 0);
-        this.width = 0;
-        this.height = 0;
-        this.hp = 0;
-        this.damage = 0;
-        this.collider = null;
-        this.sprite = null;
-    }
-
     public Collider getCollider() {
         return collider;
     }
@@ -100,14 +89,14 @@ public abstract class Entity implements Updateable, Poolable {
         return sprite;
     }
 
-    public void setCollider(float colliderXLeft, float colliderXRight, float colliderYDown, float colliderYUp, int colliderMask) {
+    public void setCollider(float colliderXLeft, float colliderXRight, float colliderYUp, float colliderYDown, int colliderMask) {
         if (collider == null) {
-            collider = new Collider(colliderXLeft, colliderXRight, colliderYDown, colliderYUp, colliderMask);
+            collider = new Collider(colliderXLeft, colliderXRight, colliderYUp, colliderYDown, colliderMask);
         } else {
-            collider.setxRight(colliderXLeft);
-            collider.setxLeft(colliderXRight);
-            collider.setyUp(colliderYDown);
-            collider.setyDown(colliderYUp);
+            collider.setxLeft(colliderXLeft);
+            collider.setxRight(colliderXRight);
+            collider.setyUp(colliderYUp);
+            collider.setyDown(colliderYDown);
             collider.setMask(colliderMask);
         }
     }
@@ -115,7 +104,7 @@ public abstract class Entity implements Updateable, Poolable {
     public void setCollider(float colliderX, float colliderY, int colliderMask) {
         setCollider(colliderX, colliderX, colliderY, colliderY, colliderMask);
     }
-
+    
     public void setSprite(BufferedImage sprite) {
         this.sprite = sprite;
     }

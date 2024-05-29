@@ -55,48 +55,37 @@ public abstract class Game implements Runnable, Updateable, ResizeListener {
         thread.start();
     }
 
-    //TODO: update to version of German
     @Override
     public void run() {
-        final long NANOS_IN_SECONDS = 1_000_000_000;
+        final long NANOS_IN_SECOND = 1_000_000_000;
+        final double NANOS_BETWEEN_UPDATES = 1_000_000_000 / upsLimit;
+        final double NANOS_BETWEEN_FRAMES = 1_000_000_000 / fpsLimit;
         long currentFrame;
-        long lastFrame = System.nanoTime();
-        long lastUpdateFrame = lastFrame;
+        long lastFrame = currentFrame = System.nanoTime();
+        long currentUpdate;
+        long lastUpdate = currentUpdate = System.nanoTime();
         double deltaTime;
 
         System.out.println("Iniciando hilo ...");
         while (!finished) {
             currentFrame = System.nanoTime();
-            deltaTime = (double) (currentFrame - lastFrame) / NANOS_IN_SECONDS;
+            currentUpdate = System.nanoTime();
+
             processInput();
-
-            if (upsLimit > 0) {
-                double nanosBetweenUpdates = NANOS_IN_SECONDS / upsLimit;
-                if (currentFrame - lastUpdateFrame >= nanosBetweenUpdates) {
-                    updateGame(deltaTime);
-                    lastUpdateFrame = currentFrame;
-                }
-            } else {
-                updateGame(deltaTime);
-            }
-
-            if (fpsLimit > 0) {
-                double nanosBetweenFrames = NANOS_IN_SECONDS / fpsLimit;
-                if (currentFrame - lastFrame > nanosBetweenFrames) {
-                    render();
-                    lastFrame = currentFrame;
-                }
-            } else {
+            // Frames per second
+            if (currentFrame - lastFrame > NANOS_BETWEEN_FRAMES) {
                 render();
                 lastFrame = currentFrame;
             }
+            // Updates per second
+            if (currentUpdate - lastUpdate > NANOS_BETWEEN_UPDATES) {
+                deltaTime = (double) (currentUpdate - lastUpdate) / NANOS_IN_SECOND;
+                update(deltaTime);
+                postUpdate(deltaTime);
+                lastUpdate(deltaTime);
+                lastUpdate = currentUpdate;
+            }
         }
-    }
-
-    private void updateGame(double deltaTime) {
-        update(deltaTime);
-        postUpdate(deltaTime);
-        lastUpdate(deltaTime);
     }
 
     private void render() {

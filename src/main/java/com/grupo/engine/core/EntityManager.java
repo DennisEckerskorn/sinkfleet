@@ -13,14 +13,12 @@ public abstract class EntityManager implements Updateable {
     private int numEntities;
     private final List<PlayableEntity> playableEntities;
     private final AssetManager assetManager;
-    //private final ObjectPool<Entity> entityObjectPool;
 
     public EntityManager(int maxEntities) {
         entities = new Entity[maxEntities];
         numEntities = 0;
         playableEntities = new ArrayList<>();
         assetManager = createAssetManager();
-        //entityObjectPool = new ObjectPool<>(Entity.class, maxEntities);
     }
 
     public boolean addEntity(Entity entity) {
@@ -34,27 +32,22 @@ public abstract class EntityManager implements Updateable {
         return false;
     }
 
+    public abstract AssetManager createAssetManager();
+
     public void removeEntity(Entity entity) {
-        //TODO: Cambios de arrays, pool, evitar eliminar, tener en cuenta eliminar instanceof tambien
-        for(int i = 0; i < numEntities; i++) {
+        for (int i = 0; i < numEntities; i++) {
             Entity other = entities[i];
-            if(entity.equals(other)) {
+            if (entity.equals(other)) {
                 entities[i] = entities[numEntities - 1];
                 entities[numEntities - 1] = other;
                 numEntities--;
-               // entityObjectPool.returnObject(entity);
-                if (entity instanceof PlayableEntity) {
-                    playableEntities.remove(entity);
-                }
-                break;
-
             }
         }
     }
 
-  // TODO: Add borrow object method
-
-    public abstract AssetManager createAssetManager();
+    public List<PlayableEntity> getPlayableEntities() {
+        return playableEntities;
+    }
 
     public Entity[] getEntities() {
         return entities;
@@ -62,10 +55,6 @@ public abstract class EntityManager implements Updateable {
 
     public int getNumEntities() {
         return numEntities;
-    }
-
-    public AssetManager getAssetManager() {
-        return assetManager;
     }
 
     @Override
@@ -95,5 +84,7 @@ public abstract class EntityManager implements Updateable {
         }
     }
 
-
+    public AssetManager getAssetManager() {
+        return assetManager;
+    }
 }
