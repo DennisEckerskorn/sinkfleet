@@ -3,7 +3,8 @@ package com.grupo;
 
 import com.grupo.game.config.Settings;
 import com.grupo.game.core.SinkFleetGame;
-import com.grupo.game.graphics.SinkFleetSwingRenderer;
+import com.grupo.game.graphics.SinkFleetSwingRendererEnemy;
+import com.grupo.game.graphics.SinkFleetSwingRendererPlayer;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,8 +14,8 @@ public class Main {
         //Crear la instancia del juego:
         SinkFleetGame sinkFleetGame = new SinkFleetGame(Settings.WIDTH, Settings.HEIGHT,Settings.ROWS, Settings.COLS, Settings.TARGET_FPS, Settings.TARGET_UPS, Settings.MAX_ENTITIES);
         //Crear renderizadores para jugador y enemigo
-        SinkFleetSwingRenderer sinkFleetSwingRendererPlayer = new SinkFleetSwingRenderer(Settings.WIDTH, Settings.HEIGHT, sinkFleetGame);
-        SinkFleetSwingRenderer sinkFleetSwingRendererEnemy = new SinkFleetSwingRenderer(Settings.WIDTH, Settings.HEIGHT, sinkFleetGame);
+        SinkFleetSwingRendererPlayer sinkFleetSwingRendererPlayer = new SinkFleetSwingRendererPlayer(Settings.WIDTH, Settings.HEIGHT, sinkFleetGame);
+        SinkFleetSwingRendererEnemy sinkFleetSwingRendererEnemy = new SinkFleetSwingRendererEnemy(Settings.WIDTH, Settings.HEIGHT, sinkFleetGame);
 
         //Configurar el renderizado del juego
         sinkFleetGame.setRenderAPI(sinkFleetSwingRendererPlayer);
