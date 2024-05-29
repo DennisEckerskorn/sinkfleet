@@ -28,7 +28,7 @@ public class Vector2 {
     }
 
     public float len() {
-        //return (float) Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+        // return (float) Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
         return (float) Math.hypot(x, y);
     }
 

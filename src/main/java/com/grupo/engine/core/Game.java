@@ -5,47 +5,24 @@ import com.grupo.engine.graphics.RenderAPI;
 public abstract class Game implements Runnable, Updateable, ResizeListener {
     private int width;
     private int height;
-    private float fpsLimit;
-    private float upsLimit;
+    private final float fpsLimit;
+    private final float upsLimit;
     private Thread thread;
     private boolean finished;
     private RenderAPI renderAPI;
 
-    public Game(int width, int height, float fpsLimit, float updateLimit, int maxEntities) {
+
+    public Game(int width, int height, float fpsLimit, float upsLimit, int maxEntities) {
         this.width = width;
         this.height = height;
         this.fpsLimit = fpsLimit;
-        this.upsLimit = updateLimit;
+        this.upsLimit = upsLimit;
         this.finished = false;
         Blackboard.entityManager = createEntityManager(maxEntities);
     }
 
     public void setRenderAPI(RenderAPI renderAPI) {
         this.renderAPI = renderAPI;
-    }
-
-    public void setFpsLimit(float fpsLimit) {
-        this.fpsLimit = fpsLimit;
-    }
-
-    public float getFpsLimit() {
-        return fpsLimit;
-    }
-
-    public void setUpsLimit(float upsLimit) {
-        this.upsLimit = upsLimit;
-    }
-
-    public float getUpsLimit() {
-        return upsLimit;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
     }
 
     public abstract EntityManager createEntityManager(int maxEntities);
@@ -79,7 +56,7 @@ public abstract class Game implements Runnable, Updateable, ResizeListener {
             }
             // Updates per second
             if (currentUpdate - lastUpdate > NANOS_BETWEEN_UPDATES) {
-                deltaTime = (double) (currentUpdate - lastUpdate) / NANOS_IN_SECOND;
+                deltaTime = (double)(currentUpdate - lastUpdate) / NANOS_IN_SECOND;
                 update(deltaTime);
                 postUpdate(deltaTime);
                 lastUpdate(deltaTime);
@@ -109,6 +86,14 @@ public abstract class Game implements Runnable, Updateable, ResizeListener {
 
     private void processInput() {
         Blackboard.entityManager.processInput();
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     @Override
