@@ -8,7 +8,7 @@ import com.grupo.engine.pool.Poolable;
 
 import java.awt.image.BufferedImage;
 
-public abstract class Entity implements Updateable, Poolable {
+public abstract class Entity implements Updateable {
     private static int autoincrement = 0;
     private final int id;
     private final Vector2 position;
@@ -104,7 +104,7 @@ public abstract class Entity implements Updateable, Poolable {
     public void setCollider(float colliderX, float colliderY, int colliderMask) {
         setCollider(colliderX, colliderX, colliderY, colliderY, colliderMask);
     }
-    
+
     public void setSprite(BufferedImage sprite) {
         this.sprite = sprite;
     }
