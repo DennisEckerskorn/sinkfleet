@@ -7,7 +7,6 @@ import java.util.List;
 
 public class Ship extends Entity {
 
-    //Damos por hecho que el tamaño del barco es de 3 posiciones(temporalmente para probar)
     private List<Float> positionsX;
     private List<Float> positionsY;
     private List<Boolean> hits;
@@ -20,7 +19,7 @@ public class Ship extends Entity {
      * @param width        Ancho total del barco.
      * @param height       Altura del barco.
      * @param size         Número de segmentos del barco.
-     * @param isHorizontal Indica si el barco es horizontal.
+     * @param isHorizontal Indica true si el barco es horizontal.
      * @param hp           Puntos de vida del barco.
      * @param damage       Daño que puede causar el barco.
      */
