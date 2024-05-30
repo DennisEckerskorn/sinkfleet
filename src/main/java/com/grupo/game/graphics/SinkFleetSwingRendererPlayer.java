@@ -17,7 +17,8 @@ public class SinkFleetSwingRendererPlayer extends SwingRenderer {
 
     @Override
     public void drawEntity(Graphics2D g2, Entity e) {
-
+        g2.setColor(Color.ORANGE);
+        g2.fillRect((int) (e.getX() * Blackboard.cellSize), (int) (e.getY() * Blackboard.cellSize), Blackboard.cellSize, Blackboard.cellSize);
     }
 
     @Override

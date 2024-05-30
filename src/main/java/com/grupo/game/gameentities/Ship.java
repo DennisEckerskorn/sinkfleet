@@ -10,6 +10,8 @@ public class Ship extends Entity {
     private List<Float> positionsX;
     private List<Float> positionsY;
     private List<Boolean> hits;
+    private int size;
+    private boolean isHorizontal;
 
     /**
      * Constructor de la clase Ship.
@@ -28,6 +30,8 @@ public class Ship extends Entity {
         positionsX = new ArrayList<>(size);
         positionsY = new ArrayList<>(size);
         hits = new ArrayList<>(size);
+        this.size = size;
+        this.isHorizontal = isHorizontal;
 
         for (int i = 0; i < size; i++) {
             if (isHorizontal) {
@@ -72,6 +76,30 @@ public class Ship extends Entity {
         return true;
     }
 
+    public int getSize() {
+        return size;
+    }
+
+    public List<Float> getPositionsX() {
+        return positionsX;
+    }
+
+    public List<Float> getPositionsY() {
+        return positionsY;
+    }
+
+    public List<Boolean> getHits() {
+        return hits;
+    }
+
+    public boolean isHorizontal() {
+        return isHorizontal;
+    }
+
+    public void setSize(int size) {
+        this.size = size;
+    }
+    
     @Override
     public void update(double deltaTime) {
 

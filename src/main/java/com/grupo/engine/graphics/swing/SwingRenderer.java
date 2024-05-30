@@ -31,7 +31,6 @@ public abstract class SwingRenderer extends JPanel implements RenderAPI {
 
     @Override
     public void render() {
-        //TODO: Repaint - paintComponenet2D
         repaint();
     }
 
