@@ -18,7 +18,7 @@ public class SinkFleetEntityManager extends EntityManager {
         return new SinkFleetAssetManager();
     }
 
-    /**
+    /** PRUEBA:
      * Spawns a Ship entity at the specified coordinates and adds it to
      * the entity manager.
      *
