@@ -11,33 +11,32 @@ public class Player extends Entity {
     private int[][] disparosRealizados;
     private boolean turno;
     private List<String> stack;
+    private KeyboardManager keyboardManager;
 
-    public Player(float x, float y, float width, float height, float hp, float damage) {
+    public Player(float x, float y, float width, float height, float hp, float damage, KeyboardManager keyboardManager) {
         super(x, y, width, height, hp, damage);
         this.ships = ships;
         this.disparosRealizados = disparosRealizados;
         this.stack = stack;
         this.turno = turno;
+        this.keyboardManager = keyboardManager;
     }
 
     public void procesarInput(String input) {
         if (turno) {
-            // Procesar la entrada del teclado y agregarla al stack
-            KeyboardManager km = ;
-
-            if (km.isUp())
+            if (keyboardManager.isUp())
                 stack.add("W");
-            if (km.isDown())
+            if (keyboardManager.isDown())
                 stack.add("S");
-            if (km.isLeft())
+            if (keyboardManager.isLeft())
                 stack.add("A");
-            if (km.isRight())
+            if (keyboardManager.isRight())
                 stack.add("D");
-            if (km.isFire())
-                stack.add("X");
+            if (keyboardManager.isFire())
+                stack.add("F");
 
             if (stack.size() > 2) {
-                stack.clear(); // Reiniciar el stack si tiene más de 2 elementos
+                stack.clear();
             }
         }
     }
@@ -47,23 +46,21 @@ public class Player extends Entity {
     public void update(double deltaTime) {
         if (turno && stack.size() == 2) {
             disparar();
-            stack.clear(); // Limpiar el stack después de disparar
+            stack.clear();
         }
     }
 
 
     private void disparar() {
-        // Convertir la combinación de entrada en coordenadas
         String xString = stack.get(0);
         String yString = stack.get(1);
         int x = Character.getNumericValue(Integer.parseInt(xString));
         int y = Character.getNumericValue(Integer.parseInt(yString));
 
-        // Marcar la matriz de disparos realizados
         if (isHitBoard(x, y)) {
-            disparosRealizados[x][y] = 2; // Acertado
+            disparosRealizados[x][y] = 2; //acierta
         } else {
-            disparosRealizados[x][y] = 1; // Agua
+            disparosRealizados[x][y] = 1; //falla-agua
         }
     }
 
@@ -86,7 +83,7 @@ public class Player extends Entity {
         return count;
     }
 
-    public boolean añadirBarco(Ship ship) {
+    public boolean anyadirBarco(Ship ship) {
         return ships.add(ship);
     }
 
