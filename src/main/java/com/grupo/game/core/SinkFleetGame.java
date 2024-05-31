@@ -19,19 +19,28 @@ public class SinkFleetGame extends Game {
         this.cols = cols;
         random = new Random(); //TODO: No hará falta en el futuro???
         sinkFleetEntityManager = (SinkFleetEntityManager) Blackboard.entityManager;
-        spawnShipTest();
+        spawnShips();
     }
 
     /**
      * PRUEBA para ver si se genera un cuadrado en el tablero...
      * TODO: Hay que hacer que se pueda ajustar manualmente la posicion por el usuario...
      */
-    private void spawnShipTest() {
-        int row = random.nextInt(Settings.ROWS);
-        int col = random.nextInt(Settings.COLS);
-
-        sinkFleetEntityManager.spawnShip(row, col);
+    private void spawnShips() {
+        // Ejemplo de barcos colocados en posiciones específicas
+        spawnShipAt(2, 3, 4, true);  // Barco de tamaño 4 en posición (2, 3) horizontal
+        spawnShipAt(5, 6, 3, false); // Barco de tamaño 3 en posición (5, 6) vertical
+        spawnShipAt(1, 1, 2, true);  // Barco de tamaño 2 en posición (1, 1) horizontal
+        spawnShipAt(7, 2, 5, true);  // Barco de tamaño 5 en posición (7, 2) horizontal
+        spawnShipAt(3, 8, 3, false); // Barco de tamaño 3 en posición (3, 8) vertical
     }
+
+    private void spawnShipAt(int row, int col, int size, boolean isHorizontal) {
+        float x = col;
+        float y = row;
+        sinkFleetEntityManager.spawnShip(x, y, size, isHorizontal);
+    }
+
 
     @Override
     public EntityManager createEntityManager(int maxEntities) {

@@ -5,6 +5,7 @@ import com.grupo.engine.core.ResizeListener;
 import com.grupo.engine.entities.Entity;
 import com.grupo.engine.graphics.swing.SwingRenderer;
 import com.grupo.game.config.Settings;
+import com.grupo.game.gameentities.Ship;
 
 import java.awt.*;
 
@@ -17,8 +18,18 @@ public class SinkFleetSwingRendererPlayer extends SwingRenderer {
 
     @Override
     public void drawEntity(Graphics2D g2, Entity e) {
-        g2.setColor(Color.ORANGE);
-        g2.fillRect((int) (e.getX() * Blackboard.cellSize), (int) (e.getY() * Blackboard.cellSize), Blackboard.cellSize, Blackboard.cellSize);
+        if (e instanceof Ship) {
+            Ship ship = (Ship) e;
+            g2.setColor(Color.ORANGE);
+            for (int i = 0; i < ship.getSize(); i++) {
+                int x = Math.round(ship.getPositionsX().get(i)) * Blackboard.cellSize;
+                int y = Math.round(ship.getPositionsY().get(i)) * Blackboard.cellSize;
+                g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
+            }
+        } else {
+            g2.setColor(Color.ORANGE);
+            g2.fillRect(Math.round(e.getX() * Blackboard.cellSize), Math.round(e.getY() * Blackboard.cellSize), Blackboard.cellSize, Blackboard.cellSize);
+        }
     }
 
     @Override

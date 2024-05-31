@@ -35,11 +35,11 @@ public class Ship extends Entity {
 
         for (int i = 0; i < size; i++) {
             if (isHorizontal) {
-                positionsX.add(x + i * (width / (size - 1)));
+                positionsX.add(x + i);
                 positionsY.add(y);
             } else {
                 positionsX.add(x);
-                positionsY.add(y + i * (height / (size - 1)));
+                positionsY.add(y + i);
             }
             hits.add(false);
         }
