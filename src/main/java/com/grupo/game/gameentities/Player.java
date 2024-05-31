@@ -22,7 +22,7 @@ public class Player extends Entity {
         this.keyboardManager = keyboardManager;
     }
 
-    public void procesarInput(String input) {
+    public void procesarInput() {
         if (turno) {
             if (keyboardManager.isUp())
                 stack.add("W");
