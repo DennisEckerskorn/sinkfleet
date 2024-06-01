@@ -8,10 +8,10 @@ import com.grupo.game.config.Settings;
 
 import java.awt.*;
 
-public class SinkFleetSwingRendererEnemy extends SwingRenderer {
+public class SinkFleetSwingRendererTarget extends SwingRenderer {
 
 
-    public SinkFleetSwingRendererEnemy(int width, int height, ResizeListener resizeListener) {
+    public SinkFleetSwingRendererTarget(int width, int height, ResizeListener resizeListener) {
         super(width, height, resizeListener);
     }
 

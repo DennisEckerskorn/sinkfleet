@@ -11,7 +11,6 @@ import java.awt.*;
 
 public class SinkFleetSwingRendererPlayer extends SwingRenderer {
 
-
     public SinkFleetSwingRendererPlayer(int width, int height, ResizeListener resizeListener) {
         super(width, height, resizeListener);
     }
@@ -36,7 +35,7 @@ public class SinkFleetSwingRendererPlayer extends SwingRenderer {
     public void drawBackground(Graphics2D g2) {
         g2.setColor(Settings.COLOR_BACKGROUND);
         g2.fillRect(0, 0, getWidth(), getHeight());
-        for(int row = 0; row < Settings.ROWS; row++) {
+        for (int row = 0; row < Settings.ROWS; row++) {
             for (int col = 0; col < Settings.COLS; col++) {
                 g2.setColor(Settings.COLOR_BACKGROUND_LINES);
                 g2.drawRect(col * Blackboard.cellSize, row * Blackboard.cellSize, Blackboard.cellSize, Blackboard.cellSize);
