@@ -23,7 +23,22 @@ public class Player extends Entity {
     }
 
     public void procesarInput() {
+        if (turno) {
+            if (keyboardManager.isUp())
+                stack.add("W");
+            if (keyboardManager.isDown())
+                stack.add("S");
+            if (keyboardManager.isLeft())
+                stack.add("A");
+            if (keyboardManager.isRight())
+                stack.add("D");
+            if (keyboardManager.isFire())
+                stack.add("F");
 
+            if (stack.size() > 2) {
+                stack.clear();
+            }
+        }
     }
 
 
