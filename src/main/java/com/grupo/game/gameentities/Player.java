@@ -89,11 +89,11 @@ public class Player extends Entity {
 
     @Override
     public void lastUpdate(double deltaTime) {
-        // Implementación pendiente si es necesario
+
     }
 
     @Override
     public void postUpdate(double deltaTime) {
-        // Implementación pendiente si es necesario
+
     }
 }
