@@ -16,7 +16,6 @@ public class Frame extends JFrame {
     private SpacePanel spacePanel;
     private PlayerPanel playerPanel;
     private EnemyPanel enemyPanel;
-    private ContainerPanel containerPanel;
     private SinkFleetSwingRendererPlayer playerPlayRenderer;
     private SinkFleetSwingRendererTarget playerTargetRenderer;
     private PlayBoardPanel playerPlayBoardPanel;
