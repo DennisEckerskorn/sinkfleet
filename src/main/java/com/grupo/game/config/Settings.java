@@ -11,6 +11,7 @@ public class Settings {
     public static final int TARGET_FPS = 60;
     public static final int TARGET_UPS = 60;
     public static final int MAX_ENTITIES = 10;
+    public static final int NUM_SHIPS = 7;
 
     // Color Settings
     public static final Color COLOR_BACKGROUND = Color.blue;
