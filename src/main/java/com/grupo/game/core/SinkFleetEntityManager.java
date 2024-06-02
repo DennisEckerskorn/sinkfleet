@@ -86,7 +86,7 @@ public class SinkFleetEntityManager extends EntityManager {
             Ship ship = ships[shipUsed++];
             ship.setSize(size);
             ship.setX(x);
-            ship.setX(y);
+            ship.setY(y);
             ship.setHorizontal(isHorizontal);
             return ship;
         }
