@@ -5,14 +5,17 @@ import com.grupo.engine.core.ResizeListener;
 import com.grupo.engine.entities.Entity;
 import com.grupo.engine.graphics.swing.SwingRenderer;
 import com.grupo.game.config.Settings;
+import com.grupo.game.gameentities.Player;
 import com.grupo.game.gameentities.Ship;
 
 import java.awt.*;
 
-public class SinkFleetSwingRendererPlayer extends SwingRenderer {
+public class SinkFleetSwingRenderer extends SwingRenderer {
 
-    public SinkFleetSwingRendererPlayer(int width, int height, ResizeListener resizeListener) {
+    private Player currentPlayer;
+    public SinkFleetSwingRenderer(int width, int height, ResizeListener resizeListener, Player currentPlayer) {
         super(width, height, resizeListener);
+        this.currentPlayer = currentPlayer;
     }
 
     @Override

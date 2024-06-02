@@ -1,12 +1,24 @@
 package com.grupo;
 
 
-import com.grupo.game.panel.Frame;
+import com.grupo.game.config.Settings;
+import com.grupo.game.core.SinkFleetGame;
+import com.grupo.game.graphics.SinkFleetSwingRenderer;
+
+import javax.swing.*;
 
 public class Main {
     public static void main(String[] args) {
-        // Se instancia la ventana del juego:
-        Frame frame = new Frame();
+        SinkFleetGame sinkFleetGame = new SinkFleetGame(Settings.WIDTH, Settings.HEIGHT, Settings.ROWS, Settings.COLS, Settings.TARGET_FPS, Settings.TARGET_UPS, Settings.MAX_ENTITIES);
+        SinkFleetSwingRenderer sinkFleetSwingRenderer = new SinkFleetSwingRenderer(Settings.WIDTH, Settings.HEIGHT, sinkFleetGame, null);
+        sinkFleetGame.setRenderAPI(sinkFleetSwingRenderer);
+        JFrame frame = new JFrame();
+        frame.setResizable(false);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.setTitle("Sink the Fleet");
+        frame.add(sinkFleetSwingRenderer);
+        frame.pack();
         frame.setVisible(true);
+        sinkFleetGame.start();
     }
 }
