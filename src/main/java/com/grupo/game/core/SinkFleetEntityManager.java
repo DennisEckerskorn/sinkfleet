@@ -14,12 +14,15 @@ import com.grupo.game.gameentities.Ship;
 public class SinkFleetEntityManager extends EntityManager {
 
     private final Ship ships[];
-    private int shipIndex = 0;
+    private int shipIndex;
+    private int shipUsed;
     public SinkFleetEntityManager(int maxEntities) {
         super(maxEntities);
         this.ships = new Ship[maxEntities * Settings.NUM_SHIPS];
-        createShips();
         this.shipIndex = 0;
+        this.shipUsed = 0;
+        createShips();
+        
     }
 
     /**
@@ -27,8 +30,7 @@ public class SinkFleetEntityManager extends EntityManager {
      */
     private void createShips() {
         for (int i = 0; i < ships.length; i++) {
-            ships[i] = new Ship(-1, -1,-1, -1, -1, true, 1, 1);
-                
+             addEntity(new Ship(-1, -1,-1, -1, -1, true, 1, 1));    
         }
     }
 
@@ -49,6 +51,11 @@ public class SinkFleetEntityManager extends EntityManager {
         return player;
     }
 
+    /**
+     * Adds an entity to the entity manager.
+     * If the entity is a Ship, it will be added to the ships array.
+     * Otherwise, it will be added to the entities array.
+     */
     @Override
     public boolean addEntity(Entity entity) {
         if (entity instanceof Ship) {
@@ -57,7 +64,6 @@ public class SinkFleetEntityManager extends EntityManager {
                 return true;
             }
             return false;
-            
         }
         return super.addEntity(entity);
     }
@@ -76,12 +82,15 @@ public class SinkFleetEntityManager extends EntityManager {
      * @return The spawned Ship entity.
      */
     public Ship spawnShip(float x, float y, int size, boolean isHorizontal) {
-        Ship ship = ships[shipIndex];   
-        ship.setPosition(x, y);
-        ship.setSize(size);
-        ship.setHorizontal(isHorizontal);
-        addEntity(ship); 
-        System.out.println("Ship spawned at (" + x + ", " + y + "), size: " + size + ", isHorizontal: " + isHorizontal);
-        return ship;
+        if (shipUsed < shipIndex) {
+            Ship ship = ships[shipUsed++];
+            ship.setSize(size);
+            ship.setX(x);
+            ship.setX(y);
+            ship.setHorizontal(isHorizontal);
+            return ship;
+        }
+        return null;
     }
+       
 }
