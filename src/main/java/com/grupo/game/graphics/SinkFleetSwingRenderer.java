@@ -25,18 +25,21 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
 
     @Override
     public void drawEntity(Graphics2D g2, Entity e) {
-        if (e instanceof Ship) {
-            Ship ship = (Ship) e;
-            g2.setColor(Color.ORANGE);
-            for (int i = 0; i < ship.getSize(); i++) {
-                int x = Math.round(ship.getPositionsX().get(i)) * Blackboard.cellSize;
-                int y = Math.round(ship.getPositionsY().get(i)) * Blackboard.cellSize;
-                g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
-            }
-        } else {
-            g2.setColor(Color.ORANGE);
-            g2.fillRect(Math.round(e.getX() * Blackboard.cellSize), Math.round(e.getY() * Blackboard.cellSize), Blackboard.cellSize, Blackboard.cellSize);
+        if(e.equals(currentPlayer)){
+            if (e instanceof Ship) {
+                Ship ship = (Ship) e;
+                g2.setColor(Color.ORANGE);
+                for (int i = 0; i < ship.getSize(); i++) {
+                    int x = Math.round(ship.getPositionsX().get(i)) * Blackboard.cellSize;
+                    int y = Math.round(ship.getPositionsY().get(i)) * Blackboard.cellSize;
+                    g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
+                }
+            } else {
+                g2.setColor(Color.ORANGE);
+                g2.fillRect(Math.round(e.getX() * Blackboard.cellSize), Math.round(e.getY() * Blackboard.cellSize), Blackboard.cellSize, Blackboard.cellSize);
+            } 
         }
+        
     }
 
     @Override
@@ -72,5 +75,9 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
 
     public int getCellSize() {
         return Blackboard.cellSize;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 }
