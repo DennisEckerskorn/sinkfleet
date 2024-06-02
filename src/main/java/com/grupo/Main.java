@@ -10,7 +10,7 @@ import javax.swing.*;
 public class Main {
     public static void main(String[] args) {
         SinkFleetGame sinkFleetGame = new SinkFleetGame(Settings.WIDTH, Settings.HEIGHT, Settings.ROWS, Settings.COLS, Settings.TARGET_FPS, Settings.TARGET_UPS, Settings.MAX_ENTITIES);
-        SinkFleetSwingRenderer sinkFleetSwingRenderer = new SinkFleetSwingRenderer(Settings.WIDTH, Settings.HEIGHT, sinkFleetGame, null);
+        SinkFleetSwingRenderer sinkFleetSwingRenderer = new SinkFleetSwingRenderer(Settings.WIDTH * 2 + 20, Settings.HEIGHT, sinkFleetGame, null);
         sinkFleetGame.setRenderAPI(sinkFleetSwingRenderer);
         JFrame frame = new JFrame();
         frame.setResizable(false);

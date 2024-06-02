@@ -13,8 +13,13 @@ import java.awt.*;
 public class SinkFleetSwingRenderer extends SwingRenderer {
 
     private Player currentPlayer;
+
     public SinkFleetSwingRenderer(int width, int height, ResizeListener resizeListener, Player currentPlayer) {
         super(width, height, resizeListener);
+        this.currentPlayer = currentPlayer;
+    }
+
+    public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
@@ -38,13 +43,27 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
     public void drawBackground(Graphics2D g2) {
         g2.setColor(Settings.COLOR_BACKGROUND);
         g2.fillRect(0, 0, getWidth(), getHeight());
+
+        int offset = Settings.COLS * Blackboard.cellSize + 20;
+
+        // Dibuja el primer tablero (Player 1)
         for (int row = 0; row < Settings.ROWS; row++) {
             for (int col = 0; col < Settings.COLS; col++) {
                 g2.setColor(Settings.COLOR_BACKGROUND_LINES);
                 g2.drawRect(col * Blackboard.cellSize, row * Blackboard.cellSize, Blackboard.cellSize, Blackboard.cellSize);
             }
         }
+
+        // Dibuja el segundo tablero (Player 2) a la derecha del primero
+        for (int row = 0; row < Settings.ROWS; row++) {
+            for (int col = 0; col < Settings.COLS; col++) {
+                g2.setColor(Settings.COLOR_BACKGROUND_LINES);
+                g2.drawRect(col * Blackboard.cellSize + offset, row * Blackboard.cellSize, Blackboard.cellSize, Blackboard.cellSize);
+            }
+        }
     }
+
+
 
     @Override
     public void onResize(int width, int height) {

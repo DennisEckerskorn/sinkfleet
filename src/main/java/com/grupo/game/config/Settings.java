@@ -13,7 +13,7 @@ public class Settings {
     public static final int MAX_ENTITIES = 10;
 
     // Color Settings
-    public static final Color COLOR_BACKGROUND = Color.gray;
+    public static final Color COLOR_BACKGROUND = Color.blue;
     public static final Color COLOR_BACKGROUND_LINES = Color.black;
     public static final Color COLOR_SNAKE = Color.green;
 }
