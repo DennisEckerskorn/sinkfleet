@@ -114,4 +114,8 @@ public class Ship extends Entity {
     public void postUpdate(double deltaTime) {
 
     }
+
+    public void setHorizontal(boolean isHorizontal2) {
+        this.isHorizontal = isHorizontal2;
+    }
 }
