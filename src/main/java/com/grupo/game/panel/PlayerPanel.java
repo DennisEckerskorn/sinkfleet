@@ -22,5 +22,6 @@ public class PlayerPanel extends JPanel {
         add(spacePanel, BorderLayout.CENTER);
         add(targetPanel, BorderLayout.EAST);
     }
+
 }
 

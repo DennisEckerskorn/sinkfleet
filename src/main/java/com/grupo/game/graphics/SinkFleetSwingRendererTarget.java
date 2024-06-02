@@ -36,4 +36,8 @@ public class SinkFleetSwingRendererTarget extends SwingRenderer {
     public void onResize(int width, int height) {
 
     }
+
+    public int getCellSize() {
+        return Blackboard.cellSize;
+    }
 }

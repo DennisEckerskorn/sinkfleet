@@ -16,4 +16,8 @@ public class EnemyPanel extends JPanel {
         setLayout(new BorderLayout());
         add(sinkFleetSwingRendererEnemy, BorderLayout.CENTER);
     }
+
+    public void processShot(int cellX, int cellY) {
+        System.out.println("Disparo en celda: (" + cellX + ", " + cellY + ")");
+    }
 }
