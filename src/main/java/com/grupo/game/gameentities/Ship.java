@@ -118,4 +118,9 @@ public class Ship extends Entity {
     public void setHorizontal(boolean isHorizontal2) {
         this.isHorizontal = isHorizontal2;
     }
+
+    public void setX(float x) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setX'");
+    }
 }
