@@ -98,6 +98,8 @@ public class Ship extends Entity {
 
     public void setSize(int size) {
         this.size = size;
+        this.positionsX = new ArrayList<>(size);
+        this.positionsY = new ArrayList<>(size);
     }
     
     @Override
@@ -120,7 +122,31 @@ public class Ship extends Entity {
     }
 
     public void setX(float x) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setX'");
+        this.positionsX.add(x);
+        
+        for (int i = 1; i < size; i++) {
+            if (isHorizontal) 
+                this.positionsX.add(x + i);
+            else
+                this.positionsX.add(i, x);
+        }
     }
+
+    public void setY(float y) {
+        this.positionsY.add(y);
+        for (int i = 1; i < size; i++) {
+            if (isHorizontal) 
+                this.positionsY.add(y);
+            else
+                this.positionsY.add( y + i);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Ship [positionsX=" + positionsX + ", positionsY=" + positionsY + ", hits=" + hits + ", size=" + size
+                + ", isHorizontal=" + isHorizontal + "]";
+    }
+
+    
 }
