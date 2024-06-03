@@ -6,6 +6,7 @@ import com.grupo.engine.core.Game;
 import com.grupo.engine.input.KeyboardManager;
 import com.grupo.game.config.Settings;
 import com.grupo.game.gameentities.Player;
+import com.grupo.game.gameentities.Ship;
 
 import java.util.Random;
 
@@ -16,7 +17,7 @@ public class SinkFleetGame extends Game {
     private final SinkFleetEntityManager sinkFleetEntityManager;
     private Player player1;
     private Player player2;
-    private boolean isPlayer1Turn;
+    private Player actualPlayer;
 
     public SinkFleetGame(int width, int height, int rows, int cols, float fpsLimit, float updateLimit, int maxEntities) {
         super(width, height, fpsLimit, updateLimit, maxEntities);
@@ -24,18 +25,20 @@ public class SinkFleetGame extends Game {
         this.cols = cols;
         random = new Random(); //TODO: No hará falta en el futuro???
         sinkFleetEntityManager = (SinkFleetEntityManager) Blackboard.entityManager;
+        initPlayers(rows, cols);
         spawnShips();
+        
+        
     }
 
 
-    private void initPlayers() {
+    private void initPlayers(int rowsshoot, int cols) {
         KeyboardManager km1 = new KeyboardManager('w', 's', 'a', 'd', 'f', ' ');
         KeyboardManager km2 = new KeyboardManager('i', 'k', 'j', 'l', 'h', ' ');
-        player1 = new Player(0, 0, 0, 0, 100, 0, km1);
-        // Poner coordenadas y medidas, de momento 0
-
+        this.player1 = sinkFleetEntityManager.creatPlayer(0, 0, km1, rows, cols);
+        this.actualPlayer = player1;
         // TODO: NO estoy seguro del todo si esto esta bien del todo
-        player2 = new Player(0, 0, 0, 0, 100, 0, km2);
+        player2 = new Player(0, 0, 0, 0, 100, 0, km2, rows, cols);
         Blackboard.entityManager.addEntity(player1);
         Blackboard.entityManager.addEntity(player2);
     }
@@ -46,18 +49,13 @@ public class SinkFleetGame extends Game {
      */
     private void spawnShips() {
         // Ejemplo de barcos colocados en posiciones específicas
-        spawnShipAt(2, 3, 4, true);  // Barco de tamaño 4 en posición (2, 3) horizontal
-        spawnShipAt(5, 6, 3, false); // Barco de tamaño 3 en posición (5, 6) vertical
-        spawnShipAt(1, 1, 2, true);  // Barco de tamaño 2 en posición (1, 1) horizontal
-        spawnShipAt(7, 2, 5, true);  // Barco de tamaño 5 en posición (7, 2) horizontal
-        spawnShipAt(3, 8, 3, false); // Barco de tamaño 3 en posición (3, 8) vertical
+        player1.addShip(sinkFleetEntityManager.spawnShip(2, 3, 4, false));
+        player1.addShip(sinkFleetEntityManager.spawnShip(5, 5, 4, true));
+        player2.addShip(sinkFleetEntityManager.spawnShip(0, 0, 2, false));
+
     }
 
-    private void spawnShipAt(int row, int col, int size, boolean isHorizontal) {
-        float x = col;
-        float y = row;
-        sinkFleetEntityManager.spawnShip(x, y, size, isHorizontal);
-    }
+   
 
 
     @Override
@@ -67,19 +65,12 @@ public class SinkFleetGame extends Game {
 
     @Override
     public void update(double deltaTime) {
-        super.update(deltaTime);
-        super.update(deltaTime);
-        if (isPlayer1Turn) {
-            player1.procesarInput();
-            player1.update(deltaTime);
-        } else {
-            player2.procesarInput();
-            player2.update(deltaTime);
-        }
+        //!TODO MirarTodo
     }
 
     @Override
     public void gameResized() {
         Blackboard.cellSize = getWidth() < getHeight() ? getWidth() / cols : getHeight() / rows;
     }
+
 }

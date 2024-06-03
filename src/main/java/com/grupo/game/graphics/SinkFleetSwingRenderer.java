@@ -3,10 +3,12 @@ package com.grupo.game.graphics;
 import com.grupo.engine.core.Blackboard;
 import com.grupo.engine.core.ResizeListener;
 import com.grupo.engine.entities.Entity;
+import com.grupo.engine.entities.PlayableEntity;
 import com.grupo.engine.graphics.swing.SwingRenderer;
 import com.grupo.game.config.Settings;
 import com.grupo.game.gameentities.Player;
 import com.grupo.game.gameentities.Ship;
+import java.util.List;
 
 import java.awt.*;
 
@@ -23,22 +25,35 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         this.currentPlayer = currentPlayer;
     }
 
+    
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g;
+        drawBackground(g2);
+
+        List<PlayableEntity> players = Blackboard.entityManager.getPlayableEntities();
+        for (int i = 0; i <players.size(); i++) {
+            PlayableEntity jugador = players.get(i);
+            if (jugador instanceof Player ) {
+                Player fleetPlayer = (Player) jugador;
+                List<Ship> shipsPlayer = fleetPlayer.getShips();
+                for (Ship ship : shipsPlayer) {
+                    drawEntity(g2, ship);
+                }
+            }
+        }
+    }
     @Override
     public void drawEntity(Graphics2D g2, Entity e) {
-        if(e.equals(currentPlayer)){
-            if (e instanceof Ship) {
-                Ship ship = (Ship) e;
-                g2.setColor(Color.ORANGE);
-                for (int i = 0; i < ship.getSize(); i++) {
-                    int x = Math.round(ship.getPositionsX().get(i)) * Blackboard.cellSize;
-                    int y = Math.round(ship.getPositionsY().get(i)) * Blackboard.cellSize;
-                    g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
-                }
-            } else {
-                g2.setColor(Color.ORANGE);
-                g2.fillRect(Math.round(e.getX() * Blackboard.cellSize), Math.round(e.getY() * Blackboard.cellSize), Blackboard.cellSize, Blackboard.cellSize);
-            } 
-        }
+        if (e instanceof Ship) {
+            Ship ship = (Ship) e;
+            g2.setColor(Color.ORANGE);
+            for (int i = 0; i < ship.getSize(); i++) {
+                int x = Math.round(ship.getPositionsX().get(i)) * Blackboard.cellSize;
+                int y = Math.round(ship.getPositionsY().get(i)) * Blackboard.cellSize;
+                g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
+            }
+        } 
         
     }
 
@@ -46,7 +61,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
     public void drawBackground(Graphics2D g2) {
         g2.setColor(Settings.COLOR_BACKGROUND);
         g2.fillRect(0, 0, getWidth(), getHeight());
-
+        System.out.println("asd");
         int offset = Settings.COLS * Blackboard.cellSize + 20;
 
         // Dibuja el primer tablero (Player 1)
@@ -77,7 +92,5 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         return Blackboard.cellSize;
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
+    
 }
