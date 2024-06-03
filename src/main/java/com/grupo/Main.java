@@ -5,6 +5,9 @@ import com.grupo.game.config.Settings;
 import com.grupo.game.core.SinkFleetGame;
 import com.grupo.game.graphics.SinkFleetSwingRenderer;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 import javax.swing.*;
 
 public class Main {
