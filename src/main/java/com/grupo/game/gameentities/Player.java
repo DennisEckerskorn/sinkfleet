@@ -1,6 +1,7 @@
 package com.grupo.game.gameentities;
 
 import com.grupo.engine.entities.Entity;
+import com.grupo.engine.entities.PlayableEntity;
 import com.grupo.engine.input.KeyboardManager;
 import com.grupo.game.config.Settings;
 
@@ -8,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class Player extends Entity {
+public class Player extends PlayableEntity {
     private List<Ship> ships;
     private int[][] disparosRealizados;
     private boolean turno;
@@ -17,7 +18,7 @@ public class Player extends Entity {
     private KeyboardManager keyboardManager;
 
     public Player(float x, float y, float width, float height, int hp, float damage, KeyboardManager keyboardManager, int rows, int cols) {
-        super(x, y, width, height, hp, damage);
+        super(x, y, width, height, hp, damage, x, y, y, cols, keyboardManager);
         this.ships = new ArrayList<>(hp);
         this.hp = hp;
         this.disparosRealizados = new int[rows][cols];
@@ -26,24 +27,7 @@ public class Player extends Entity {
         this.keyboardManager = keyboardManager;
     }
 
-    public void procesarInput() {
-        if (turno) {
-            if (keyboardManager.isUp())
-                stack.add("W");
-            if (keyboardManager.isDown())
-                stack.add("S");
-            if (keyboardManager.isLeft())
-                stack.add("A");
-            if (keyboardManager.isRight())
-                stack.add("D");
-            if (keyboardManager.isFire())
-                stack.add("F");
 
-            if (stack.size() > 2) {
-                stack.clear();
-            }
-        }
-    }
 
 
     @Override
@@ -110,6 +94,26 @@ public class Player extends Entity {
 
     public List<Ship> getShips() {
         return ships;
+    }
+
+    @Override
+    public void processInput() {
+        if (turno) {
+            if (keyboardManager.isUp())
+                stack.add("W");
+            if (keyboardManager.isDown())
+                stack.add("S");
+            if (keyboardManager.isLeft())
+                stack.add("A");
+            if (keyboardManager.isRight())
+                stack.add("D");
+            if (keyboardManager.isFire())
+                stack.add("F");
+
+            if (stack.size() > 2) {
+                stack.clear();
+            }
+        }
     }
 
     
