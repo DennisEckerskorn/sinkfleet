@@ -108,5 +108,11 @@ public class Player extends Entity {
                 + turno + ", stack=" + stack + ", hp=" + hp + "]";
     }
 
+    public List<Ship> getShips() {
+        return ships;
+    }
+
+    
+
     
 }
