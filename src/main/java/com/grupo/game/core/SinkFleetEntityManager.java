@@ -30,7 +30,7 @@ public class SinkFleetEntityManager extends EntityManager {
      */
     private void createShips() {
         for (int i = 0; i < ships.length; i++) {
-             addEntity(new Ship(-1, -1,-1, -1, -1, true, 1, 1));    
+             addEntity(new Ship(-1, -1,-1, -1, 1, true, 1, 1));    
         }
     }
 
@@ -42,9 +42,9 @@ public class SinkFleetEntityManager extends EntityManager {
      * @param keyboardManager The keyboard manager that will be used by the player.
      * @return The created player entity.
      */
-    public Player creatPlayer(float x, float y, KeyboardManager keyboardManager) {
+    public Player creatPlayer(float x, float y, KeyboardManager keyboardManager, int rows, int cols) {
         Player player = new Player(x, y, Settings.WIDTH, Settings.HEIGHT,
-               Settings.PLAYER_HP, Settings.PLAYER_DAMAGE, keyboardManager);
+               Settings.PLAYER_HP, Settings.PLAYER_DAMAGE, keyboardManager, rows, cols);
 
         addEntity(player);
 
@@ -83,12 +83,15 @@ public class SinkFleetEntityManager extends EntityManager {
      */
     public Ship spawnShip(float x, float y, int size, boolean isHorizontal) {
         if (shipUsed < shipIndex) {
-            Ship ship = ships[shipUsed++];
-            ship.setSize(size);
-            ship.setX(x);
-            ship.setY(y);
-            ship.setHorizontal(isHorizontal);
-            return ship;
+            
+            Ship fleet = ships[shipUsed++];
+            fleet.setSize(size);
+            fleet.setHorizontal(isHorizontal);
+            System.out.println(fleet.getSize());
+            fleet.setX(x);
+            
+            fleet.setY(y);
+            return fleet;
         }
         return null;
     }
