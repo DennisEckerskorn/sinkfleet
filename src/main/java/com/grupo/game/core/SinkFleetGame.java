@@ -13,7 +13,6 @@ import java.util.Random;
 public class SinkFleetGame extends Game {
     private final int rows;
     private final int cols;
-    private final Random random;
     private final SinkFleetEntityManager sinkFleetEntityManager;
     private Player player1;
     private Player player2;
@@ -23,12 +22,9 @@ public class SinkFleetGame extends Game {
         super(width, height, fpsLimit, updateLimit, maxEntities);
         this.rows = rows;
         this.cols = cols;
-        random = new Random(); //TODO: No hará falta en el futuro???
         sinkFleetEntityManager = (SinkFleetEntityManager) Blackboard.entityManager;
         initPlayers(rows, cols);
         spawnShips();
-        
-        
     }
 
 

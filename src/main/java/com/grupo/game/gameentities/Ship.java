@@ -101,7 +101,7 @@ public class Ship extends Entity {
         this.positionsX = new ArrayList<>(size);
         this.positionsY = new ArrayList<>(size);
     }
-    
+
     @Override
     public void update(double deltaTime) {
 
@@ -123,22 +123,22 @@ public class Ship extends Entity {
 
     public void setX(float x) {
         this.positionsX.add(x);
-        
+
         for (int i = 1; i < size; i++) {
-            if (isHorizontal) 
+            if (isHorizontal)
                 this.positionsX.add(x + i);
             else
-                this.positionsX.add(i, x);
+                this.positionsX.add(x);
         }
     }
 
     public void setY(float y) {
         this.positionsY.add(y);
         for (int i = 1; i < size; i++) {
-            if (isHorizontal) 
+            if (isHorizontal)
                 this.positionsY.add(y);
             else
-                this.positionsY.add( y + i);
+                this.positionsY.add(y + i);
         }
     }
 
@@ -148,5 +148,5 @@ public class Ship extends Entity {
                 + ", isHorizontal=" + isHorizontal + "]";
     }
 
-    
+
 }

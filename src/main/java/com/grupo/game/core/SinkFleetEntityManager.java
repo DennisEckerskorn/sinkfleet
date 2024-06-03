@@ -16,13 +16,14 @@ public class SinkFleetEntityManager extends EntityManager {
     private final Ship ships[];
     private int shipIndex;
     private int shipUsed;
+
     public SinkFleetEntityManager(int maxEntities) {
         super(maxEntities);
         this.ships = new Ship[maxEntities * Settings.NUM_SHIPS];
         this.shipIndex = 0;
         this.shipUsed = 0;
         createShips();
-        
+
     }
 
     /**
@@ -30,7 +31,7 @@ public class SinkFleetEntityManager extends EntityManager {
      */
     private void createShips() {
         for (int i = 0; i < ships.length; i++) {
-             addEntity(new Ship(-1, -1,-1, -1, 1, true, 1, 1));    
+            addEntity(new Ship(-1, -1, -1, -1, 1, true, 1, 1));
         }
     }
 
@@ -44,7 +45,7 @@ public class SinkFleetEntityManager extends EntityManager {
      */
     public Player creatPlayer(float x, float y, KeyboardManager keyboardManager, int rows, int cols) {
         Player player = new Player(x, y, Settings.WIDTH, Settings.HEIGHT,
-               Settings.PLAYER_HP, Settings.PLAYER_DAMAGE, keyboardManager, rows, cols);
+                Settings.PLAYER_HP, Settings.PLAYER_DAMAGE, keyboardManager, rows, cols);
 
         addEntity(player);
 
@@ -73,7 +74,7 @@ public class SinkFleetEntityManager extends EntityManager {
         return new SinkFleetAssetManager();
     }
 
-    /** PRUEBA:
+    /**
      * Spawns a Ship entity at the specified coordinates and adds it to
      * the entity manager.
      *
@@ -83,17 +84,17 @@ public class SinkFleetEntityManager extends EntityManager {
      */
     public Ship spawnShip(float x, float y, int size, boolean isHorizontal) {
         if (shipUsed < shipIndex) {
-            
+
             Ship fleet = ships[shipUsed++];
             fleet.setSize(size);
             fleet.setHorizontal(isHorizontal);
             System.out.println(fleet.getSize());
             fleet.setX(x);
-            
+
             fleet.setY(y);
             return fleet;
         }
         return null;
     }
-       
+
 }

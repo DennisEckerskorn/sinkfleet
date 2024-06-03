@@ -8,6 +8,7 @@ import com.grupo.engine.graphics.swing.SwingRenderer;
 import com.grupo.game.config.Settings;
 import com.grupo.game.gameentities.Player;
 import com.grupo.game.gameentities.Ship;
+
 import java.util.List;
 
 import java.awt.*;
@@ -25,16 +26,16 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         this.currentPlayer = currentPlayer;
     }
 
-    
+
     @Override
     protected void paintComponent(Graphics g) {
         Graphics2D g2 = (Graphics2D) g;
         drawBackground(g2);
 
         List<PlayableEntity> players = Blackboard.entityManager.getPlayableEntities();
-        for (int i = 0; i <players.size(); i++) {
+        for (int i = 0; i < players.size(); i++) {
             PlayableEntity jugador = players.get(i);
-            if (jugador instanceof Player ) {
+            if (jugador instanceof Player) {
                 Player fleetPlayer = (Player) jugador;
                 List<Ship> shipsPlayer = fleetPlayer.getShips();
                 for (Ship ship : shipsPlayer) {
@@ -43,6 +44,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
             }
         }
     }
+
     @Override
     public void drawEntity(Graphics2D g2, Entity e) {
         if (e instanceof Ship) {
@@ -53,8 +55,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
                 int y = Math.round(ship.getPositionsY().get(i)) * Blackboard.cellSize;
                 g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
             }
-        } 
-        
+        }
     }
 
     @Override
@@ -82,7 +83,6 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
     }
 
 
-
     @Override
     public void onResize(int width, int height) {
 
@@ -92,5 +92,5 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         return Blackboard.cellSize;
     }
 
-    
+
 }

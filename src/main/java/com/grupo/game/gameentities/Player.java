@@ -28,8 +28,6 @@ public class Player extends PlayableEntity {
     }
 
 
-
-
     @Override
     public void update(double deltaTime) {
         if (turno && stack.size() == 2) {
@@ -72,7 +70,7 @@ public class Player extends PlayableEntity {
     }
 
     public boolean addShip(Ship ship) {
-        
+
         return ships.add(ship);
     }
 
@@ -116,7 +114,5 @@ public class Player extends PlayableEntity {
         }
     }
 
-    
 
-    
 }
