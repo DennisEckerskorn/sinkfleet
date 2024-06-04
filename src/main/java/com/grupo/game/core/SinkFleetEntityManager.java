@@ -13,7 +13,7 @@ import com.grupo.game.gameentities.Ship;
 
 public class SinkFleetEntityManager extends EntityManager {
 
-    private final Ship ships[];
+    private final Ship[] ships;
     private int shipIndex;
     private int shipUsed;
 

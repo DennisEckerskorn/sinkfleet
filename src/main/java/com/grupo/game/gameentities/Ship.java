@@ -1,15 +1,14 @@
 package com.grupo.game.gameentities;
 
 import com.grupo.engine.entities.Entity;
+import com.grupo.engine.math.Vector2;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Ship extends Entity {
-
-    private List<Float> positionsX;
-    private List<Float> positionsY;
-    private List<Boolean> hits;
+    private List<ShipFragments> shipFragments;
+    private Vector2 position;
     private int size;
     private boolean isHorizontal;
 
@@ -27,21 +26,15 @@ public class Ship extends Entity {
      */
     public Ship(float x, float y, float width, float height, int size, boolean isHorizontal, float hp, float damage) {
         super(x, y, width, height, hp, damage);
-        positionsX = new ArrayList<>(size);
-        positionsY = new ArrayList<>(size);
-        hits = new ArrayList<>(size);
+        this.shipFragments = new ArrayList<>();
+        this.position = new Vector2(x, y);
         this.size = size;
         this.isHorizontal = isHorizontal;
 
         for (int i = 0; i < size; i++) {
-            if (isHorizontal) {
-                positionsX.add(x + i);
-                positionsY.add(y);
-            } else {
-                positionsX.add(x);
-                positionsY.add(y + i);
-            }
-            hits.add(false);
+            float fragmentX = isHorizontal ? x + i * (width / size) : x;
+            float fragmentY = isHorizontal ? y : y + i * (height / size);
+            shipFragments.add(new ShipFragments(fragmentX, fragmentY, width / size, height / size, hp, damage));
         }
     }
 
@@ -53,9 +46,9 @@ public class Ship extends Entity {
      * @return true si el golpe está dentro del área del barco y no ha sido golpeado antes.
      */
     public boolean isHitPosition(float hitX, float hitY) {
-        for (int i = 0; i < positionsX.size(); i++) {
-            if (positionsX.get(i).equals(hitX) && positionsY.get(i).equals(hitY) && !hits.get(i)) {
-                hits.set(i, true);
+        for (ShipFragments fragment : shipFragments) {
+            if (fragment.getX() == hitX && fragment.getY() == hitY && !fragment.isHit()) {
+                fragment.hit();
                 return true;
             }
         }
@@ -63,13 +56,13 @@ public class Ship extends Entity {
     }
 
     /**
-     * Verifica si un barco ha sido destruido
+     * Verifica si un barco ha sido destruido.
      *
      * @return true si ha sido destruido, de lo contrario false.
      */
     public boolean isSunk() {
-        for (Boolean hit : hits) {
-            if (!hit) {
+        for (ShipFragments fragment : shipFragments) {
+            if (!fragment.isHit()) {
                 return false;
             }
         }
@@ -80,26 +73,25 @@ public class Ship extends Entity {
         return size;
     }
 
-    public List<Float> getPositionsX() {
-        return positionsX;
+    public List<ShipFragments> getShipFragments() {
+        return shipFragments;
     }
 
-    public List<Float> getPositionsY() {
-        return positionsY;
-    }
-
-    public List<Boolean> getHits() {
-        return hits;
+    @Override
+    public Vector2 getPosition() {
+        return position;
     }
 
     public boolean isHorizontal() {
         return isHorizontal;
     }
 
+    public void setHorizontal(boolean isHorizontal) {
+        this.isHorizontal = isHorizontal;
+    }
+
     public void setSize(int size) {
         this.size = size;
-        this.positionsX = new ArrayList<>(size);
-        this.positionsY = new ArrayList<>(size);
     }
 
     @Override
@@ -117,36 +109,37 @@ public class Ship extends Entity {
 
     }
 
-    public void setHorizontal(boolean isHorizontal2) {
-        this.isHorizontal = isHorizontal2;
-    }
-
     public void setX(float x) {
-        this.positionsX.add(x);
-
-        for (int i = 1; i < size; i++) {
-            if (isHorizontal)
-                this.positionsX.add(x + i);
-            else
-                this.positionsX.add(x);
+        this.position.setX(x);  // Update the position of the ship itself
+        for (int i = 0; i < size; i++) {
+            ShipFragments fragment = shipFragments.get(i);
+            if (isHorizontal) {
+                fragment.setPosition(x + i * (getWidth() / size), fragment.getY());
+            } else {
+                fragment.setPosition(x, fragment.getY());
+            }
         }
     }
 
     public void setY(float y) {
-        this.positionsY.add(y);
-        for (int i = 1; i < size; i++) {
-            if (isHorizontal)
-                this.positionsY.add(y);
-            else
-                this.positionsY.add(y + i);
+        this.position.setY(y);  // Update the position of the ship itself
+        for (int i = 0; i < size; i++) {
+            ShipFragments fragment = shipFragments.get(i);
+            if (isHorizontal) {
+                fragment.setPosition(fragment.getX(), y);
+            } else {
+                fragment.setPosition(fragment.getX(), y + i * (getHeight() / size));
+            }
         }
     }
 
     @Override
     public String toString() {
-        return "Ship [positionsX=" + positionsX + ", positionsY=" + positionsY + ", hits=" + hits + ", size=" + size
-                + ", isHorizontal=" + isHorizontal + "]";
+        return "Ship{" +
+                "shipFragments=" + shipFragments +
+                ", position=" + position +
+                ", size=" + size +
+                ", isHorizontal=" + isHorizontal +
+                '}';
     }
-
-
 }

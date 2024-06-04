@@ -33,7 +33,6 @@ public class SinkFleetGame extends Game {
         KeyboardManager km2 = new KeyboardManager('i', 'k', 'j', 'l', 'h', ' ');
         this.player1 = sinkFleetEntityManager.creatPlayer(0, 0, km1, rows, cols);
         this.actualPlayer = player1;
-        // TODO: NO estoy seguro del todo si esto esta bien del todo
         player2 = new Player(0, 0, 0, 0, 100, 0, km2, rows, cols);
         Blackboard.entityManager.addEntity(player1);
         Blackboard.entityManager.addEntity(player2);
@@ -50,9 +49,6 @@ public class SinkFleetGame extends Game {
         player2.addShip(sinkFleetEntityManager.spawnShip(0, 0, 2, false));
 
     }
-
-   
-
 
     @Override
     public EntityManager createEntityManager(int maxEntities) {

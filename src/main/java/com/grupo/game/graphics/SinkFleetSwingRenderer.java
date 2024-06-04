@@ -8,6 +8,7 @@ import com.grupo.engine.graphics.swing.SwingRenderer;
 import com.grupo.game.config.Settings;
 import com.grupo.game.gameentities.Player;
 import com.grupo.game.gameentities.Ship;
+import com.grupo.game.gameentities.ShipFragments;
 
 import java.util.List;
 
@@ -55,8 +56,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         drawBackground(g2);
 
         List<PlayableEntity> players = Blackboard.entityManager.getPlayableEntities();
-        for (int i = 0; i < players.size(); i++) {
-            PlayableEntity jugador = players.get(i);
+        for (PlayableEntity jugador : players) {
             if (jugador instanceof Player) {
                 Player fleetPlayer = (Player) jugador;
                 List<Ship> shipsPlayer = fleetPlayer.getShips();
@@ -65,7 +65,6 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
                 }
             }
         }
-        //TODO: NullPointer exception por el player...
         //drawShots(g2);
     }
 
@@ -103,9 +102,9 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         if (e instanceof Ship) {
             Ship ship = (Ship) e;
             g2.setColor(Color.ORANGE);
-            for (int i = 0; i < ship.getSize(); i++) {
-                int x = Math.round(ship.getPositionsX().get(i)) * Blackboard.cellSize;
-                int y = Math.round(ship.getPositionsY().get(i)) * Blackboard.cellSize;
+            for (ShipFragments fragment : ship.getShipFragments()) {
+                int x = Math.round(fragment.getX()) * Blackboard.cellSize;
+                int y = Math.round(fragment.getY()) * Blackboard.cellSize;
                 g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
             }
         }
