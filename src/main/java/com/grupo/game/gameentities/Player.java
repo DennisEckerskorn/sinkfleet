@@ -84,14 +84,12 @@ public class Player extends PlayableEntity {
 
     }
 
-    @Override
-    public String toString() {
-        return "Player [ships=" + ships + ", disparosRealizados=" + Arrays.toString(disparosRealizados) + ", turno="
-                + turno + ", stack=" + stack + ", hp=" + hp + "]";
-    }
-
     public List<Ship> getShips() {
         return ships;
+    }
+
+    public int[][] getDisparosRealizados() {
+        return disparosRealizados;
     }
 
     @Override
@@ -114,5 +112,10 @@ public class Player extends PlayableEntity {
         }
     }
 
+    @Override
+    public String toString() {
+        return "Player [ships=" + ships + ", disparosRealizados=" + Arrays.toString(disparosRealizados) + ", turno="
+                + turno + ", stack=" + stack + ", hp=" + hp + "]";
+    }
 
 }

@@ -13,22 +13,44 @@ import java.util.List;
 
 import java.awt.*;
 
+/**
+ * A Swing-based renderer for the Sink Fleet game.
+ */
 public class SinkFleetSwingRenderer extends SwingRenderer {
 
     private Player currentPlayer;
 
+    /**
+     * Constructs a new SinkFleetSwingRenderer with the specified width, height,
+     * resize listener, and current player.
+     *
+     * @param width          The width of the renderer.
+     * @param height         The height of the renderer.
+     * @param resizeListener The resize listener for handling window resizing.
+     * @param currentPlayer  The current player to render.
+     */
     public SinkFleetSwingRenderer(int width, int height, ResizeListener resizeListener, Player currentPlayer) {
         super(width, height, resizeListener);
         this.currentPlayer = currentPlayer;
     }
 
+    /**
+     * Sets the current player to be rendered.
+     *
+     * @param currentPlayer The current player to render.
+     */
     public void setCurrentPlayer(Player currentPlayer) {
         this.currentPlayer = currentPlayer;
     }
 
-
+    /**
+     * Paints the component.
+     *
+     * @param g The Graphics object.
+     */
     @Override
     protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         drawBackground(g2);
 
@@ -43,8 +65,39 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
                 }
             }
         }
+        //TODO: NullPointer exception por el player...
+        //drawShots(g2);
     }
 
+    /**
+     * Draws the shots on the screen.
+     *
+     * @param g2 The Graphics2D object.
+     */
+    private void drawShots(Graphics2D g2) {
+        int offset = Settings.COLS * Blackboard.cellSize + 20;
+        int[][] shots = currentPlayer.getDisparosRealizados();
+
+        for (int row = 0; row < shots.length; row++) {
+            for (int col = 0; col < shots[row].length; col++) {
+                if (shots[row][col] == 1) { // Falla
+                    g2.setColor(Color.BLUE);
+                    g2.fillRect(col * Blackboard.cellSize + offset, row * Blackboard.cellSize, Blackboard.cellSize, Blackboard.cellSize);
+                } else if (shots[row][col] == 2) { // Acierto
+                    g2.setColor(Color.RED);
+                    g2.fillRect(col * Blackboard.cellSize + offset, row * Blackboard.cellSize, Blackboard.cellSize, Blackboard.cellSize);
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Draws the entity on the screen.
+     *
+     * @param g2 The Graphics2D object.
+     * @param e  The entity to draw.
+     */
     @Override
     public void drawEntity(Graphics2D g2, Entity e) {
         if (e instanceof Ship) {
@@ -58,6 +111,11 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         }
     }
 
+    /**
+     * Draws the background on the screen.
+     *
+     * @param g2 The Graphics2D object.
+     */
     @Override
     public void drawBackground(Graphics2D g2) {
         g2.setColor(Settings.COLOR_BACKGROUND);
@@ -88,6 +146,11 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
 
     }
 
+    /**
+     * Gets the cell size of the renderer.
+     *
+     * @return The cell size.
+     */
     public int getCellSize() {
         return Blackboard.cellSize;
     }
