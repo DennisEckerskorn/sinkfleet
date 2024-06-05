@@ -90,7 +90,6 @@ public class SinkFleetEntityManager extends EntityManager {
             fleet.setHorizontal(isHorizontal);
             System.out.println(fleet.getSize());
             fleet.setX(x);
-
             fleet.setY(y);
             return fleet;
         }

@@ -40,8 +40,8 @@ public class Player extends PlayableEntity {
     private void disparar() {
         String xString = stack.get(0);
         String yString = stack.get(1);
-        int x = Character.getNumericValue(Integer.parseInt(xString));
-        int y = Character.getNumericValue(Integer.parseInt(yString));
+        int x = Integer.parseInt(xString);
+        int y = Integer.parseInt(yString);
 
         if (isHitBoard(x, y)) {
             disparosRealizados[x][y] = 2; //acierta
@@ -99,6 +99,8 @@ public class Player extends PlayableEntity {
     public void setTurno(boolean turno) {
         this.turno = turno;
     }
+
+
 
     @Override
     public void lastUpdate(double deltaTime) {

@@ -77,7 +77,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
      *
      * @param g2 The Graphics2D object.
      */
-    private void drawShots(Graphics2D g2) {
+    private void drawShots1(Graphics2D g2) {
         int offset = Settings.COLS * Blackboard.cellSize + 20;
         int[][] shots = currentPlayer.getDisparosRealizados();
 
@@ -105,7 +105,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
     public void drawEntity(Graphics2D g2, Entity e) {
         if (e instanceof Ship) {
             Ship ship = (Ship) e;
-            g2.setColor(Color.ORANGE);
+            g2.setColor(Settings.COLOR_SHIP);
             for (ShipFragments fragment : ship.getShipFragments()) {
                 int x = Math.round(fragment.getX()) * Blackboard.cellSize;
                 int y = Math.round(fragment.getY()) * Blackboard.cellSize;
@@ -140,37 +140,37 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
             }
         }
 
-        // Dibuja los disparos en el segundo tablero (Tablero de Disparos)
-        //Player currentPlayer = getCurrentPlayer();
-        //if (currentPlayer != null) {
-        for (int row = 0; row < Settings.ROWS; row++) {
-            for (int col = 0; col < Settings.COLS; col++) {
-                int x = col * Blackboard.cellSize + offset;
-                int y = row * Blackboard.cellSize;
-                        /*
-                        //TODO:Falta implementar obtener el resultado de los disparos del jugador
-                        int result = currentPlayer.getDisparosRealizados()[row][col];
-
-                        switch (result) {
-                            case 0: //No se ha disparado.
-                                break;
-                            case 1: // Disparo fallado
-                                g2.setColor(Color.WHITE);
-                                break;
-                            case 2: // Disparo acertado
-                                g2.setColor(Color.RED);
-                                break;
-                        }
-
-                         */
-                // Dibuja el resultado del disparo
-                g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
-                g2.setColor(Settings.COLOR_BACKGROUND_LINES);
-                g2.drawRect(col * Blackboard.cellSize + offset, row * Blackboard.cellSize, Blackboard.cellSize, Blackboard.cellSize);
-            }
-        }
+        drawShots2(g2);
     }
 
+    //TODO: FALTA PROBAR:
+    private void drawShots2(Graphics2D g2) {
+        int offset = Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS;
+        int[][] shots = currentPlayer.getDisparosRealizados();
+
+        for (int row = 0; row < shots.length; row++) {
+            for (int col = 0; col < shots[row].length; col++) {
+                int x = col * Blackboard.cellSize + offset;
+                int y = row * Blackboard.cellSize;
+
+                switch (shots[row][col]) {
+                    case 1: // Falla
+                        g2.setColor(Color.WHITE);
+                        g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
+                        break;
+                    case 2: // Acierto
+                        g2.setColor(Color.RED);
+                        g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
+                        break;
+                    default:
+                        // No se ha disparado
+                        break;
+                }
+
+            }
+
+        }
+    }
 
     @Override
     public void onResize(int width, int height) {
@@ -186,5 +186,6 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         return Blackboard.cellSize;
     }
 }
+
 
 
