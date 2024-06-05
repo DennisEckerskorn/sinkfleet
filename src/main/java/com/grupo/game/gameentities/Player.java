@@ -1,44 +1,30 @@
 package com.grupo.game.gameentities;
 
 import com.grupo.engine.entities.Entity;
+import com.grupo.engine.entities.PlayableEntity;
 import com.grupo.engine.input.KeyboardManager;
+import com.grupo.game.config.Settings;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Player extends Entity {
+public class Player extends PlayableEntity {
     private List<Ship> ships;
     private int[][] disparosRealizados;
     private boolean turno;
     private List<String> stack;
+    private int hp;
     private KeyboardManager keyboardManager;
 
-    public Player(float x, float y, float width, float height, float hp, float damage, KeyboardManager keyboardManager) {
-        super(x, y, width, height, hp, damage);
-        this.ships = ships;
-        this.disparosRealizados = disparosRealizados;
-        this.stack = stack;
-        this.turno = turno;
+    public Player(float x, float y, float width, float height, int hp, float damage, KeyboardManager keyboardManager, int rows, int cols) {
+        super(x, y, width, height, hp, damage, x, y, y, cols, keyboardManager);
+        this.ships = new ArrayList<>(hp);
+        this.hp = hp;
+        this.disparosRealizados = new int[rows][cols];
+        this.stack = new ArrayList<>();
+        this.turno = false;
         this.keyboardManager = keyboardManager;
-    }
-
-    public void procesarInput() {
-        if (turno) {
-            if (keyboardManager.isUp())
-                stack.add("W");
-            if (keyboardManager.isDown())
-                stack.add("S");
-            if (keyboardManager.isLeft())
-                stack.add("A");
-            if (keyboardManager.isRight())
-                stack.add("D");
-            if (keyboardManager.isFire())
-                stack.add("F");
-
-            if (stack.size() > 2) {
-                stack.clear();
-            }
-        }
     }
 
 
@@ -86,8 +72,7 @@ public class Player extends Entity {
     /*
     GETTERS Y SETTERS:
      */
-
-    public boolean anyadirBarco(Ship ship) {
+    public boolean addShip(Ship ship) {
         return ships.add(ship);
     }
 
@@ -124,4 +109,31 @@ public class Player extends Entity {
     public void postUpdate(double deltaTime) {
 
     }
+
+    @Override
+    public void processInput() {
+        if (turno) {
+            if (keyboardManager.isUp())
+                stack.add("W");
+            if (keyboardManager.isDown())
+                stack.add("S");
+            if (keyboardManager.isLeft())
+                stack.add("A");
+            if (keyboardManager.isRight())
+                stack.add("D");
+            if (keyboardManager.isFire())
+                stack.add("F");
+
+            if (stack.size() > 2) {
+                stack.clear();
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Player [ships=" + ships + ", disparosRealizados=" + Arrays.toString(disparosRealizados) + ", turno="
+                + turno + ", stack=" + stack + ", hp=" + hp + "]";
+    }
+
 }
