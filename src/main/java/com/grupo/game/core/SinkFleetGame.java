@@ -24,6 +24,7 @@ public class SinkFleetGame extends Game {
         this.cols = cols;
         random = new Random(); //TODO: No hará falta en el futuro???
         sinkFleetEntityManager = (SinkFleetEntityManager) Blackboard.entityManager;
+        initPlayers();
         spawnShips();
     }
 
@@ -57,6 +58,15 @@ public class SinkFleetGame extends Game {
         float x = col;
         float y = row;
         sinkFleetEntityManager.spawnShip(x, y, size, isHorizontal);
+    }
+
+    /**
+     * Método que devuelve al jugador actual.
+     *
+     * @return Player, jugador actual
+     */
+    public Player getCurrentPlayer() {
+        return isPlayer1Turn ? player1 : player2;
     }
 
 

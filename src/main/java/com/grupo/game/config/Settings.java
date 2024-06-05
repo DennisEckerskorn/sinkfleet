@@ -13,7 +13,11 @@ public class Settings {
     public static final int MAX_ENTITIES = 10;
 
     // Color Settings
-    public static final Color COLOR_BACKGROUND = Color.blue;
+    public static final Color COLOR_BACKGROUND = Color.cyan;
     public static final Color COLOR_BACKGROUND_LINES = Color.black;
-    public static final Color COLOR_SNAKE = Color.green;
+    public static final Color COLOR_SHIP = Color.black;
+
+    //Windows Settings
+    public static final int SPACE_BETWEEN_GAMEBOARDS = 20;
+
 }

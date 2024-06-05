@@ -83,8 +83,36 @@ public class Player extends Entity {
         return count;
     }
 
+    /*
+    GETTERS Y SETTERS:
+     */
+
     public boolean anyadirBarco(Ship ship) {
         return ships.add(ship);
+    }
+
+    public List<Ship> getShips() {
+        return ships;
+    }
+
+    public int[][] getDisparosRealizados() {
+        return disparosRealizados;
+    }
+
+    public boolean isTurno() {
+        return turno;
+    }
+
+    public List<String> getStack() {
+        return stack;
+    }
+
+    public KeyboardManager getKeyboardManager() {
+        return keyboardManager;
+    }
+
+    public void setTurno(boolean turno) {
+        this.turno = turno;
     }
 
     @Override
