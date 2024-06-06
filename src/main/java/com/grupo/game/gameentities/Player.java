@@ -19,6 +19,7 @@ public class Player extends PlayableEntity {
     //Posicion actual seleccionada por el jugador.
     private float actualPostionX;
     private float actualPostionY;
+    private boolean isHorizontal;
 
     
 
@@ -33,6 +34,7 @@ public class Player extends PlayableEntity {
 
         this.actualPostionX = 0;
         this.actualPostionY = 0;
+        this.isHorizontal = true;
 
        
     }
@@ -150,6 +152,14 @@ public class Player extends PlayableEntity {
     public String toString() {
         return "Player [ships=" + ships + ", disparos=" + disparos + ", stack=" + stack + ", hp="
                 + hp + ", keyboardManager=" + keyboardManager + "]";
+    }
+
+
+
+
+
+    public boolean getIsHorizontal() {
+        return isHorizontal;
     }
 
    

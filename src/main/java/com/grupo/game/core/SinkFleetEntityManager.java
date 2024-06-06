@@ -92,6 +92,11 @@ public class SinkFleetEntityManager extends EntityManager {
      */
     public Ship spawnShip(float x, float y, int size, boolean isHorizontal) {
         Ship fleet = new Ship(x, y, size, x, size, isHorizontal, y, size);
+        for (int i = 0; i < shipIndex; i++) {
+            if (ships[i].collides(fleet)) {
+                return null;
+            }
+        }
         addEntity(fleet);
         return fleet;
     }
