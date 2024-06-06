@@ -6,9 +6,11 @@ import com.grupo.engine.entities.Entity;
 import com.grupo.engine.entities.PlayableEntity;
 import com.grupo.engine.graphics.swing.SwingRenderer;
 import com.grupo.game.config.Settings;
+import com.grupo.game.core.BlackBoard2;
 import com.grupo.game.gameentities.Player;
 import com.grupo.game.gameentities.Ship;
 import com.grupo.game.gameentities.ShipFragments;
+import com.grupo.game.math.Coordinates;
 
 import java.util.List;
 
@@ -54,20 +56,14 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
      * @param g The Graphics object.
      */
     @Override
-    protected void paintComponent(Graphics g) {
+   
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         drawBackground(g2);
-
-        List<PlayableEntity> players = Blackboard.entityManager.getPlayableEntities();
-        for (PlayableEntity jugador : players) {
-            if (jugador instanceof Player) {
-                Player fleetPlayer = (Player) jugador;
-                List<Ship> shipsPlayer = fleetPlayer.getShips();
-                for (Ship ship : shipsPlayer) {
-                    drawEntity(g2, ship);
-                }
-            }
+        List<PlayableEntity> playableEntities = Blackboard.entityManager.getPlayableEntities();
+        for (PlayableEntity playableEntity : playableEntities) {
+            drawEntity(g2, playableEntity);
         }
     }
 
@@ -77,6 +73,9 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
      * @param g2 The Graphics2D object.
      */
     private void drawShots1(Graphics2D g2) {
+        //TODO: Implementar disparos AHORA shots es una lista de coordenadas
+        //! Coordinantes es una clase que tiene dos atributos x e y.
+        /* 
         int offset = Settings.COLS * Blackboard.cellSize + 20;
         int[][] shots = currentPlayer.getDisparosRealizados();
 
@@ -91,8 +90,11 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
                 }
             }
         }
+            */
+
     }
 
+    
 
     /**
      * Draws the entity on the screen.
@@ -102,15 +104,28 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
      */
     @Override
     public void drawEntity(Graphics2D g2, Entity e) {
-        if (e instanceof Ship) {
-            Ship ship = (Ship) e;
-            g2.setColor(Settings.COLOR_SHIP);
-            for (ShipFragments fragment : ship.getShipFragments()) {
-                int x = Math.round(fragment.getX()) * Blackboard.cellSize;
-                int y = Math.round(fragment.getY()) * Blackboard.cellSize;
-                g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
+        List<Ship> ships;
+        List<Coordinates> disparos;
+        if (e instanceof Player) {
+            if (BlackBoard2.currentPlayer.equals((Player) e)) {
+                ships = ((Player) e).getShips();
+                disparos = ((Player) e).getDisparos();
+                for (Ship ship : ships) {
+                    g2.setColor(Settings.COLOR_SHIP);
+                    for (ShipFragments fragment : ship.getShipFragments()) {
+                        int x = Math.round(fragment.getX()) * Blackboard.cellSize;
+                        int y = Math.round(fragment.getY()) * Blackboard.cellSize;
+                        g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
+                    }
+                }
             }
-        }
+           
+            //TODO: Implementar disparos
+
+        } 
+         
+        
+        
     }
 
     /**
@@ -148,36 +163,6 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         }
     }
 
-    //TODO: FALTA PROBAR:
-    private void drawShots2(Graphics2D g2) {
-        int offset = Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS;
-        int[][] shots = currentPlayer.getDisparosRealizados();
-
-        for (int row = 0; row < shots.length; row++) {
-            for (int col = 0; col < shots[row].length; col++) {
-                int x = col * Blackboard.cellSize + offset;
-                int y = row * Blackboard.cellSize;
-/*
-                switch (shots[row][col]) {
-                    case 1: // Falla
-                        g2.setColor(Color.WHITE);
-                        g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
-                        break;
-                    case 2: // Acierto
-                        g2.setColor(Color.RED);
-                        g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
-                        break;
-                    default:
-                        // No se ha disparado
-                        break;
-                }
-
- */
-
-            }
-
-        }
-    }
 
     @Override
     public void onResize(int width, int height) {

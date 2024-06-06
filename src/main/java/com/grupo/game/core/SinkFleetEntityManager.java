@@ -15,25 +15,16 @@ public class SinkFleetEntityManager extends EntityManager {
 
     private final Ship[] ships;
     private int shipIndex;
-    private int shipUsed;
+    
 
     public SinkFleetEntityManager(int maxEntities) {
         super(maxEntities);
         this.ships = new Ship[maxEntities * Settings.NUM_SHIPS];
         this.shipIndex = 0;
-        this.shipUsed = 0;
-        createShips();
 
     }
 
-    /**
-     * Creates the ships that will be used in the game.
-     */
-    private void createShips() {
-        for (int i = 0; i < ships.length; i++) {
-            addEntity(new Ship(-1, -1, -1, -1, 1, true, 1, 1));
-        }
-    }
+    
 
     /**
      * Creates a playeable entity and adds it to the entity manager.
@@ -83,17 +74,9 @@ public class SinkFleetEntityManager extends EntityManager {
      * @return The spawned Ship entity.
      */
     public Ship spawnShip(float x, float y, int size, boolean isHorizontal) {
-        if (shipUsed < shipIndex) {
-
-            Ship fleet = ships[shipUsed++];
-            fleet.setSize(size);
-            fleet.setHorizontal(isHorizontal);
-            System.out.println(fleet.getSize());
-            fleet.setX(x);
-            fleet.setY(y);
-            return fleet;
-        }
-        return null;
+        Ship fleet = new Ship(x, y, size, x, size, isHorizontal, y, size);
+        addEntity(fleet);
+        return fleet;
     }
 
 }

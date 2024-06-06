@@ -4,6 +4,7 @@ import com.grupo.engine.entities.Entity;
 import com.grupo.engine.entities.PlayableEntity;
 import com.grupo.engine.input.KeyboardManager;
 import com.grupo.game.config.Settings;
+import com.grupo.game.math.Coordinates;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -11,7 +12,7 @@ import java.util.List;
 
 public class Player extends PlayableEntity {
     private List<Ship> ships;
-    private int[][] disparosRealizados;
+    private List<Coordinates> disparos;
     private boolean turno;
     private List<String> stack;
     private int hp;
@@ -21,33 +22,18 @@ public class Player extends PlayableEntity {
         super(x, y, width, height, hp, damage, x, y, y, cols, keyboardManager);
         this.ships = new ArrayList<>(hp);
         this.hp = hp;
-        this.disparosRealizados = new int[rows][cols];
+        this.disparos = new ArrayList<>();
         this.stack = new ArrayList<>();
         this.turno = false;
         this.keyboardManager = keyboardManager;
     }
 
 
-    @Override
-    public void update(double deltaTime) {
-        if (turno && stack.size() == 2) {
-            disparar();
-            stack.clear();
-        }
-    }
+    
 
 
     private void disparar() {
-        String xString = stack.get(0);
-        String yString = stack.get(1);
-        int x = Integer.parseInt(xString);
-        int y = Integer.parseInt(yString);
-
-        if (isHitBoard(x, y)) {
-            disparosRealizados[x][y] = 2; //acierta
-        } else {
-            disparosRealizados[x][y] = 1; //falla-agua
-        }
+        //TODO: Implementar disparo
     }
 
     public boolean isHitBoard(float x, float y) {
@@ -69,9 +55,7 @@ public class Player extends PlayableEntity {
         return count;
     }
 
-    /*
-    GETTERS Y SETTERS:
-     */
+    //#region Getters and Setters
     public boolean addShip(Ship ship) {
         return ships.add(ship);
     }
@@ -80,8 +64,8 @@ public class Player extends PlayableEntity {
         return ships;
     }
 
-    public int[][] getDisparosRealizados() {
-        return disparosRealizados;
+    public List<Coordinates> getDisparos() {
+        return disparos;
     }
 
     public boolean isTurno() {
@@ -100,7 +84,13 @@ public class Player extends PlayableEntity {
         this.turno = turno;
     }
 
+    //#endregion
 
+
+    @Override
+    public void update(double deltaTime) {
+        
+    }
 
     @Override
     public void lastUpdate(double deltaTime) {
@@ -132,10 +122,16 @@ public class Player extends PlayableEntity {
         }
     }
 
+
+
+
+
     @Override
     public String toString() {
-        return "Player [ships=" + ships + ", disparosRealizados=" + Arrays.toString(disparosRealizados) + ", turno="
-                + turno + ", stack=" + stack + ", hp=" + hp + "]";
+        return "Player [ships=" + ships + ", disparos=" + disparos + ", turno=" + turno + ", stack=" + stack + ", hp="
+                + hp + ", keyboardManager=" + keyboardManager + "]";
     }
+
+   
 
 }
