@@ -16,8 +16,11 @@ public class Player extends PlayableEntity {
     private int hp;
     private KeyboardManager keyboardManager;
 
-    private int actualPostionX;
-    private int actualPostionY;
+    //Posicion actual seleccionada por el jugador.
+    private float actualPostionX;
+    private float actualPostionY;
+
+    
 
     public Player(float x, float y, float width, float height, int hp, float damage, KeyboardManager keyboardManager, int rows, int cols) {
         super(x, y, width, height, hp, damage, x, y, y, cols, keyboardManager);
@@ -30,6 +33,8 @@ public class Player extends PlayableEntity {
 
         this.actualPostionX = 0;
         this.actualPostionY = 0;
+
+       
     }
 
 
@@ -78,19 +83,19 @@ public class Player extends PlayableEntity {
         return stack;
     }
 
-    public int getActualPostionX() {
+    public float getActualPostionX() {
         return actualPostionX;
     }
 
-    public void setActualPostionX(int actualPostionX) {
+    public void setActualPostionX(float actualPostionX) {
         this.actualPostionX = actualPostionX;
     }
 
-    public int getActualPostionY() {
+    public float getActualPostionY() {
         return actualPostionY;
     }
 
-    public void setActualPostionY(int actualPostionY) {
+    public void setActualPostionY(float actualPostionY) {
         this.actualPostionY = actualPostionY;
     }
 
@@ -100,6 +105,7 @@ public class Player extends PlayableEntity {
 
     //#endregion
 
+    
 
     @Override
     public void update(double deltaTime) {

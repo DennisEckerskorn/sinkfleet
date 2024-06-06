@@ -53,7 +53,7 @@ public class SinkFleetEntityManager extends EntityManager {
      */
     public Player creatNPCPlayer(float x, float y, int rows, int cols) {
         Player player = new NPCPlayer(x, y, Settings.WIDTH, Settings.HEIGHT,
-                Settings.PLAYER_HP, Settings.PLAYER_DAMAGE, null, rows, cols);
+                Settings.PLAYER_HP, Settings.PLAYER_DAMAGE, rows, cols);
 
         addEntity(player);
 
