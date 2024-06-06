@@ -16,7 +16,7 @@ public class SinkFleetGame extends Game {
     private final SinkFleetEntityManager sinkFleetEntityManager;
     private Player player1;
     private Player player2;
-    private Player actualPlayer;
+    
 
     public SinkFleetGame(int width, int height, int rows, int cols, float fpsLimit, float updateLimit, int maxEntities) {
         super(width, height, fpsLimit, updateLimit, maxEntities);
@@ -24,6 +24,7 @@ public class SinkFleetGame extends Game {
         this.cols = cols;
         sinkFleetEntityManager = (SinkFleetEntityManager) Blackboard.entityManager;
         initPlayers(rows, cols);
+        
         spawnShips(); 
     }
 
@@ -32,7 +33,7 @@ public class SinkFleetGame extends Game {
         KeyboardManager km1 = new KeyboardManager('w', 's', 'a', 'd', 'f', ' ');
         KeyboardManager km2 = new KeyboardManager('i', 'k', 'j', 'l', 'h', ' ');
         this.player1 = sinkFleetEntityManager.creatPlayer(0, 0, km1, rows, cols);
-        this.actualPlayer = player1;
+        BlackBoard2.currentPlayer = player1;
         player2 = new Player(0, 0, 0, 0, 100, 0, km2, rows, cols);
         Blackboard.entityManager.addEntity(player1);
         Blackboard.entityManager.addEntity(player2);
@@ -44,7 +45,8 @@ public class SinkFleetGame extends Game {
      */
     private void spawnShips() {
         // Ejemplo de barcos colocados en posiciones específicas
-        player1.addShip(sinkFleetEntityManager.spawnShip(1, 1, 4, false));
+        player1.addShip(sinkFleetEntityManager.spawnShip(1, 1, 3, false));
+        player2.addShip(sinkFleetEntityManager.spawnShip(5, 5, 3, true));
         
 
     }

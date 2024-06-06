@@ -111,29 +111,6 @@ public class Ship extends Entity {
 
     }
 
-    public void setX(float x) {
-        this.position.setX(x);  // Update the position of the ship itself
-        for (int i = 0; i < size; i++) {
-            ShipFragments fragment = shipFragments.get(i);
-            if (isHorizontal) {
-                fragment.setPosition(x + i * (getWidth() / size), fragment.getY());
-            } else {
-                fragment.setPosition(x, fragment.getY());
-            }
-        }
-    }
-
-    public void setY(float y) {
-        this.position.setY(y);  // Update the position of the ship itself
-        for (int i = 0; i < size; i++) {
-            ShipFragments fragment = shipFragments.get(i);
-            if (isHorizontal) {
-                fragment.setPosition(fragment.getX(), y);
-            } else {
-                fragment.setPosition(fragment.getX(), y + i * (getHeight() / size));
-            }
-        }
-    }
 
     @Override
     public String toString() {
