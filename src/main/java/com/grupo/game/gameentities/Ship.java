@@ -121,4 +121,9 @@ public class Ship extends Entity {
                 ", isHorizontal=" + isHorizontal +
                 '}';
     }
+
+    public boolean collides(Ship fleet) {
+        //TODO: COMPROBAR SI COLISIONA CON OTRO BARCO
+        return false;
+    }
 }

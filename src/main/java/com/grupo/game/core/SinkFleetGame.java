@@ -6,6 +6,7 @@ import com.grupo.engine.core.Game;
 import com.grupo.engine.input.KeyboardManager;
 
 import com.grupo.game.gameentities.Player;
+import com.grupo.game.gameentities.Ship;
 
 
 public class SinkFleetGame extends Game {
@@ -57,8 +58,21 @@ public class SinkFleetGame extends Game {
     @Override
     public void update(double deltaTime) {
         if (BlackBoard2.buttonPressed) {
-            //!TODO Implementar Jugada del jugador actual
+            if (principio) {
+                if (BlackBoard2.currentPlayer.getActualPostionX() != -1 && BlackBoard2.currentPlayer.getActualPostionY() != -1) {
+                    //Hay que mirar que el barco no se sobreponga con otro sale error sino.
+                    addShip(4);
+                    BlackBoard2.buttonPressed = false;
+                }
+                
+            }
         }
+    }
+
+    public void addShip(int size){
+        BlackBoard2.currentPlayer.addShip(sinkFleetEntityManager.spawnShip(BlackBoard2.currentPlayer.getActualPostionX(), 
+                                          BlackBoard2.currentPlayer.getActualPostionY(), size, BlackBoard2.currentPlayer.getIsHorizontal()));
+            
     }
 
     @Override
