@@ -1,22 +1,23 @@
 package com.grupo.game.gameentities;
 
-import com.grupo.engine.entities.Entity;
 import com.grupo.engine.entities.PlayableEntity;
 import com.grupo.engine.input.KeyboardManager;
-import com.grupo.game.config.Settings;
+
 import com.grupo.game.math.Coordinates;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+
 import java.util.List;
 
 public class Player extends PlayableEntity {
     private List<Ship> ships;
     private List<Coordinates> disparos;
-    private boolean turno;
     private List<String> stack;
     private int hp;
     private KeyboardManager keyboardManager;
+
+    private int actualPostionX;
+    private int actualPostionY;
 
     public Player(float x, float y, float width, float height, int hp, float damage, KeyboardManager keyboardManager, int rows, int cols) {
         super(x, y, width, height, hp, damage, x, y, y, cols, keyboardManager);
@@ -24,16 +25,21 @@ public class Player extends PlayableEntity {
         this.hp = hp;
         this.disparos = new ArrayList<>();
         this.stack = new ArrayList<>();
-        this.turno = false;
+       
         this.keyboardManager = keyboardManager;
+
+        this.actualPostionX = 0;
+        this.actualPostionY = 0;
     }
 
 
     
 
 
+    @SuppressWarnings("unused")
     private void disparar() {
         //TODO: Implementar disparo
+        
     }
 
     public boolean isHitBoard(float x, float y) {
@@ -54,12 +60,12 @@ public class Player extends PlayableEntity {
         }
         return count;
     }
-
-    //#region Getters and Setters
     public boolean addShip(Ship ship) {
         return ships.add(ship);
     }
 
+    //#region Getters and Setters
+    
     public List<Ship> getShips() {
         return ships;
     }
@@ -68,20 +74,28 @@ public class Player extends PlayableEntity {
         return disparos;
     }
 
-    public boolean isTurno() {
-        return turno;
-    }
-
     public List<String> getStack() {
         return stack;
     }
 
-    public KeyboardManager getKeyboardManager() {
-        return keyboardManager;
+    public int getActualPostionX() {
+        return actualPostionX;
     }
 
-    public void setTurno(boolean turno) {
-        this.turno = turno;
+    public void setActualPostionX(int actualPostionX) {
+        this.actualPostionX = actualPostionX;
+    }
+
+    public int getActualPostionY() {
+        return actualPostionY;
+    }
+
+    public void setActualPostionY(int actualPostionY) {
+        this.actualPostionY = actualPostionY;
+    }
+
+    public KeyboardManager getKeyboardManager() {
+        return keyboardManager;
     }
 
     //#endregion
@@ -104,7 +118,7 @@ public class Player extends PlayableEntity {
 
     @Override
     public void processInput() {
-        if (turno) {
+
             if (keyboardManager.isUp())
                 stack.add("W");
             if (keyboardManager.isDown())
@@ -119,7 +133,7 @@ public class Player extends PlayableEntity {
             if (stack.size() > 2) {
                 stack.clear();
             }
-        }
+        
     }
 
 
@@ -128,7 +142,7 @@ public class Player extends PlayableEntity {
 
     @Override
     public String toString() {
-        return "Player [ships=" + ships + ", disparos=" + disparos + ", turno=" + turno + ", stack=" + stack + ", hp="
+        return "Player [ships=" + ships + ", disparos=" + disparos + ", stack=" + stack + ", hp="
                 + hp + ", keyboardManager=" + keyboardManager + "]";
     }
 

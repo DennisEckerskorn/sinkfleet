@@ -1,13 +1,14 @@
 package com.grupo.game.core;
 
-import java.awt.RenderingHints.Key;
+
 
 import com.grupo.engine.core.AssetManager;
-import com.grupo.engine.core.Blackboard;
+
 import com.grupo.engine.core.EntityManager;
 import com.grupo.engine.entities.Entity;
 import com.grupo.engine.input.KeyboardManager;
 import com.grupo.game.config.Settings;
+import com.grupo.game.gameentities.NPCPlayer;
 import com.grupo.game.gameentities.Player;
 import com.grupo.game.gameentities.Ship;
 
@@ -37,6 +38,22 @@ public class SinkFleetEntityManager extends EntityManager {
     public Player creatPlayer(float x, float y, KeyboardManager keyboardManager, int rows, int cols) {
         Player player = new Player(x, y, Settings.WIDTH, Settings.HEIGHT,
                 Settings.PLAYER_HP, Settings.PLAYER_DAMAGE, keyboardManager, rows, cols);
+
+        addEntity(player);
+
+        return player;
+    }
+     /**
+     * Creates a playeable entity and adds it to the entity manager.
+     *
+     * @param x               The x-coordinate where the player will be spawned.
+     * @param y               The y-coordinate where the player will be spawned.
+     * @param keyboardManager The keyboard manager that will be used by the player.
+     * @return The created player entity.
+     */
+    public Player creatNPCPlayer(float x, float y, int rows, int cols) {
+        Player player = new NPCPlayer(x, y, Settings.WIDTH, Settings.HEIGHT,
+                Settings.PLAYER_HP, Settings.PLAYER_DAMAGE, null, rows, cols);
 
         addEntity(player);
 
