@@ -24,7 +24,7 @@ public class SinkFleetGame extends Game {
         this.cols = cols;
         sinkFleetEntityManager = (SinkFleetEntityManager) Blackboard.entityManager;
         initPlayers(rows, cols);
-        spawnShips();
+        //spawnShips(); TODO: EL FALLO DE OUTOFBOUNDS ESTA AQUI...
     }
 
 

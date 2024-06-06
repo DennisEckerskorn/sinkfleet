@@ -69,7 +69,6 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
                 }
             }
         }
-        //drawShots(g2);
     }
 
     /**
@@ -140,7 +139,13 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
             }
         }
 
-        drawShots2(g2);
+        // Dibuja las líneas del segundo tablero (Tablero de Disparos)
+        for (int row = 0; row < Settings.ROWS; row++) {
+            for (int col = 0; col < Settings.COLS; col++) {
+                g2.setColor(Settings.COLOR_BACKGROUND_LINES);
+                g2.drawRect(col * Blackboard.cellSize + offset, row * Blackboard.cellSize, Blackboard.cellSize, Blackboard.cellSize);
+            }
+        }
     }
 
     //TODO: FALTA PROBAR:
@@ -152,7 +157,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
             for (int col = 0; col < shots[row].length; col++) {
                 int x = col * Blackboard.cellSize + offset;
                 int y = row * Blackboard.cellSize;
-
+/*
                 switch (shots[row][col]) {
                     case 1: // Falla
                         g2.setColor(Color.WHITE);
@@ -166,6 +171,8 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
                         // No se ha disparado
                         break;
                 }
+
+ */
 
             }
 

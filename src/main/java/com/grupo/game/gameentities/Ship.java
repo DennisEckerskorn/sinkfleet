@@ -36,6 +36,8 @@ public class Ship extends Entity {
             float fragmentY = isHorizontal ? y : y + i * (height / size);
             shipFragments.add(new ShipFragments(fragmentX, fragmentY, width / size, height / size, hp, damage));
         }
+
+
     }
 
     /**
