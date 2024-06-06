@@ -3,6 +3,7 @@ package com.grupo.game.gameentities;
 import com.grupo.engine.entities.PlayableEntity;
 import com.grupo.engine.input.KeyboardManager;
 
+import com.grupo.game.core.BlackBoard2;
 import com.grupo.game.math.Coordinates;
 
 import java.util.ArrayList;
@@ -40,13 +41,10 @@ public class Player extends PlayableEntity {
     }
 
 
-    
 
-
-    @SuppressWarnings("unused")
-    private void disparar() {
-        //TODO: Implementar disparo
-        
+    private void disparar(int x, int y) {
+        //TODO: Implementar disparo, es correcto????
+        disparos.add(new Coordinates(x, y));
     }
 
     public boolean isHitBoard(float x, float y) {
@@ -111,7 +109,7 @@ public class Player extends PlayableEntity {
 
     @Override
     public void update(double deltaTime) {
-        
+
     }
 
     @Override

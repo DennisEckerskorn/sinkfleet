@@ -56,7 +56,6 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
      * @param g The Graphics object.
      */
     @Override
-
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
@@ -67,31 +66,6 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         }
     }
 
-
-    @SuppressWarnings("unused")
-    private void drawShots1(Graphics2D g2) {
-        //TODO: Implementar disparos AHORA shots es una lista de coordenadas
-        //! Coordinantes es una clase que tiene dos atributos x e y.
-        /* 
-        int offset = Settings.COLS * Blackboard.cellSize + 20;
-        int[][] shots = currentPlayer.getDisparosRealizados();
-
-        for (int row = 0; row < shots.length; row++) {
-            for (int col = 0; col < shots[row].length; col++) {
-                if (shots[row][col] == 1) { // Falla
-                    g2.setColor(Color.BLUE);
-                    g2.fillRect(col * Blackboard.cellSize + offset, row * Blackboard.cellSize, Blackboard.cellSize, Blackboard.cellSize);
-                } else if (shots[row][col] == 2) { // Acierto
-                    g2.setColor(Color.RED);
-                    g2.fillRect(col * Blackboard.cellSize + offset, row * Blackboard.cellSize, Blackboard.cellSize, Blackboard.cellSize);
-                }
-            }
-        }
-            */
-
-    }
-
-
     /**
      * Draws the entity on the screen.
      *
@@ -101,12 +75,10 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
     @Override
     public void drawEntity(Graphics2D g2, Entity e) {
         List<Ship> ships;
-        @SuppressWarnings("unused")
         List<Coordinates> disparos;
         if (e instanceof Player) {
             if (BlackBoard2.currentPlayer.equals((Player) e)) {
                 ships = ((Player) e).getShips();
-                disparos = ((Player) e).getDisparos();
                 for (Ship ship : ships) {
                     g2.setColor(Settings.COLOR_SHIP);
                     for (ShipFragments fragment : ship.getShipFragments()) {
@@ -117,11 +89,15 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
                 }
             }
 
-            //TODO: Implementar disparos
-
+            //TODO: Implementar disparos, es correcto???
+            disparos = ((Player) e).getDisparos();
+            g2.setColor(Color.RED);
+            for (Coordinates disparo : disparos) {
+                int x = Math.round(disparo.getX()) * Blackboard.cellSize;
+                int y = Math.round(disparo.getY()) * Blackboard.cellSize;
+                g2.fillRect(x + 30, y + 30, Blackboard.cellSize, Blackboard.cellSize);
+            }
         }
-
-
     }
 
     /**
@@ -182,7 +158,12 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         }
     }
 
-
+    /**
+     * Handles the resize event.
+     *
+     * @param width  The new width of the renderer.
+     * @param height The new height of the renderer.
+     */
     @Override
     public void onResize(int width, int height) {
 
