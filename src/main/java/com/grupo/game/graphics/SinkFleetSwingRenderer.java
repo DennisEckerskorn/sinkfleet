@@ -77,6 +77,9 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
      * @param g2 The Graphics2D object.
      */
     private void drawShots1(Graphics2D g2) {
+        //TODO: Implementar disparos AHORA shots es una lista de coordenadas
+        //! Coordinantes es una clase que tiene dos atributos x e y.
+        /* 
         int offset = Settings.COLS * Blackboard.cellSize + 20;
         int[][] shots = currentPlayer.getDisparosRealizados();
 
@@ -91,6 +94,8 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
                 }
             }
         }
+            */
+
     }
 
 
@@ -150,6 +155,8 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
 
     //TODO: FALTA PROBAR:
     private void drawShots2(Graphics2D g2) {
+        //#region Dibuja los disparos realizados Pausado por el momento
+        /* 
         int offset = Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS;
         int[][] shots = currentPlayer.getDisparosRealizados();
 
@@ -157,7 +164,9 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
             for (int col = 0; col < shots[row].length; col++) {
                 int x = col * Blackboard.cellSize + offset;
                 int y = row * Blackboard.cellSize;
-/*
+        
+
+                /*
                 switch (shots[row][col]) {
                     case 1: // Falla
                         g2.setColor(Color.WHITE);
@@ -172,11 +181,14 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
                         break;
                 }
 
- */
+ 
 
             }
-
+            
         }
+        */
+        
+
     }
 
     @Override

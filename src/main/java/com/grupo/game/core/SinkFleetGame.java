@@ -24,7 +24,7 @@ public class SinkFleetGame extends Game {
         this.cols = cols;
         sinkFleetEntityManager = (SinkFleetEntityManager) Blackboard.entityManager;
         initPlayers(rows, cols);
-        //spawnShips(); TODO: EL FALLO DE OUTOFBOUNDS ESTA AQUI...
+        spawnShips(); 
     }
 
 
@@ -44,9 +44,8 @@ public class SinkFleetGame extends Game {
      */
     private void spawnShips() {
         // Ejemplo de barcos colocados en posiciones específicas
-        player1.addShip(sinkFleetEntityManager.spawnShip(2, 3, 4, false));
-        player1.addShip(sinkFleetEntityManager.spawnShip(5, 5, 4, true));
-        player2.addShip(sinkFleetEntityManager.spawnShip(0, 0, 2, false));
+        player1.addShip(sinkFleetEntityManager.spawnShip(1, 1, 4, false));
+        
 
     }
 
