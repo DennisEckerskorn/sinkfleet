@@ -16,32 +16,33 @@ public class MainMenu extends JFrame {
     public MainMenu() {
         super("Battleship Main Menu");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(Settings.WIDTH, Settings.HEIGHT);
+        setSize(800,800);
         setLocationRelativeTo(null);
 
         try {
             // Cargar la imagen de fondo
-            Image backgroundImage = ImageIO.read(getClass().getResource("/images/battleship.png"));
-            setContentPane(new JPanel() {
+            Image backgroundImage = ImageIO.read(getClass().getResource("/images/battle2.jpg"));
+            JPanel panel = new JPanel(new BorderLayout()) {
                 @Override
                 protected void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
                 }
-            });
-            revalidate();
+            };
+            panel.setOpaque(true);
+            setContentPane(panel);
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        // Panel Contenedor:
-        JPanel panel = new JPanel();
-        panel.setOpaque(false); // Hacer el panel transparente
-        panel.setLayout(new GridLayout(3, 1));
+        //Panel para los botones:
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 1));
+        buttonPanel.setOpaque(false);
+        getContentPane().add(buttonPanel, BorderLayout.CENTER);
 
         //Boton iniciar Juego:
         JButton pvpButton = new JButton("PLAYER VS PLAYER");
-        pvpButton.setPreferredSize(new Dimension(200, 50));
+        customizeButton(pvpButton);
         pvpButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -49,21 +50,21 @@ public class MainMenu extends JFrame {
                 startGame(BlackBoard2.Mode.SINGLE_PLAYER);
             }
         });
-        panel.add(pvpButton);
+        buttonPanel.add(pvpButton);
 
         //Boton para inciar el juego Player vs NPC:
         JButton pvnpcButton = new JButton("PLAYER VS NPC");
-        pvnpcButton.setPreferredSize(new Dimension(200, 50));
+        customizeButton(pvnpcButton);
         pvnpcButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Iniciar el Juego Player vs NPC
             }
         });
-        panel.add(pvnpcButton);
+        buttonPanel.add(pvnpcButton);
 
         JButton exitButton = new JButton("EXIT");
-        exitButton.setPreferredSize(new Dimension(200, 50));
+        customizeButton(exitButton);
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -71,10 +72,7 @@ public class MainMenu extends JFrame {
                 System.exit(0);
             }
         });
-        panel.add(exitButton);
-
-        setLayout(new BorderLayout());
-        add(panel, BorderLayout.CENTER);
+        buttonPanel.add(exitButton);
         setVisible(true);
     }
 
@@ -120,5 +118,15 @@ public class MainMenu extends JFrame {
         frame.pack();
         frame.setVisible(true);
         sinkFleetGame.start();
+    }
+
+    private void customizeButton(JButton button) {
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
+        button.setForeground(Color.BLACK);
+        button.setFont(new Font("Arial", Font.PLAIN, 18));
+        button.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
+        button.setOpaque(true);
+        button.setBackground(Color.WHITE);
     }
 }
