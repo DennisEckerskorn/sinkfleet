@@ -4,16 +4,15 @@ import com.grupo.engine.core.Blackboard;
 import com.grupo.engine.core.EntityManager;
 import com.grupo.engine.core.Game;
 import com.grupo.engine.input.KeyboardManager;
-import com.grupo.game.config.Settings;
-import com.grupo.game.gameentities.Player;
-import com.grupo.game.gameentities.Ship;
 
-import java.util.Random;
+import com.grupo.game.gameentities.Player;
+
 
 public class SinkFleetGame extends Game {
     private final int rows;
     private final int cols;
     private final SinkFleetEntityManager sinkFleetEntityManager;
+
     private Player player1;
     private Player player2;
     
@@ -23,32 +22,23 @@ public class SinkFleetGame extends Game {
         this.rows = rows;
         this.cols = cols;
         sinkFleetEntityManager = (SinkFleetEntityManager) Blackboard.entityManager;
-        initPlayers(rows, cols);
+        if (BlackBoard2.mode == BlackBoard2.Mode.SINGLE_PLAYER) {
+            initPlayers(rows, cols);
+        } else if (BlackBoard2.mode == BlackBoard2.Mode.MULTI_PLAYER) {
+            //!TODO Implementar modo multijugador
+        } 
         
-        spawnShips(); 
+        
     }
 
 
     private void initPlayers(int rowsshoot, int cols) {
-        KeyboardManager km1 = new KeyboardManager('w', 's', 'a', 'd', 'f', ' ');
-        KeyboardManager km2 = new KeyboardManager('i', 'k', 'j', 'l', 'h', ' ');
+        KeyboardManager km1 = new KeyboardManager('w', 's', 'a', 'd', 'f', ' '); //! Cambiar cuando Diego lo tenga
         this.player1 = sinkFleetEntityManager.creatPlayer(0, 0, km1, rows, cols);
         BlackBoard2.currentPlayer = player1;
-        player2 = new Player(0, 0, 0, 0, 100, 0, km2, rows, cols);
+        this.player2 = sinkFleetEntityManager.creatNPCPlayer(0, 0, rows, cols);
         Blackboard.entityManager.addEntity(player1);
         Blackboard.entityManager.addEntity(player2);
-    }
-
-    /**
-     * PRUEBA para ver si se genera un cuadrado en el tablero...
-     * TODO: Hay que hacer que se pueda ajustar manualmente la posicion por el usuario...
-     */
-    private void spawnShips() {
-        // Ejemplo de barcos colocados en posiciones específicas
-        player1.addShip(sinkFleetEntityManager.spawnShip(1, 1, 3, false));
-        player2.addShip(sinkFleetEntityManager.spawnShip(5, 5, 3, true));
-        
-
     }
 
     @Override

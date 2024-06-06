@@ -72,6 +72,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
      *
      * @param g2 The Graphics2D object.
      */
+    @SuppressWarnings("unused")
     private void drawShots1(Graphics2D g2) {
         //TODO: Implementar disparos AHORA shots es una lista de coordenadas
         //! Coordinantes es una clase que tiene dos atributos x e y.
@@ -105,6 +106,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
     @Override
     public void drawEntity(Graphics2D g2, Entity e) {
         List<Ship> ships;
+        @SuppressWarnings("unused")
         List<Coordinates> disparos;
         if (e instanceof Player) {
             if (BlackBoard2.currentPlayer.equals((Player) e)) {
