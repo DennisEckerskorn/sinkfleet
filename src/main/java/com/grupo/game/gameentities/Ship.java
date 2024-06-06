@@ -123,7 +123,7 @@ public class Ship extends Entity {
     }
 
     public boolean collides(Ship fleet) {
-        //COMPROBAR SI COLISIONA CON OTRO BARCO
+        //TODO: COMPROBAR SI COLISIONA CON OTRO BARCO
         return false;
     }
 }

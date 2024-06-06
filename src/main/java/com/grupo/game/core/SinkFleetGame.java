@@ -59,7 +59,12 @@ public class SinkFleetGame extends Game {
     public void update(double deltaTime) {
         if (BlackBoard2.buttonPressed) {
             if (principio) {
-                addShip(3);
+                if (BlackBoard2.currentPlayer.getActualPostionX() != -1 && BlackBoard2.currentPlayer.getActualPostionY() != -1) {
+                    //Hay que mirar que el barco no se sobreponga con otro sale error sino.
+                    addShip(4);
+                    BlackBoard2.buttonPressed = false;
+                }
+                
             }
         }
     }

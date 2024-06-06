@@ -32,8 +32,8 @@ public class Player extends PlayableEntity {
        
         this.keyboardManager = keyboardManager;
 
-        this.actualPostionX = 0;
-        this.actualPostionY = 0;
+        this.actualPostionX = 1;
+        this.actualPostionY = 1;
         this.isHorizontal = true;
 
        
