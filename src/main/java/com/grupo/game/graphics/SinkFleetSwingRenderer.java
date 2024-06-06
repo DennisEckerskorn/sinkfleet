@@ -56,7 +56,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
      * @param g The Graphics object.
      */
     @Override
-   
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
@@ -67,11 +67,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         }
     }
 
-    /**
-     * Draws the shots on the screen.
-     *
-     * @param g2 The Graphics2D object.
-     */
+
     @SuppressWarnings("unused")
     private void drawShots1(Graphics2D g2) {
         //TODO: Implementar disparos AHORA shots es una lista de coordenadas
@@ -95,7 +91,6 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
 
     }
 
-    
 
     /**
      * Draws the entity on the screen.
@@ -117,23 +112,22 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
                     for (ShipFragments fragment : ship.getShipFragments()) {
                         int x = Math.round(fragment.getX()) * Blackboard.cellSize;
                         int y = Math.round(fragment.getY()) * Blackboard.cellSize;
-                        g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
+                        g2.fillRect(x + 30, y + 30, Blackboard.cellSize, Blackboard.cellSize);
                     }
                 }
             }
-           
+
             //TODO: Implementar disparos
 
-        } 
-         
-        
-        
+        }
+
+
     }
 
     /**
-     * Dibuja el fondo del juego, incluyendo los tableros de barcos y de disparos.
+     * Draws the background of the game, including the ship and shot boards.
      *
-     * @param g2 El contexto gráfico en el que se realizará el dibujo.
+     * @param g2 The graphics context for drawing.
      */
     @Override
     public void drawBackground(Graphics2D g2) {
@@ -142,17 +136,17 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
 
         // Dibuja el fondo del primer tablero (Tablero Barcos)
         g2.setColor(backgroundColor1);
-        g2.fillRect(0, 0, Settings.COLS * Blackboard.cellSize, Settings.ROWS * Blackboard.cellSize);
+        g2.fillRect(30, 30, Settings.COLS * Blackboard.cellSize, Settings.ROWS * Blackboard.cellSize); //cambios
 
         // Dibuja el fondo del segundo tablero (Tablero de Disparos)
         g2.setColor(backgroundColor2);
-        g2.fillRect(offset, 0, Settings.COLS * Blackboard.cellSize, Settings.ROWS * Blackboard.cellSize);
+        g2.fillRect(offset + 30, 30, Settings.COLS * Blackboard.cellSize, Settings.ROWS * Blackboard.cellSize); //cambios
 
         // Dibuja las líneas del primer tablero (Tablero Barcos)
         for (int row = 0; row < Settings.ROWS; row++) {
             for (int col = 0; col < Settings.COLS; col++) {
                 g2.setColor(Settings.COLOR_BACKGROUND_LINES);
-                g2.drawRect(col * Blackboard.cellSize, row * Blackboard.cellSize, Blackboard.cellSize, Blackboard.cellSize);
+                g2.drawRect(col * Blackboard.cellSize + 30, row * Blackboard.cellSize + 30, Blackboard.cellSize, Blackboard.cellSize);
             }
         }
 
@@ -160,8 +154,31 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         for (int row = 0; row < Settings.ROWS; row++) {
             for (int col = 0; col < Settings.COLS; col++) {
                 g2.setColor(Settings.COLOR_BACKGROUND_LINES);
-                g2.drawRect(col * Blackboard.cellSize + offset, row * Blackboard.cellSize, Blackboard.cellSize, Blackboard.cellSize);
+                g2.drawRect(col * Blackboard.cellSize + 30 + offset, row * Blackboard.cellSize + 30, Blackboard.cellSize, Blackboard.cellSize);
             }
+        }
+
+        drawNumberCoordenates(g2, 30);
+        drawNumberCoordenates(g2, offset + 30);
+    }
+
+    /**
+     * Draws number coordinates around the board.
+     *
+     * @param g2     The Graphics2D object.
+     * @param offset The offset for drawing the coordinates.
+     */
+    private void drawNumberCoordenates(Graphics2D g2, int offset) {
+        g2.setColor(Color.BLACK);
+
+        //Dibujar numero de filas:
+        for (int row = 0; row < Settings.ROWS; row++) {
+            g2.drawString(Integer.toString(row + 1), offset - 20, (row + 1) * Blackboard.cellSize + 4);
+        }
+
+        //Dibujar numero de columnas:
+        for (int col = 0; col < Settings.COLS; col++) {
+            g2.drawString(Integer.toString(col + 1), offset + col * Blackboard.cellSize + Blackboard.cellSize / 2, 20);
         }
     }
 

@@ -1,13 +1,9 @@
 package com.grupo;
 
-
 import com.grupo.game.config.Settings;
 import com.grupo.game.core.BlackBoard2;
 import com.grupo.game.core.SinkFleetGame;
 import com.grupo.game.graphics.SinkFleetSwingRenderer;
-
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +15,7 @@ public class Main {
         SinkFleetGame sinkFleetGame = new SinkFleetGame(Settings.WIDTH, Settings.HEIGHT, Settings.ROWS, Settings.COLS, Settings.TARGET_FPS, Settings.TARGET_UPS, Settings.MAX_ENTITIES, BlackBoard2.Mode.SINGLE_PLAYER);
 
         //Renderizados que maneja ambos tableros con colores de fondo diferentes:
-        SinkFleetSwingRenderer sinkFleetSwingRenderer = new SinkFleetSwingRenderer(Settings.WIDTH * 2 + 20, Settings.HEIGHT, sinkFleetGame, Settings.COLOR_BACKGROUND, Settings.COLOR_BACKGROUND);
+        SinkFleetSwingRenderer sinkFleetSwingRenderer = new SinkFleetSwingRenderer(Settings.WIDTH * 2 + 100, Settings.HEIGHT, sinkFleetGame, Settings.COLOR_BACKGROUND, Settings.COLOR_BACKGROUND);
         sinkFleetGame.setRenderAPI(sinkFleetSwingRenderer);
 
         //Configuración del frame:
@@ -29,12 +25,14 @@ public class Main {
         frame.setTitle("Sink the Fleet");
 
         //Configuración y creación del Panel Contenedor:
-        JPanel containerPanel = new JPanel();
-        containerPanel.setLayout(new BorderLayout());
-        containerPanel.add(sinkFleetSwingRenderer, BorderLayout.CENTER);
+        JPanel container = new JPanel(new BorderLayout());
+        container.add(sinkFleetSwingRenderer, BorderLayout.CENTER);
 
         // Crear el botón
         JButton button = new JButton("CAMBIAR TURNO");
+
+        //Ajustar el tamaño del boton:
+        button.setPreferredSize(new Dimension(150, button.getPreferredSize().height));
 
         // Lógica para el boton CAMBIAR TURNO:
         button.addActionListener(new ActionListener() {
@@ -44,10 +42,14 @@ public class Main {
             }
         });
 
-        // Añadir el botón al panel contenedor en la posición sur
-        containerPanel.add(button, BorderLayout.SOUTH);
+        //Creación del panel para el boton:
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        buttonPanel.add(button, BorderLayout.CENTER);
 
-        frame.add(containerPanel);
+        // Añadir el panel del boton al Border Sur
+        container.add(buttonPanel, BorderLayout.SOUTH);
+
+        frame.add(container);
         frame.pack();
         frame.setVisible(true);
         sinkFleetGame.start();
