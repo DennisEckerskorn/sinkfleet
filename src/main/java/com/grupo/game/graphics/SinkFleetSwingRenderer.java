@@ -11,6 +11,7 @@ import com.grupo.game.gameentities.Player;
 import com.grupo.game.gameentities.Ship;
 import com.grupo.game.gameentities.ShipFragments;
 import com.grupo.game.math.Coordinates;
+import com.grupo.game.scenes.Scene;
 
 import java.util.List;
 
@@ -23,11 +24,16 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
     private Color backgroundColor1;
     private Color backgroundColor2;
     private Player currentPlayer;
+    private Scene currentScene;
 
     public SinkFleetSwingRenderer(int width, int height, ResizeListener resizeListener, Color backgroundColor1, Color backgroundColor2) {
         super(width, height, resizeListener);
         this.backgroundColor1 = backgroundColor1;
         this.backgroundColor2 = backgroundColor2;
+    }
+
+    public void setCurrentScene(Scene currentScene) {
+        this.currentScene = currentScene;
     }
 
     public Color getBackgroundColor1() {
@@ -60,6 +66,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         drawBackground(g2);
+        //currentScene.render(g2);
         List<PlayableEntity> playableEntities = Blackboard.entityManager.getPlayableEntities();
         for (PlayableEntity playableEntity : playableEntities) {
             drawEntity(g2, playableEntity);
