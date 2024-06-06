@@ -15,28 +15,36 @@ public class SinkFleetGame extends Game {
 
     private Player player1;
     private Player player2;
+
+    //Idica si el jugador esta en la fase de colocar barcos
+    private boolean principio;
     
 
-    public SinkFleetGame(int width, int height, int rows, int cols, float fpsLimit, float updateLimit, int maxEntities) {
+    public SinkFleetGame(int width, int height, int rows, int cols, float fpsLimit, float updateLimit, int maxEntities, BlackBoard2.Mode mode) {
         super(width, height, fpsLimit, updateLimit, maxEntities);
         this.rows = rows;
         this.cols = cols;
         sinkFleetEntityManager = (SinkFleetEntityManager) Blackboard.entityManager;
-        if (BlackBoard2.mode == BlackBoard2.Mode.SINGLE_PLAYER) {
+        this.principio = true;
+        if (mode == BlackBoard2.Mode.SINGLE_PLAYER) {
             initPlayers(rows, cols);
-        } else if (BlackBoard2.mode == BlackBoard2.Mode.MULTI_PLAYER) {
+        } else if (mode == BlackBoard2.Mode.MULTI_PLAYER) {
             //!TODO Implementar modo multijugador
         } 
+
+       
         
         
     }
 
 
     private void initPlayers(int rowsshoot, int cols) {
+        KeyboardManager km2 = new KeyboardManager('w', 's', 'a', 'd', 'f', ' '); //! Cambiar cuando Diego lo tenga
+        
         KeyboardManager km1 = new KeyboardManager('w', 's', 'a', 'd', 'f', ' '); //! Cambiar cuando Diego lo tenga
         this.player1 = sinkFleetEntityManager.creatPlayer(0, 0, km1, rows, cols);
         BlackBoard2.currentPlayer = player1;
-        this.player2 = sinkFleetEntityManager.creatNPCPlayer(0, 0, rows, cols);
+        this.player2 = sinkFleetEntityManager.creatPlayer(0, 0,km2, rows, cols);
         Blackboard.entityManager.addEntity(player1);
         Blackboard.entityManager.addEntity(player2);
     }
@@ -48,7 +56,9 @@ public class SinkFleetGame extends Game {
 
     @Override
     public void update(double deltaTime) {
-        //!TODO MirarTodo
+        if (BlackBoard2.buttonPressed) {
+            //!TODO Implementar Jugada del jugador actual
+        }
     }
 
     @Override

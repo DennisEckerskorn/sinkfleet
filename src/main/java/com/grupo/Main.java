@@ -2,6 +2,7 @@ package com.grupo;
 
 
 import com.grupo.game.config.Settings;
+import com.grupo.game.core.BlackBoard2;
 import com.grupo.game.core.SinkFleetGame;
 import com.grupo.game.graphics.SinkFleetSwingRenderer;
 
@@ -15,7 +16,7 @@ import java.awt.event.ActionListener;
 
 public class Main {
     public static void main(String[] args) {
-        SinkFleetGame sinkFleetGame = new SinkFleetGame(Settings.WIDTH, Settings.HEIGHT, Settings.ROWS, Settings.COLS, Settings.TARGET_FPS, Settings.TARGET_UPS, Settings.MAX_ENTITIES);
+        SinkFleetGame sinkFleetGame = new SinkFleetGame(Settings.WIDTH, Settings.HEIGHT, Settings.ROWS, Settings.COLS, Settings.TARGET_FPS, Settings.TARGET_UPS, Settings.MAX_ENTITIES, BlackBoard2.Mode.SINGLE_PLAYER);
 
         //Renderizados que maneja ambos tableros con colores de fondo diferentes:
         SinkFleetSwingRenderer sinkFleetSwingRenderer = new SinkFleetSwingRenderer(Settings.WIDTH * 2 + 20, Settings.HEIGHT, sinkFleetGame, Settings.COLOR_BACKGROUND, Settings.COLOR_BACKGROUND);
@@ -39,7 +40,7 @@ public class Main {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Se ha presionado el boton");
+                BlackBoard2.buttonPressed = true;
             }
         });
 
