@@ -17,7 +17,7 @@ public class Main {
     public static void main(String[] args) {
         SinkFleetGame sinkFleetGame = new SinkFleetGame(Settings.WIDTH, Settings.HEIGHT, Settings.ROWS, Settings.COLS, Settings.TARGET_FPS, Settings.TARGET_UPS, Settings.MAX_ENTITIES, BlackBoard2.Mode.SINGLE_PLAYER);
         SinkFleetAssetManager assetManager = new SinkFleetAssetManager();
-        SinkFleetSwingRenderer renderer = new SinkFleetSwingRenderer(Settings.WIDTH, Settings.HEIGHT, sinkFleetGame, Settings.COLOR_BACKGROUND, Settings.COLOR_BACKGROUND);
+        SinkFleetSwingRenderer renderer = new SinkFleetSwingRenderer(Settings.WIDTH, Settings.HEIGHT, sinkFleetGame);
         sinkFleetGame.setRenderAPI(renderer);
 
         SceneManager sceneManager = new SceneManager(renderer);

@@ -40,7 +40,7 @@ public class SinglePlayerScene extends Scene{
     }
 
     private void drawEntity(Graphics2D g2, Entity e) {
-        java.util.List<Ship> ships;
+        List<Ship> ships;
         List<Coordinates> disparos;
         if (e instanceof Player) {
             if (BlackBoard2.currentPlayer.equals((Player) e)) {
@@ -67,6 +67,7 @@ public class SinglePlayerScene extends Scene{
     }
 
     private void drawBackground(Graphics2D g2) {
+
         // Calcula el desplazamiento para el segundo tablero
         int offset = Settings.COLS * Blackboard.cellSize * 2 + Settings.SPACE_BETWEEN_GAMEBOARDS;
 
@@ -96,6 +97,8 @@ public class SinglePlayerScene extends Scene{
 
         drawNumberCoordinates(g2, 30);
         drawNumberCoordinates(g2, offset + 30);
+
+
     }
 
     /**
@@ -121,6 +124,8 @@ public class SinglePlayerScene extends Scene{
     @Override
     public void onSceneSet(JPanel parentPanel) {
         parentPanel.setLayout(new BorderLayout());
+        parentPanel.setPreferredSize(new Dimension(800, 800));
+        //parentPanel.add()
     }
 
 

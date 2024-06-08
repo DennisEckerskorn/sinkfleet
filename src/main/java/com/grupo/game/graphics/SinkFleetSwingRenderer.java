@@ -15,7 +15,7 @@ import java.awt.*;
 public class SinkFleetSwingRenderer extends SwingRenderer {
     private Scene currentScene;
 
-    public SinkFleetSwingRenderer(int width, int height, ResizeListener resizeListener, Color backgroundColor1, Color backgroundColor2) {
+    public SinkFleetSwingRenderer(int width, int height, ResizeListener resizeListener) {
         super(width, height, resizeListener);
     }
 
@@ -40,7 +40,6 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
      */
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
         super.paintComponent(g);
         if (currentScene != null) {
             Graphics2D g2 = (Graphics2D) g;

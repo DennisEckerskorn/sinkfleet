@@ -4,8 +4,8 @@ import java.awt.*;
 
 public class Settings {
     //Game Settings
-    public static final int WIDTH = 800;
-    public static final int HEIGHT = 800;
+    public static final int WIDTH = 1200;
+    public static final int HEIGHT = 1200;
     public static final int ROWS = 10;
     public static final int COLS = 10;
     public static final int TARGET_FPS = 60;
