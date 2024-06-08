@@ -67,23 +67,22 @@ public class SinglePlayerScene extends Scene{
     }
 
     private void drawBackground(Graphics2D g2) {
-
         // Calcula el desplazamiento para el segundo tablero
-        int offset = Settings.COLS * Blackboard.cellSize * 2 + Settings.SPACE_BETWEEN_GAMEBOARDS;
+        int offset = Settings.COLS * 50 + Settings.SPACE_BETWEEN_GAMEBOARDS;
 
         // Dibuja el fondo del primer tablero (Tablero Barcos)
         g2.setColor(backgroundColor1);
-        g2.fillRect(30, 30, Settings.COLS * Blackboard.cellSize, Settings.ROWS * Blackboard.cellSize); //cambios
+        g2.fillRect(0, 0, Settings.COLS * 50, Settings.ROWS * 50);
 
         // Dibuja el fondo del segundo tablero (Tablero de Disparos)
         g2.setColor(backgroundColor2);
-        g2.fillRect(offset + 30, 30, Settings.COLS * Blackboard.cellSize, Settings.ROWS * Blackboard.cellSize); //cambios
+        g2.fillRect(Settings.COLS * 50 + Settings.SPACE_BETWEEN_GAMEBOARDS, 0, Settings.COLS * 50, Settings.ROWS * 50);
 
         // Dibuja las líneas del primer tablero (Tablero Barcos)
         for (int row = 0; row < Settings.ROWS; row++) {
             for (int col = 0; col < Settings.COLS; col++) {
                 g2.setColor(Settings.COLOR_BACKGROUND_LINES);
-                g2.drawRect(col * Blackboard.cellSize + 30, row * Blackboard.cellSize + 30, Blackboard.cellSize, Blackboard.cellSize);
+                g2.drawRect(col * 50, row * 50, 50, 50);
             }
         }
 
@@ -91,14 +90,12 @@ public class SinglePlayerScene extends Scene{
         for (int row = 0; row < Settings.ROWS; row++) {
             for (int col = 0; col < Settings.COLS; col++) {
                 g2.setColor(Settings.COLOR_BACKGROUND_LINES);
-                g2.drawRect(col * Blackboard.cellSize + 30 + offset, row * Blackboard.cellSize + 30, Blackboard.cellSize, Blackboard.cellSize);
+                g2.drawRect(col * 50 + offset, row * 50, 50, 50);
             }
         }
 
-        drawNumberCoordinates(g2, 30);
-        drawNumberCoordinates(g2, offset + 30);
-
-
+        //drawNumberCoordinates(g2, 30);
+        //drawNumberCoordinates(g2, offset + 30);
     }
 
     /**
@@ -123,9 +120,7 @@ public class SinglePlayerScene extends Scene{
 
     @Override
     public void onSceneSet(JPanel parentPanel) {
-        parentPanel.setLayout(new BorderLayout());
-        parentPanel.setPreferredSize(new Dimension(800, 800));
-        //parentPanel.add()
+        //parentPanel.setLayout(new BorderLayout());
     }
 
 

@@ -21,6 +21,6 @@ public class Settings {
     public static final Color COLOR_SHIP = Color.black;
 
     //Windows Settings
-    public static final int SPACE_BETWEEN_GAMEBOARDS = 50;
+    public static final int SPACE_BETWEEN_GAMEBOARDS = 5;
 
 }

@@ -37,6 +37,6 @@ public class SceneManager implements ButtonClickListener {
     @Override
     public void onExitClicked() {
         // Lógica para salir del juego
-        System.exit(0);
+        //System.exit(0);
     }
 }

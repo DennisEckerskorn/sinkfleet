@@ -169,7 +169,9 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
      */
     @Override
     public void onResize(int width, int height) {
-
+        this.setSize(width, height); // Establecer el nuevo tamaño de la escena
+        revalidate(); // Volver a validar la disposición de los componentes
+        repaint();
     }
 
     /**
