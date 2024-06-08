@@ -5,6 +5,7 @@ import com.grupo.engine.core.ResizeListener;
 import com.grupo.engine.entities.Entity;
 import com.grupo.engine.graphics.swing.SwingRenderer;
 import com.grupo.game.config.Settings;
+import com.grupo.game.core.BlackBoard2;
 import com.grupo.game.scenes.Scene;
 
 import java.awt.*;
@@ -40,6 +41,11 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
      */
     @Override
     public void paintComponent(Graphics g) {
+        if (getKeyListeners()[0] != BlackBoard2.currentPlayer.getKeyboardManager()) {
+            removeKeyListener(BlackBoard2.opponentPlayer.getKeyboardManager());
+            addKeyListener(BlackBoard2.currentPlayer.getKeyboardManager());
+            
+        }
         super.paintComponent(g);
         if (currentScene != null) {
             Graphics2D g2 = (Graphics2D) g;

@@ -23,12 +23,20 @@ public class NumericKeyboardManager extends KeyboardManager {
             return "0";
             
         }
+        int x = Integer.parseInt(posX);
+        if(x > 10) {
+            posX = "10";
+        }
         return posX;
     }
 
     public String getPosY() {
         if (posY == null || posY.isEmpty()) {
             return "0";
+        }
+        int y = Integer.parseInt(posY);
+        if(y > 10) {
+            posY = "10";
         }
         return posY;
     }
