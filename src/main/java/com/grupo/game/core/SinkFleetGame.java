@@ -8,6 +8,7 @@ import com.grupo.engine.input.KeyboardManager;
 import com.grupo.game.gameentities.Player;
 import com.grupo.game.gameentities.Ship;
 import com.grupo.game.gameentities.ShipFragments;
+import com.grupo.game.input.NumericKeyboardManager;
 
 
 public class SinkFleetGame extends Game {
@@ -52,14 +53,15 @@ public class SinkFleetGame extends Game {
      * @param cols      The number of columns in the game board.
      */
     private void initPlayers(int rowsshoot, int cols) {
-        KeyboardManager km2 = new KeyboardManager('w', 's', 'a', 'd', 'f', ' '); //! Cambiar cuando Diego lo tenga
+        KeyboardManager km2 = new NumericKeyboardManager('w', 's', 'a', 'd', 'f', ' '); //! Cambiar cuando Diego lo tenga
 
-        KeyboardManager km1 = new KeyboardManager('w', 's', 'a', 'd', 'f', ' '); //! Cambiar cuando Diego lo tenga
+        KeyboardManager km1 = new NumericKeyboardManager('w', 's', 'a', 'd', 'f', ' '); //! Cambiar cuando Diego lo tenga
         this.player1 = sinkFleetEntityManager.creatPlayer(0, 0, km1, rows, cols);
         BlackBoard2.currentPlayer = player1;
         this.player2 = sinkFleetEntityManager.creatPlayer(0, 0, km2, rows, cols);
-        Blackboard.entityManager.addEntity(player1);
-        Blackboard.entityManager.addEntity(player2);
+        //System.out.println(player1.addShip(99, 99, cols, principio));
+    
+        
     }
 
     /**
@@ -86,21 +88,7 @@ public class SinkFleetGame extends Game {
      */
     @Override
     public void update(double deltaTime) {
-        if (BlackBoard2.buttonPressed) {
-            if (principio) {
-                if (BlackBoard2.currentPlayer.getActualPostionX() != -1 && BlackBoard2.currentPlayer.getActualPostionY() != -1) {
-                    // TODO: Hay que mirar que el barco no se sobreponga con otro sale error sino.
-                    if (!checkCollision(4)) {
-                        addShip(4);
-                    } else {
-                        //TODO: Lanzar excepcion en vez del mensaje???
-                        System.out.println("Error: Los barcos no se pueden sobreponer");
-                    }
-
-                    BlackBoard2.buttonPressed = false;
-                }
-            }
-        }
+        BlackBoard2.currentPlayer.update(deltaTime);
     }
 
     /**
@@ -115,8 +103,8 @@ public class SinkFleetGame extends Game {
      */
     private boolean checkCollision(int size) {
         //Obtener la posicion actual del jugador:
-        int x = Math.round(BlackBoard2.currentPlayer.getActualPostionX());
-        int y = Math.round(BlackBoard2.currentPlayer.getActualPostionY());
+        int x = BlackBoard2.currentPlayer.getActualPostionX();
+        int y = BlackBoard2.currentPlayer.getActualPostionY();
 
         //Recorrer todos los barcos existentes
         for (Ship ship : BlackBoard2.currentPlayer.getShips()) {
@@ -148,8 +136,8 @@ public class SinkFleetGame extends Game {
      * @param size The size of the ship to be added to the fleet.
      */
     public void addShip(int size) {
-        BlackBoard2.currentPlayer.addShip(sinkFleetEntityManager.spawnShip(BlackBoard2.currentPlayer.getActualPostionX(),
-                BlackBoard2.currentPlayer.getActualPostionY(), size, BlackBoard2.currentPlayer.getIsHorizontal()));
+        BlackBoard2.currentPlayer.addShip(BlackBoard2.currentPlayer.getActualPostionX(),
+                BlackBoard2.currentPlayer.getActualPostionY(), size, BlackBoard2.currentPlayer.getIsHorizontal());
 
     }
 

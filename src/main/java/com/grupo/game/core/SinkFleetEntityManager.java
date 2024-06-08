@@ -114,4 +114,9 @@ public class SinkFleetEntityManager extends EntityManager {
         return fleet;
     }
 
+    @Override
+    public void processInput() {
+       BlackBoard2.currentPlayer.processInput();
+    }
+
 }

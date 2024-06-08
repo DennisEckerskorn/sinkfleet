@@ -1,36 +1,47 @@
 package com.grupo.game.gameentities;
 
+import com.grupo.engine.core.Blackboard;
 import com.grupo.engine.entities.PlayableEntity;
 import com.grupo.engine.input.KeyboardManager;
+import com.grupo.game.core.BlackBoard2;
+import com.grupo.game.core.SinkFleetEntityManager;
+import com.grupo.game.input.NumericKeyboardManager;
 import com.grupo.game.math.Coordinates;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public class Player extends PlayableEntity {
+    //Propiedades principales del jugador
     private List<Ship> ships;
     private List<Coordinates> disparos;
-    private Stack<String> stack;
-    private int hp;
-    private KeyboardManager keyboardManager;
-
-    private float actualPostionX;
-    private float actualPostionY;
+  
+   
+    //Disparo actual
+    private String actualPostionX;
+    private String actualPostionY;
+    //Posicionamiento de los barcos
     private boolean isHorizontal;
+
+    private boolean enterPressed;
+
+    //Tamaño del tablero
     private int rows;
     private int cols;
 
     public Player(float x, float y, float width, float height, int hp, float damage, KeyboardManager keyboardManager, int rows, int cols) {
-        super(x, y, width, height, hp, damage, x, y, y, cols, keyboardManager);
+        super(x, y, width, height, hp, damage, 0, 0, 0, 0, keyboardManager);
         this.ships = new ArrayList<>(hp);
-        this.hp = hp;
         this.disparos = new ArrayList<>();
-        this.stack = new Stack<>();
-        this.keyboardManager = keyboardManager;
-        this.actualPostionX = 1;
-        this.actualPostionY = 1;
+        
+        //Coordenada de pisparo
+        this.actualPostionX = "-1";
+        this.actualPostionY = "-1";
+
+        //Orientacion de los barcos
         this.isHorizontal = true;
+
+        //Tamaño del tablero
         this.rows = rows;
         this.cols = cols;
     }
@@ -47,9 +58,7 @@ public class Player extends PlayableEntity {
         return isHorizontal;
     }
 
-    public void setHorizontal(boolean isHorizontal) {
-        this.isHorizontal = isHorizontal;
-    }
+    
 
     public boolean isHitBoard(float x, float y) {
         for (Ship ship : ships) {
@@ -70,7 +79,11 @@ public class Player extends PlayableEntity {
         return count;
     }
 
-    public boolean addShip(Ship ship) {
+    public boolean addShip(int x, int y, int size, boolean isHorizontal) {
+        Ship ship = ((SinkFleetEntityManager) Blackboard.entityManager).spawnShip(x, y, size, isHorizontal);
+        if (ship == null) {
+            return false;
+        }
         return ships.add(ship);
     }
 
@@ -82,32 +95,35 @@ public class Player extends PlayableEntity {
         return disparos;
     }
 
-    public List<String> getStack() {
-        return stack;
+  
+
+    public int getActualPostionX() {
+        return Integer.parseInt(actualPostionX);
     }
 
-    public float getActualPostionX() {
-        return actualPostionX;
+    
+    public int getActualPostionY() {
+        return Integer.parseInt(actualPostionY);
     }
 
-    public void setActualPostionX(float actualPostionX) {
-        this.actualPostionX = actualPostionX;
-    }
-
-    public float getActualPostionY() {
-        return actualPostionY;
-    }
-
-    public void setActualPostionY(float actualPostionY) {
-        this.actualPostionY = actualPostionY;
-    }
 
     public KeyboardManager getKeyboardManager() {
-        return keyboardManager;
+        return super.getKeyboardManager();
     }
 
     @Override
-    public void update(double deltaTime) {}
+    public void update(double deltaTime) {
+        
+        if (enterPressed) {
+            
+            System.out.println(addShip(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY), 3, isHorizontal));
+            ((NumericKeyboardManager) getKeyboardManager()).setEnterPressed(false);
+            ((NumericKeyboardManager) getKeyboardManager()).clearPosX();
+            ((NumericKeyboardManager) getKeyboardManager()).clearPosY();
+            System.out.println("Ship added");
+
+        }
+    }
 
     @Override
     public void lastUpdate(double deltaTime) {}
@@ -117,19 +133,16 @@ public class Player extends PlayableEntity {
 
     @Override
     public void processInput() {
-        if (keyboardManager.isUp()) stack.add("W");
-        if (keyboardManager.isDown()) stack.add("S");
-        if (keyboardManager.isLeft()) stack.add("A");
-        if (keyboardManager.isRight()) stack.add("D");
-        if (keyboardManager.isFire()) stack.add("F");
-
-        if (stack.size() > 2) {
-            stack.clear();
-        }
+        NumericKeyboardManager keyboardManager = (NumericKeyboardManager) getKeyboardManager();
+        actualPostionX = keyboardManager.getPosX();
+        actualPostionY = keyboardManager.getPosY();
+        isHorizontal = keyboardManager.isHorizontal();
+        enterPressed = keyboardManager.isEnterPressed();
+        System.out.println( "x: " + actualPostionX + " y: " + actualPostionY + " horizontal: " + isHorizontal + " enter: " + enterPressed);
     }
 
     @Override
     public String toString() {
-        return "Player [ships=" + ships + ", disparos=" + disparos + ", stack=" + stack + ", hp=" + hp + ", keyboardManager=" + keyboardManager + "]";
+        return "Player [ships=" + ships + ", disparos=" + disparos + ", hp=" + super.getHp() + ", keyboardManager=" + getKeyboardManager() + "]";
     }
 }

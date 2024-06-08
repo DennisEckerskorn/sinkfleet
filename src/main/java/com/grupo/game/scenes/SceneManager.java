@@ -1,10 +1,7 @@
 package com.grupo.game.scenes;
 
-import com.grupo.engine.graphics.swing.SwingRenderer;
-import com.grupo.game.config.Settings;
 import com.grupo.game.graphics.SinkFleetSwingRenderer;
 
-import javax.swing.JPanel;
 
 public class SceneManager implements ButtonClickListener {
     private Scene currentScene;

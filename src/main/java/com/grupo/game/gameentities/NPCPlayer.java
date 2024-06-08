@@ -13,9 +13,9 @@ public class NPCPlayer extends Player {
 
     @Override
     public void update(double deltaTime) {
-        setActualPostionX(random.nextInt(getRows()));
-        setActualPostionY(random.nextInt(getCols()));
-        setHorizontal(random.nextBoolean());
+//setActualPostionX(random.nextInt(getRows()));
+       // setActualPostionY(random.nextInt(getCols()));
+       // setHorizontal(random.nextBoolean());
     }
 
     @Override
