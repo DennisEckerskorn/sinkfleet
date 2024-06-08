@@ -50,7 +50,7 @@ public class SinglePlayerScene extends Scene{
                     for (ShipFragments fragment : ship.getShipFragments()) {
                         int x = Math.round(fragment.getX()) * Blackboard.cellSize;
                         int y = Math.round(fragment.getY()) * Blackboard.cellSize;
-                        g2.fillRect(x + 30, y + 30, Blackboard.cellSize, Blackboard.cellSize);
+                        g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
                     }
                 }
             }
@@ -61,7 +61,7 @@ public class SinglePlayerScene extends Scene{
             for (Coordinates disparo : disparos) {
                 int x = Math.round(disparo.getX()) * Blackboard.cellSize;
                 int y = Math.round(disparo.getY()) * Blackboard.cellSize;
-                g2.fillRect(x + 30, y + 30, Blackboard.cellSize, Blackboard.cellSize);
+                g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
             }
         }
     }
