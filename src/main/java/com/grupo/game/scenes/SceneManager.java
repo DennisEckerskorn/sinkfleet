@@ -1,5 +1,6 @@
 package com.grupo.game.scenes;
 
+import com.grupo.game.config.Settings;
 import com.grupo.game.graphics.SinkFleetSwingRenderer;
 
 
@@ -20,10 +21,8 @@ public class SceneManager implements ButtonClickListener {
 
     @Override
     public void onSinglePlayerClicked() {
-        // Lógica para iniciar el modo de un solo jugador
-        // Por ejemplo:
-        //SinglePlayerScene singlePlayerScene = new SinglePlayerScene(Settings.COLOR_BACKGROUND, Settings.COLOR_BACKGROUND);
-        //setCurrentScene(singlePlayerScene);
+        SinglePlayerScene singlePlayerScene = new SinglePlayerScene(Settings.COLOR_BACKGROUND, Settings.COLOR_BACKGROUND, this);
+        setCurrentScene(singlePlayerScene);
     }
 
     @Override
@@ -37,6 +36,6 @@ public class SceneManager implements ButtonClickListener {
     @Override
     public void onExitClicked() {
         // Lógica para salir del juego
-        //System.exit(0);
+        System.exit(0);
     }
 }

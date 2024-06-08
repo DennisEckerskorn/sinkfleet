@@ -23,8 +23,9 @@ public class Main {
         SceneManager sceneManager = new SceneManager(renderer);
         MenuScene menuScene = new MenuScene(assetManager, sceneManager);
 
-        SinglePlayerScene singlePlayerScene = new SinglePlayerScene(Settings.COLOR_BACKGROUND, Settings.COLOR_BACKGROUND, sceneManager);
-        sceneManager.setCurrentScene(singlePlayerScene);
+        menuScene.setButtonClickListener(sceneManager);
+
+        sceneManager.setCurrentScene(menuScene);
 
         JFrame frame = new JFrame("Battleship");
         frame.setResizable(false);

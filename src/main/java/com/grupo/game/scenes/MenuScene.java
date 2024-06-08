@@ -32,6 +32,7 @@ public class MenuScene extends Scene {
         backgroundImage = assetManager.getSprite("battleship");
         buttonPanel = new JPanel(new GridLayout(3, 1));
         buttonPanel.setOpaque(false);
+
         singlePlayerButton = new JButton("SINGLE PLAYER MODE");
         //customizeButton(singlePlayerButton);
         singlePlayerButton.addActionListener(new ActionListener() {
@@ -88,15 +89,15 @@ public class MenuScene extends Scene {
         button.setForeground(Color.BLACK);
         button.setFont(new Font("Arial", Font.PLAIN, 18));
         button.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
+        button.setPreferredSize(new Dimension(250, 50));
+
         button.setOpaque(true);
     }
 
 
     @Override
     public void render(Graphics2D g2) {
-        if (backgroundImage != null) {
-            g2.drawImage(backgroundImage, 0, 0, Settings.WIDTH, Settings.HEIGHT, null);
-        }
+
     }
 
     @Override
@@ -106,19 +107,35 @@ public class MenuScene extends Scene {
 
     @Override
     public void drawBackground(Graphics2D g2) {
-
+        if (backgroundImage != null) {
+            g2.drawImage(backgroundImage, 0, 0, Settings.WIDTH, Settings.HEIGHT, null);
+        }
     }
 
     @Override
     public void onSceneSet(JPanel parentPanel) {
-        // Configura el layout del panel principal
         parentPanel.setLayout(new BorderLayout());
-        //GridBagConstraints gbc = new GridBagConstraints();
-        //gbc.gridx = 0;
-        //gbc.gridy = 0;
 
-        // Añade el panel de botones al panel principal
-        parentPanel.add(buttonPanel, null);
+        // Create a container for background and buttons
+        JPanel container = new JPanel(new BorderLayout()) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+                drawBackground(g2);
+            }
+        };
+        container.setOpaque(false);
+
+        // Center the button panel
+        container.add(buttonPanel, BorderLayout.CENTER);
+
+        // Add the container to the parent panel
+        parentPanel.add(container, BorderLayout.CENTER);
+
+        // Ensure the parent panel is revalidated and repainted
+        parentPanel.revalidate();
+        parentPanel.repaint();
     }
 
 }
