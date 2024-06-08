@@ -13,6 +13,7 @@ import com.grupo.game.gameentities.ShipFragments;
 import com.grupo.game.math.Coordinates;
 import com.grupo.game.scenes.Scene;
 
+import javax.swing.*;
 import java.util.List;
 
 import java.awt.*;
@@ -34,6 +35,19 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
 
     public void setCurrentScene(Scene currentScene) {
         this.currentScene = currentScene;
+        repaint();
+    }
+
+    public Scene getCurrentScene() {
+        return currentScene;
+    }
+
+    public JPanel getCurrentScenePanel() {
+        if(currentScene != null) {
+            return currentScene.getPanel();
+        } else{
+            return null;
+        }
     }
 
     public Color getBackgroundColor1() {
@@ -65,11 +79,14 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        drawBackground(g2);
-        //currentScene.render(g2);
-        List<PlayableEntity> playableEntities = Blackboard.entityManager.getPlayableEntities();
-        for (PlayableEntity playableEntity : playableEntities) {
-            drawEntity(g2, playableEntity);
+        if (currentScene != null) {
+            currentScene.render(g2);
+        } else {
+            drawBackground(g2);
+            List<PlayableEntity> playableEntities = Blackboard.entityManager.getPlayableEntities();
+            for (PlayableEntity playableEntity : playableEntities) {
+                drawEntity(g2, playableEntity);
+            }
         }
     }
 
@@ -114,6 +131,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
      */
     @Override
     public void drawBackground(Graphics2D g2) {
+
         // Calcula el desplazamiento para el segundo tablero
         int offset = Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS;
 
@@ -143,6 +161,8 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
 
         drawNumberCoordenates(g2, 30);
         drawNumberCoordenates(g2, offset + 30);
+
+
     }
 
     /**

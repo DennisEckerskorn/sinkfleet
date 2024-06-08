@@ -14,6 +14,7 @@ public class SinkFleetGame extends Game {
     private final int rows;
     private final int cols;
     private final SinkFleetEntityManager sinkFleetEntityManager;
+    private BlackBoard2.Mode mode;
 
     private Player player1;
     private Player player2;
@@ -28,13 +29,20 @@ public class SinkFleetGame extends Game {
         this.cols = cols;
         sinkFleetEntityManager = (SinkFleetEntityManager) Blackboard.entityManager;
         this.principio = true;
+        setMode(mode);
+    }
+
+    /**
+     * Allows to set the game mode tu the corresponding game.
+     * @param mode Blackboard2.Mode
+     */
+    public void setMode(BlackBoard2.Mode mode) {
+        this.mode = mode;
         if (mode == BlackBoard2.Mode.SINGLE_PLAYER) {
             initPlayers(rows, cols);
         } else if (mode == BlackBoard2.Mode.MULTI_PLAYER) {
             //!TODO Implementar modo multijugador
         }
-
-
     }
 
     /**

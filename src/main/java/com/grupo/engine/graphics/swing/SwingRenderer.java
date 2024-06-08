@@ -3,6 +3,7 @@ package com.grupo.engine.graphics.swing;
 import com.grupo.engine.core.Blackboard;
 import com.grupo.engine.core.ResizeListener;
 import com.grupo.engine.entities.Entity;
+import com.grupo.engine.entities.PlayableEntity;
 import com.grupo.engine.graphics.RenderAPI;
 
 import javax.swing.*;
@@ -17,6 +18,10 @@ public abstract class SwingRenderer extends JPanel implements RenderAPI {
         setPreferredSize(new Dimension(width, height));
         setDoubleBuffered(true);
         setFocusable(true);
+
+        for(PlayableEntity playableEntity : Blackboard.entityManager.getPlayableEntities()) {
+            addKeyListener(playableEntity.getKeyboardManager());
+        }
 
         addComponentListener(new ComponentAdapter() {
             @Override

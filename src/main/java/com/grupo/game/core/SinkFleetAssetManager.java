@@ -6,6 +6,7 @@ public class SinkFleetAssetManager extends AssetManager {
 
     @Override
     public void loadAll() {
-        //loadSprite("battle", "images/battle2.jpg");
+        //loadSprite("battleship", "images/battleship.png");
     }
+
 }
