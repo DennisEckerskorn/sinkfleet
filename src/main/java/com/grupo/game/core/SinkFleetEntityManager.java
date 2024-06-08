@@ -103,6 +103,7 @@ public class SinkFleetEntityManager extends EntityManager {
      * @param isHorizontal True if the ship is placed horizontally, false if vertically.
      * @return The spawned Ship entity, or null if spawning failed due to collision.
      */
+    /* 
     public Ship spawnShip(float x, float y, int size, boolean isHorizontal) {
         Ship fleet = new Ship(x, y, size, x, size, isHorizontal, y, size);
         for (int i = 0; i < shipIndex; i++) {
@@ -111,6 +112,12 @@ public class SinkFleetEntityManager extends EntityManager {
             }
         }
         addEntity(fleet);
+        return fleet;
+    } */
+
+    public Ship createShip(float x, float y, int size, boolean isHorizontal) {
+        Ship fleet = new Ship(x, y, size, x, size, isHorizontal, y, size, Settings.Direction.RIGHT);
+        
         return fleet;
     }
 

@@ -2,6 +2,7 @@ package com.grupo.game.gameentities;
 
 import com.grupo.engine.entities.Entity;
 import com.grupo.engine.math.Vector2;
+import com.grupo.game.config.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,13 +28,14 @@ public class Ship extends Entity {
      * @param hp           The health points of the ship.
      * @param damage       The damage the ship can cause.
      */
-    public Ship(float x, float y, float width, float height, int size, boolean isHorizontal, float hp, float damage) {
+    public Ship(float x, float y, float width, float height, int size, boolean isHorizontal, float hp, float damage, Settings.Direction direction) {
         super(x, y, width, height, hp, damage);
         this.shipFragments = new ArrayList<>();
         this.position = new Vector2(x, y);
         this.size = size;
         this.isHorizontal = isHorizontal;
 
+        // TODO: los fragmentos del barco se crean en base a la direccion
         for (int i = 0; i < size; i++) {
             float fragmentX = isHorizontal ? x + i * (width / size) : x;
             float fragmentY = isHorizontal ? y : y + i * (height / size);

@@ -23,4 +23,8 @@ public class Settings {
     //Windows Settings
     public static final int SPACE_BETWEEN_GAMEBOARDS = 5;
 
+    public enum Direction {
+        UP, DOWN, LEFT, RIGHT
+    }
+
 }

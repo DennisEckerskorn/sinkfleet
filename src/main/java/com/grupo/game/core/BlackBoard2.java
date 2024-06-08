@@ -4,6 +4,7 @@ import com.grupo.game.gameentities.Player;
 
 public class BlackBoard2 {
     public static Player currentPlayer;
+    public static Player opponentPlayer;
     public static Mode mode;
     public static boolean buttonPressed = false;
     public static boolean beginGame = true;
