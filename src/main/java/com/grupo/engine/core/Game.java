@@ -57,6 +57,7 @@ public abstract class Game implements Runnable, Updateable, ResizeListener {
             // Updates per second
             if (currentUpdate - lastUpdate > NANOS_BETWEEN_UPDATES) {
                 deltaTime = (double)(currentUpdate - lastUpdate) / NANOS_IN_SECOND;
+                
                 update(deltaTime);
                 postUpdate(deltaTime);
                 lastUpdate(deltaTime);

@@ -3,18 +3,9 @@ package com.grupo.game.graphics;
 import com.grupo.engine.core.Blackboard;
 import com.grupo.engine.core.ResizeListener;
 import com.grupo.engine.entities.Entity;
-import com.grupo.engine.entities.PlayableEntity;
 import com.grupo.engine.graphics.swing.SwingRenderer;
 import com.grupo.game.config.Settings;
-import com.grupo.game.core.BlackBoard2;
-import com.grupo.game.gameentities.Player;
-import com.grupo.game.gameentities.Ship;
-import com.grupo.game.gameentities.ShipFragments;
-import com.grupo.game.math.Coordinates;
 import com.grupo.game.scenes.Scene;
-
-import javax.swing.*;
-import java.util.List;
 
 import java.awt.*;
 
