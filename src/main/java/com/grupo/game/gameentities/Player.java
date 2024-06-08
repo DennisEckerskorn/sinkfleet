@@ -184,7 +184,7 @@ public class Player extends PlayableEntity {
         actualPostionY = keyboardManager.getPosY();
         isHorizontal = keyboardManager.isHorizontal();
         enterPressed = keyboardManager.isEnterPressed();
-       // System.out.println( "x: " + actualPostionX + " y: " + actualPostionY + " horizontal: " + isHorizontal + " enter: " + enterPressed);
+        //System.out.println( "x: " + actualPostionX + " y: " + actualPostionY + " horizontal: " + isHorizontal + " enter: " + enterPressed);
     }
 
     @Override

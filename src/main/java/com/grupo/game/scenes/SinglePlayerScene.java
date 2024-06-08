@@ -12,18 +12,26 @@ import com.grupo.game.math.Coordinates;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 
-public class SinglePlayerScene extends Scene{
+public class SinglePlayerScene extends Scene {
     private Color backgroundColor1;
     private Color backgroundColor2;
     private Player currentPlayer;
     private SceneManager sceneManager;
+    private JButton button;
+    private JTextField textField1;
+    private JTextField textField2;
 
     public SinglePlayerScene(Color backgroundColor1, Color backgroundColor2, SceneManager sceneManager) {
         this.backgroundColor1 = backgroundColor1;
         this.backgroundColor2 = backgroundColor2;
         this.sceneManager = sceneManager;
+        button = new JButton("Button");
+        textField1 = new JTextField();
+        textField2 = new JTextField();
     }
 
     public void setCurrentPlayer(Player currentPlayer) {
@@ -32,14 +40,15 @@ public class SinglePlayerScene extends Scene{
 
     @Override
     public void render(Graphics2D g2) {
-        drawBackground(g2);
+        //drawBackground(g2);
         List<PlayableEntity> playableEntities = Blackboard.entityManager.getPlayableEntities();
         for (PlayableEntity playableEntity : playableEntities) {
             drawEntity(g2, playableEntity);
         }
     }
 
-    private void drawEntity(Graphics2D g2, Entity e) {
+    @Override
+    public void drawEntity(Graphics2D g2, Entity e) {
         List<Ship> ships;
         List<Coordinates> disparos;
         if (e instanceof Player) {
@@ -48,41 +57,42 @@ public class SinglePlayerScene extends Scene{
                 for (Ship ship : ships) {
                     g2.setColor(Settings.COLOR_SHIP);
                     for (ShipFragments fragment : ship.getShipFragments()) {
-                        int x = Math.round(fragment.getX()) * Blackboard.cellSize;
-                        int y = Math.round(fragment.getY()) * Blackboard.cellSize;
+                        int x = Math.round(fragment.getX() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET);
+                        int y = Math.round(fragment.getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET);
                         g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
                     }
                 }
             }
 
-            //TODO: Implementar disparos, es correcto???
+            //TODO: Implementar disparos, es correcto, updated???
             disparos = ((Player) e).getDisparos();
             g2.setColor(Color.RED);
             for (Coordinates disparo : disparos) {
-                int x = Math.round(disparo.getX()) * Blackboard.cellSize;
-                int y = Math.round(disparo.getY()) * Blackboard.cellSize;
+                int x = disparo.getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
+                int y = disparo.getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
                 g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
             }
         }
     }
 
-    private void drawBackground(Graphics2D g2) {
+    @Override
+    public void drawBackground(Graphics2D g2) {
         // Calcula el desplazamiento para el segundo tablero
-        int offset = Settings.COLS * 50 + Settings.SPACE_BETWEEN_GAMEBOARDS;
+        int offset = Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS;
 
         // Dibuja el fondo del primer tablero (Tablero Barcos)
         g2.setColor(backgroundColor1);
-        g2.fillRect(0, 0, Settings.COLS * 50, Settings.ROWS * 50);
+        g2.fillRect(Settings.GAMEBOARD_OFFSET, Settings.GAMEBOARD_OFFSET, Settings.COLS * Blackboard.cellSize, Settings.ROWS * Blackboard.cellSize);
 
         // Dibuja el fondo del segundo tablero (Tablero de Disparos)
         g2.setColor(backgroundColor2);
-        g2.fillRect(Settings.COLS * 50 + Settings.SPACE_BETWEEN_GAMEBOARDS, 0, Settings.COLS * 50, Settings.ROWS * 50);
+        g2.fillRect(Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET, Settings.GAMEBOARD_OFFSET, Settings.COLS * Blackboard.cellSize, Settings.ROWS * Blackboard.cellSize);
 
         // Dibuja las líneas del primer tablero (Tablero Barcos)
         for (int row = 0; row < Settings.ROWS; row++) {
             for (int col = 0; col < Settings.COLS; col++) {
                 g2.setColor(Settings.COLOR_BACKGROUND_LINES);
-                g2.drawRect(col * 50, row * 50, 50, 50);
+                g2.drawRect(col * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET, row * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET, Blackboard.cellSize, Blackboard.cellSize);
             }
         }
 
@@ -90,12 +100,12 @@ public class SinglePlayerScene extends Scene{
         for (int row = 0; row < Settings.ROWS; row++) {
             for (int col = 0; col < Settings.COLS; col++) {
                 g2.setColor(Settings.COLOR_BACKGROUND_LINES);
-                g2.drawRect(col * 50 + offset, row * 50, 50, 50);
+                g2.drawRect(col * Blackboard.cellSize + offset + Settings.GAMEBOARD_OFFSET, row * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET, Blackboard.cellSize, Blackboard.cellSize);
             }
         }
 
-        //drawNumberCoordinates(g2, 30);
-        //drawNumberCoordinates(g2, offset + 30);
+        drawNumberCoordinates(g2, Settings.GAMEBOARD_OFFSET);
+        drawNumberCoordinates(g2, offset + Settings.GAMEBOARD_OFFSET);
     }
 
     /**
@@ -120,10 +130,64 @@ public class SinglePlayerScene extends Scene{
 
     @Override
     public void onSceneSet(JPanel parentPanel) {
-        //parentPanel.setLayout(new BorderLayout());
+        // Set the layout of the parent panel to BorderLayout
+        parentPanel.setLayout(new BorderLayout());
+
+        // Create a panel for the game boards
+        JPanel gamePanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2 = (Graphics2D) g;
+
+                // Draw the game boards
+                drawBackground(g2);
+                render(g2);
+            }
+        };
+
+        // Add the game panel to the parent panel's CENTER
+        parentPanel.add(gamePanel, BorderLayout.CENTER);
+
+        // Create and add the button
+        button = new JButton("Button");
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Implementar click en boton
+            }
+        });
+        parentPanel.add(button, BorderLayout.SOUTH);
+
+        // Create the text fields
+        textField1 = new JTextField();
+        textField1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Implementar recibir coordenadas barcos???
+            }
+        });
+        textField2 = new JTextField();
+        textField2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO: Implementar recibir coordenadas disparos???
+
+            }
+        });
+
+        // Create a panel for the text fields
+        JPanel textFieldsPanel = new JPanel();
+        textFieldsPanel.setLayout(new GridLayout(1, 2)); // Set GridLayout to arrange components horizontally
+
+        // Add the text fields to the panel
+        textFieldsPanel.add(textField1);
+        textFieldsPanel.add(textField2);
+
+        // Add the panel containing the text fields to the parent panel
+        parentPanel.add(textFieldsPanel, BorderLayout.NORTH);
+
     }
-
-
 
 
 }

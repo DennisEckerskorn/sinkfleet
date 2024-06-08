@@ -1,6 +1,7 @@
 package com.grupo.game.scenes;
 
 import com.grupo.engine.core.AssetManager;
+import com.grupo.engine.entities.Entity;
 import com.grupo.game.config.Settings;
 
 import javax.swing.*;
@@ -32,7 +33,7 @@ public class MenuScene extends Scene {
         buttonPanel = new JPanel(new GridLayout(3, 1));
         buttonPanel.setOpaque(false);
         singlePlayerButton = new JButton("SINGLE PLAYER MODE");
-        customizeButton(singlePlayerButton);
+        //customizeButton(singlePlayerButton);
         singlePlayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -44,7 +45,7 @@ public class MenuScene extends Scene {
         buttonPanel.add(singlePlayerButton);
 
         multiPlayerButton = new JButton("MULTIPLAYER MODE");
-        customizeButton(multiPlayerButton);
+        //customizeButton(multiPlayerButton);
         multiPlayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -56,7 +57,7 @@ public class MenuScene extends Scene {
         buttonPanel.add(multiPlayerButton);
 
         exitButton = new JButton("EXIT GAME");
-        customizeButton(exitButton);
+        //customizeButton(exitButton);
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -99,15 +100,25 @@ public class MenuScene extends Scene {
     }
 
     @Override
+    public void drawEntity(Graphics2D g2, Entity e) {
+
+    }
+
+    @Override
+    public void drawBackground(Graphics2D g2) {
+
+    }
+
+    @Override
     public void onSceneSet(JPanel parentPanel) {
         // Configura el layout del panel principal
-        parentPanel.setLayout(new GridBagLayout());
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.gridx = 0;
-        gbc.gridy = 0;
+        parentPanel.setLayout(new BorderLayout());
+        //GridBagConstraints gbc = new GridBagConstraints();
+        //gbc.gridx = 0;
+        //gbc.gridy = 0;
 
         // Añade el panel de botones al panel principal
-        parentPanel.add(buttonPanel, gbc);
+        parentPanel.add(buttonPanel, null);
     }
 
 }

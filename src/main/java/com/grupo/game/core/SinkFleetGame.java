@@ -149,7 +149,10 @@ public class SinkFleetGame extends Game {
      */
     @Override
     public void gameResized() {
-        Blackboard.cellSize = getWidth() < getHeight() ? getWidth() / cols : getHeight() / rows;
-    }
+        //Blackboard.cellSize = getWidth() < getHeight() ? getWidth() / (cols * 2) : getHeight() / rows;
 
+        int largerDimension = Math.max(getWidth(), getHeight());
+        int largerDimensionOfGameBoard = Math.max(cols, rows);
+        Blackboard.cellSize = Math.round((float) largerDimension / (2 * largerDimensionOfGameBoard) * 0.91f);
+    }
 }

@@ -33,13 +33,24 @@ public class Ship extends Entity {
         this.shipFragments = new ArrayList<>();
         this.position = new Vector2(x, y);
         this.size = size;
-        this.isHorizontal = isHorizontal;
+        this.isHorizontal = direction == Settings.Direction.LEFT || direction == Settings.Direction.RIGHT;
 
-        // TODO: los fragmentos del barco se crean en base a la direccion
+
+        // TODO: los fragmentos del barco se crean en base a la direccion. No funciona bien, horizontal no lo deja en el sitio correcto y vertical separa fragmentos
         for (int i = 0; i < size; i++) {
             float fragmentX = isHorizontal ? x + i * (width / size) : x;
             float fragmentY = isHorizontal ? y : y + i * (height / size);
             shipFragments.add(new ShipFragments(fragmentX, fragmentY, width / size, height / size, hp, damage));
+        }
+
+        // Ajusta cómo se calculan las coordenadas de los fragmentos según la orientación del barco
+        float fragmentWidth = isHorizontal ? width / size : width;
+        float fragmentHeight = isHorizontal ? height : height / size;
+
+        for (int i = 0; i < size; i++) {
+            float fragmentX = isHorizontal ? x + i * fragmentWidth : x;
+            float fragmentY = isHorizontal ? y : y + i * fragmentHeight;
+            shipFragments.add(new ShipFragments(fragmentX, fragmentY, fragmentWidth, fragmentHeight, hp, damage));
         }
     }
 

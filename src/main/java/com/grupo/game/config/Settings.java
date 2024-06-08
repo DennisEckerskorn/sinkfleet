@@ -4,8 +4,8 @@ import java.awt.*;
 
 public class Settings {
     //Game Settings
-    public static final int WIDTH = 1200;
-    public static final int HEIGHT = 1200;
+    public static final int WIDTH = 1000;
+    public static final int HEIGHT = 1000;
     public static final int ROWS = 10;
     public static final int COLS = 10;
     public static final int TARGET_FPS = 60;
@@ -21,7 +21,8 @@ public class Settings {
     public static final Color COLOR_SHIP = Color.black;
 
     //Windows Settings
-    public static final int SPACE_BETWEEN_GAMEBOARDS = 5;
+    public static final int SPACE_BETWEEN_GAMEBOARDS = 30;
+    public static final int GAMEBOARD_OFFSET = 30;
 
     public enum Direction {
         UP, DOWN, LEFT, RIGHT
