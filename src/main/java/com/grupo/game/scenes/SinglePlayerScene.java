@@ -1,86 +1,46 @@
-package com.grupo.game.graphics;
+package com.grupo.game.scenes;
 
 import com.grupo.engine.core.Blackboard;
-import com.grupo.engine.core.ResizeListener;
 import com.grupo.engine.entities.Entity;
 import com.grupo.engine.entities.PlayableEntity;
-import com.grupo.engine.graphics.swing.SwingRenderer;
 import com.grupo.game.config.Settings;
 import com.grupo.game.core.BlackBoard2;
 import com.grupo.game.gameentities.Player;
 import com.grupo.game.gameentities.Ship;
 import com.grupo.game.gameentities.ShipFragments;
 import com.grupo.game.math.Coordinates;
-import com.grupo.game.scenes.Scene;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
-import java.awt.*;
+public class SinglePlayerScene extends Scene{
+    private Color backgroundColor1;
+    private Color backgroundColor2;
+    private Player currentPlayer;
+    private SceneManager sceneManager;
 
-/**
- * A Swing-based renderer for the Sink Fleet game.
- */
-public class SinkFleetSwingRenderer extends SwingRenderer {
-    private Scene currentScene;
-
-    public SinkFleetSwingRenderer(int width, int height, ResizeListener resizeListener, Color backgroundColor1, Color backgroundColor2) {
-        super(width, height, resizeListener);
+    public SinglePlayerScene(Color backgroundColor1, Color backgroundColor2, SceneManager sceneManager) {
+        this.backgroundColor1 = backgroundColor1;
+        this.backgroundColor2 = backgroundColor2;
+        this.sceneManager = sceneManager;
     }
 
-    public void setCurrentScene(Scene currentScene) {
-        this.currentScene = currentScene;
-        removeAll();
-        if (currentScene != null) {
-            currentScene.onSceneSet(this);
-        }
-        revalidate();
-        repaint();
+    public void setCurrentPlayer(Player currentPlayer) {
+        this.currentPlayer = currentPlayer;
     }
 
-    public Scene getCurrentScene() {
-        return currentScene;
-    }
-
-    /**
-     * Paints the component.
-     *
-     * @param g The Graphics object.
-     */
     @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        super.paintComponent(g);
-        if (currentScene != null) {
-            Graphics2D g2 = (Graphics2D) g;
-            currentScene.render(g2);
+    public void render(Graphics2D g2) {
+        drawBackground(g2);
+        List<PlayableEntity> playableEntities = Blackboard.entityManager.getPlayableEntities();
+        for (PlayableEntity playableEntity : playableEntities) {
+            drawEntity(g2, playableEntity);
         }
-
-        /* VIEJO CODIGO TRASLADADO A GAMESCENE
-        Graphics2D g2 = (Graphics2D) g;
-        if (currentScene != null) {
-            currentScene.render(g2);
-        } else {
-            drawBackground(g2);
-            List<PlayableEntity> playableEntities = Blackboard.entityManager.getPlayableEntities();
-            for (PlayableEntity playableEntity : playableEntities) {
-                drawEntity(g2, playableEntity);
-            }
-        }
-
-         */
     }
 
-    /**
-     * Draws the entity on the screen.
-     *
-     * @param g2 The Graphics2D object.
-     * @param e  The entity to draw.
-     */
-    @Override
-    public void drawEntity(Graphics2D g2, Entity e) {
-       /*
-        List<Ship> ships;
+    private void drawEntity(Graphics2D g2, Entity e) {
+        java.util.List<Ship> ships;
         List<Coordinates> disparos;
         if (e instanceof Player) {
             if (BlackBoard2.currentPlayer.equals((Player) e)) {
@@ -104,20 +64,11 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
                 g2.fillRect(x + 30, y + 30, Blackboard.cellSize, Blackboard.cellSize);
             }
         }
-
-        */
     }
 
-    /**
-     * Draws the background of the game, including the ship and shot boards.
-     *
-     * @param g2 The graphics context for drawing.
-     */
-    @Override
-    public void drawBackground(Graphics2D g2) {
-        /*
+    private void drawBackground(Graphics2D g2) {
         // Calcula el desplazamiento para el segundo tablero
-        int offset = Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS;
+        int offset = Settings.COLS * Blackboard.cellSize * 2 + Settings.SPACE_BETWEEN_GAMEBOARDS;
 
         // Dibuja el fondo del primer tablero (Tablero Barcos)
         g2.setColor(backgroundColor1);
@@ -143,12 +94,8 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
             }
         }
 
-        drawNumberCoordenates(g2, 30);
-        drawNumberCoordenates(g2, offset + 30);
-
-
-         */
-
+        drawNumberCoordinates(g2, 30);
+        drawNumberCoordinates(g2, offset + 30);
     }
 
     /**
@@ -157,7 +104,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
      * @param g2     The Graphics2D object.
      * @param offset The offset for drawing the coordinates.
      */
-    private void drawNumberCoordenates(Graphics2D g2, int offset) {
+    private void drawNumberCoordinates(Graphics2D g2, int offset) {
         g2.setColor(Color.BLACK);
 
         //Dibujar numero de filas:
@@ -171,26 +118,12 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         }
     }
 
-    /**
-     * Handles the resize event.
-     *
-     * @param width  The new width of the renderer.
-     * @param height The new height of the renderer.
-     */
     @Override
-    public void onResize(int width, int height) {
-
+    public void onSceneSet(JPanel parentPanel) {
+        parentPanel.setLayout(new BorderLayout());
     }
 
-    /**
-     * Gets the cell size of the renderer.
-     *
-     * @return The cell size.
-     */
-    public int getCellSize() {
-        return Blackboard.cellSize;
-    }
+
+
+
 }
-
-
-

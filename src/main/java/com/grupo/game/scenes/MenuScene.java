@@ -1,6 +1,5 @@
 package com.grupo.game.scenes;
 
-import com.grupo.GameManager;
 import com.grupo.engine.core.AssetManager;
 import com.grupo.game.config.Settings;
 
@@ -9,7 +8,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
-import java.util.Set;
 
 public class MenuScene extends Scene {
     private ButtonClickListener buttonClickListener;
@@ -29,7 +27,7 @@ public class MenuScene extends Scene {
      *
      * @param assetManager recibe el assetmanager que se encarga de gestionar imagenes, sprites y demás.
      */
-    public MenuScene(AssetManager assetManager, GameManager gameManager) {
+    public MenuScene(AssetManager assetManager, SceneManager gameManager) {
         backgroundImage = assetManager.getSprite("battleship");
         buttonPanel = new JPanel(new GridLayout(3, 1));
         buttonPanel.setOpaque(false);
@@ -38,10 +36,9 @@ public class MenuScene extends Scene {
         singlePlayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(buttonClickListener != null) {
+                if (buttonClickListener != null) {
                     buttonClickListener.onSinglePlayerClicked();
                 }
-
             }
         });
         buttonPanel.add(singlePlayerButton);
@@ -51,7 +48,7 @@ public class MenuScene extends Scene {
         multiPlayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(buttonClickListener != null) {
+                if (buttonClickListener != null) {
                     buttonClickListener.onMultiPlayerClicked();
                 }
             }
@@ -63,7 +60,7 @@ public class MenuScene extends Scene {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(buttonClickListener != null) {
+                if (buttonClickListener != null) {
                     buttonClickListener.onExitClicked();
                 }
             }
@@ -99,6 +96,18 @@ public class MenuScene extends Scene {
         if (backgroundImage != null) {
             g2.drawImage(backgroundImage, 0, 0, Settings.WIDTH, Settings.HEIGHT, null);
         }
+    }
+
+    @Override
+    public void onSceneSet(JPanel parentPanel) {
+        // Configura el layout del panel principal
+        parentPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+
+        // Añade el panel de botones al panel principal
+        parentPanel.add(buttonPanel, gbc);
     }
 
 }
