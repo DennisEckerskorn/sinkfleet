@@ -19,7 +19,11 @@ public class SinkFleetEntityManager extends EntityManager {
     private final Ship[] ships;
     private int shipIndex;
 
-
+    /**
+     * Constructs a SinkFleetEntityManager with the specified maximum number of entities.
+     *
+     * @param maxEntities The maximum number of entities.
+     */
     public SinkFleetEntityManager(int maxEntities) {
         super(maxEntities);
         this.ships = new Ship[maxEntities * Settings.NUM_SHIPS];
@@ -66,8 +70,8 @@ public class SinkFleetEntityManager extends EntityManager {
     }
 
     /**
-     * Adds an entity to the entity manager. If the entity is a Ship, it will be added to the ships array.
-     * Otherwise, it will be added to the entities array.
+     * Adds an entity to the entity manager.
+     * If the entity is a Ship, it will be added to the ships array. Otherwise, it will be added to the entities array.
      *
      * @param entity The entity to be added.
      * @return True if the entity was added successfully, false otherwise.
@@ -94,6 +98,7 @@ public class SinkFleetEntityManager extends EntityManager {
         return new SinkFleetAssetManager();
     }
 
+    //TODO: REMOVE ?????
     /**
      * Spawns a Ship entity at the specified coordinates and adds it to the entity manager.
      *
@@ -115,15 +120,28 @@ public class SinkFleetEntityManager extends EntityManager {
         return fleet;
     } */
 
+    /**
+     * Spawns a Ship entity at the specified coordinates and adds it to the entity manager.
+     *
+     * @param x            The x-coordinate where the ship will be spawned.
+     * @param y            The y-coordinate where the ship will be spawned.
+     * @param size         The size of the ship.
+     * @param isHorizontal True if the ship is placed horizontally, false if vertically.
+     * @return The spawned Ship entity, or null if spawning failed due to collision.
+     */
     public Ship createShip(float x, float y, int size, boolean isHorizontal, boolean direction) {
         Ship fleet = new Ship(x, y, size, x, size, isHorizontal, y, size, direction);
-        
+
         return fleet;
     }
 
+    /**
+     * Processes the input for the current player.
+     * Delegates the input processing to the current player entity.
+     */
     @Override
     public void processInput() {
-       BlackBoard2.currentPlayer.processInput();
+        BlackBoard2.currentPlayer.processInput();
     }
 
 }

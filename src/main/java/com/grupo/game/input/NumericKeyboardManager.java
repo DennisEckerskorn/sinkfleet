@@ -5,13 +5,26 @@ import java.awt.event.KeyListener;
 
 import com.grupo.engine.input.KeyboardManager;
 
+/**
+ * A specialized keyboard manager for handling numeric input.
+ */
 public class NumericKeyboardManager extends KeyboardManager {
     private String posX;
     private String posY;
     private boolean isHorizontal;
     private boolean enterPressed;
-    private boolean next; //Representa el la tecla espacio
+    private boolean next; // Represents the space bar
 
+    /**
+     * Constructs a NumericKeyboardManager with specified control keys.
+     *
+     * @param upKey    The key for moving up.
+     * @param downKey  The key for moving down.
+     * @param leftKey  The key for moving left.
+     * @param rightKey The key for moving right.
+     * @param fireKey  The key for firing.
+     * @param jumpKey  The key for jumping.
+     */
     public NumericKeyboardManager(char upKey, char downKey, char leftKey, char rightKey, char fireKey, char jumpKey) {
         super(upKey, downKey, leftKey, rightKey, fireKey, jumpKey);
         posX = "";
@@ -19,13 +32,18 @@ public class NumericKeyboardManager extends KeyboardManager {
         isHorizontal = true;
     }
 
+    /**
+     * Gets the x-coordinate input value.
+     *
+     * @return The x-coordinate input value.
+     */
     public String getPosX() {
         if (posX == null || posX.isEmpty()) {
             return "0";
-            
+
         }
         int x = Integer.parseInt(posX);
-        if(x > 10) {
+        if (x > 10) {
             posX = "10";
         }
         return posX;
@@ -36,7 +54,7 @@ public class NumericKeyboardManager extends KeyboardManager {
             return "0";
         }
         int y = Integer.parseInt(posY);
-        if(y > 10) {
+        if (y > 10) {
             posY = "10";
         }
         return posY;
@@ -53,6 +71,7 @@ public class NumericKeyboardManager extends KeyboardManager {
     public void clearPosY() {
         posY = "";
     }
+
     public boolean isNextTurn() {
         return next;
     }
@@ -73,6 +92,13 @@ public class NumericKeyboardManager extends KeyboardManager {
         this.next = next;
     }
 
+
+    /**
+     * Invoked when a key has been typed.
+     * Handles appending digits to the x or y coordinates.
+     *
+     * @param e The KeyEvent object.
+     */
     @Override
     public void keyTyped(KeyEvent e) {
         char c = e.getKeyChar();
@@ -85,6 +111,12 @@ public class NumericKeyboardManager extends KeyboardManager {
         }
     }
 
+    /**
+     * Invoked when a key has been pressed.
+     * Handles changing the input mode, deleting characters, and detecting special keys.
+     *
+     * @param e The KeyEvent object.
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
@@ -98,13 +130,19 @@ public class NumericKeyboardManager extends KeyboardManager {
             } else if (posX.length() > 0) {
                 posX = posX.substring(0, posX.length() - 1);
             }
-        }else if (key == KeyEvent.VK_ENTER) {
+        } else if (key == KeyEvent.VK_ENTER) {
             enterPressed = true;
-        }else if (key == KeyEvent.VK_SPACE) {
+        } else if (key == KeyEvent.VK_SPACE) {
             next = true;
         }
     }
 
+    /**
+     * Invoked when a key has been released.
+     * Resets the special key states.
+     *
+     * @param e The KeyEvent object.
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         enterPressed = false;

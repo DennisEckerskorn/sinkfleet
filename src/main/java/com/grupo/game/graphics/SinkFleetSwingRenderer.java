@@ -16,10 +16,22 @@ import java.awt.*;
 public class SinkFleetSwingRenderer extends SwingRenderer {
     private Scene currentScene;
 
+    /**
+     * Constructs a SinkFleetSwingRenderer with the specified width, height, and resize listener.
+     *
+     * @param width          The initial width of the renderer.
+     * @param height         The initial height of the renderer.
+     * @param resizeListener The resize listener to handle resize events.
+     */
     public SinkFleetSwingRenderer(int width, int height, ResizeListener resizeListener) {
         super(width, height, resizeListener);
     }
 
+    /**
+     * Sets the current scene to render.
+     *
+     * @param currentScene The scene to render.
+     */
     public void setCurrentScene(Scene currentScene) {
         this.currentScene = currentScene;
         removeAll();

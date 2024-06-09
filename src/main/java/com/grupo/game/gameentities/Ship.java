@@ -27,6 +27,7 @@ public class Ship extends Entity {
      * @param isHorizontal Indicates whether the ship is horizontal.
      * @param hp           The health points of the ship.
      * @param damage       The damage the ship can cause.
+     * @param direction    The direction of the ship (true for positive direction, false for negative direction).
      */
     public Ship(float x, float y, float width, float height, int size, boolean isHorizontal, float hp, float damage, boolean direction) {
         super(x, y, width, height, hp, damage);
@@ -34,28 +35,26 @@ public class Ship extends Entity {
         this.position = new Vector2(x, y);
         this.size = size;
         this.isHorizontal = isHorizontal;
-        
+
+        // Generate ship fragments based on direction
         if (direction) {
             for (int i = 0; i < size; i++) {
                 if (isHorizontal) {
                     shipFragments.add(new ShipFragments(x + i, y, width, height, hp, damage));
-                }
-                else {
+                } else {
                     shipFragments.add(new ShipFragments(x, y + i, width, height, hp, damage));
                 }
-           }
-        }
-        else {
+            }
+        } else {
             for (int i = 0; i < size; i++) {
                 if (isHorizontal) {
                     shipFragments.add(new ShipFragments(x - i, y, width, height, hp, damage));
-                }
-                else {
+                } else {
                     shipFragments.add(new ShipFragments(x, y - i, width, height, hp, damage));
                 }
-           }
+            }
         }
-       
+
     }
 
     /**
@@ -95,9 +94,7 @@ public class Ship extends Entity {
      * @param fleet The ship to check collision with.
      * @return true if the ship collides with the given ship, false otherwise.
      */
-
     public boolean collides(Ship fleet) {
-        //TODO: COMPROBAR SI COLISIONA CON OTRO BARCO, ES CORRECTO????
         for (ShipFragments fragment1 : shipFragments) {
             for (ShipFragments fragment2 : fleet.getShipFragments()) {
                 if (fragment1.getX() == fragment2.getX() && fragment1.getY() == fragment2.getY()) {
@@ -133,16 +130,31 @@ public class Ship extends Entity {
         this.size = size;
     }
 
+    /**
+     * Updates the ship.
+     *
+     * @param deltaTime The time elapsed since the last update.
+     */
     @Override
     public void update(double deltaTime) {
 
     }
 
+    /**
+     * Performs the last update of the ship.
+     *
+     * @param deltaTime The time elapsed since the last update.
+     */
     @Override
     public void lastUpdate(double deltaTime) {
 
     }
 
+    /**
+     * Performs post-update operations on the ship fragment.
+     *
+     * @param deltaTime The time elapsed since the last update.
+     */
     @Override
     public void postUpdate(double deltaTime) {
 

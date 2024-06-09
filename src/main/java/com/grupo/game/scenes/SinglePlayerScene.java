@@ -18,6 +18,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
+/**
+ * Represents a scene for single-player gameplay.
+ */
 public class SinglePlayerScene extends Scene {
     private Color backgroundColor1;
     private Color backgroundColor2;
@@ -30,6 +33,13 @@ public class SinglePlayerScene extends Scene {
     private JTextField textFieldShots2;
     private Timer timer;
 
+    /**
+     * Constructs a SinglePlayerScene with specified background colors and scene manager.
+     *
+     * @param backgroundColor1 The color of the first background.
+     * @param backgroundColor2 The color of the second background.
+     * @param sceneManager     The scene manager.
+     */
     public SinglePlayerScene(Color backgroundColor1, Color backgroundColor2, SceneManager sceneManager) {
         this.backgroundColor1 = backgroundColor1;
         this.backgroundColor2 = backgroundColor2;
@@ -47,16 +57,23 @@ public class SinglePlayerScene extends Scene {
         textFieldShots2.setEditable(false);
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
+    /**
+     * Renders the scene with the given Graphics2D object.
+     *
+     * @param g2 The Graphics2D object.
+     */
     @Override
     public void render(Graphics2D g2) {
         updateGameInfo(BlackBoard2.currentPlayer);
         drawEntity(g2, BlackBoard2.currentPlayer);
     }
 
+    /**
+     * Draws the given entity with the specified Graphics2D object.
+     *
+     * @param g2 The Graphics2D object.
+     * @param e  The entity to draw.
+     */
     @Override
     public void drawEntity(Graphics2D g2, Entity e) {
         List<Ship> ships;
@@ -73,14 +90,12 @@ public class SinglePlayerScene extends Scene {
                     }
                 }
             }
-
-            //TODO: Implementar disparos, es correcto, updated???
             disparos = ((Player) e).getDisparos();
             g2.setColor(Color.RED);
             for (int i = 0; i < disparos.size(); i++) {
-            
+
                 g2.setColor(Color.ORANGE);
-                
+
                 int x = disparos.get(i).getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
                 int y = disparos.get(i).getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
                 g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
@@ -88,6 +103,11 @@ public class SinglePlayerScene extends Scene {
         }
     }
 
+    /**
+     * Draws the background of the scene with the given Graphics2D object.
+     *
+     * @param g2 The Graphics2D object.
+     */
     @Override
     public void drawBackground(Graphics2D g2) {
         // Calcula el desplazamiento para el segundo tablero
@@ -141,6 +161,11 @@ public class SinglePlayerScene extends Scene {
         }
     }
 
+    /**
+     * Called when the scene is set.
+     *
+     * @param parentPanel The parent panel.
+     */
     @Override
     public void onSceneSet(JPanel parentPanel) {
         // Set the layout of the parent panel to BorderLayout
@@ -211,6 +236,11 @@ public class SinglePlayerScene extends Scene {
         timer.start();
     }
 
+    /**
+     * Updates the game information displayed on the UI.
+     *
+     * @param player The current player.
+     */
     public void updateGameInfo(Player player) {
         if (player == null) {
             textFieldShips1.setText("Barcos Jugador: 0");
@@ -235,7 +265,12 @@ public class SinglePlayerScene extends Scene {
  */
     }
 
-    // Método para formatear las coordenadas para mostrarlas en el texto
+    /**
+     * Formats a list of coordinates into a string representation.
+     *
+     * @param coordinates The list of coordinates.
+     * @return A string representation of the coordinates.
+     */
     private String formatCoordinates(List<Coordinates> coordinates) {
         StringBuilder coordinatesString = new StringBuilder();
         for (Coordinates coord : coordinates) {

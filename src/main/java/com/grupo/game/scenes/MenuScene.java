@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 
+/**
+ * Represents a menu scene with buttons for single player, multiplayer, and exit options.
+ */
 public class MenuScene extends Scene {
     private ButtonClickListener buttonClickListener;
     private BufferedImage backgroundImage;
@@ -19,14 +22,16 @@ public class MenuScene extends Scene {
     private JButton exitButton;
 
     /**
-     * Constructor que inicializa todos los atributos y crea un menú con botones.
-     * Construye el panel con 3 botones en un GridLayout, con una columan y 3 filas.
-     * Cada boton tiene su propia funcionalidad.
-     * Iniciar SINGLEPLAYER
-     * Iniciar MULTIPLAYER
-     * Salir EXIT
+     * Constructs a MenuScene with the specified asset manager and game manager.
+     * Initializes all attributes and creates a menu with buttons.
+     * Constructs the panel with 3 buttons in a GridLayout, with one column and three rows.
+     * Each button has its own functionality:
+     * Start SINGLEPLAYER
+     * Start MULTIPLAYER
+     * Exit EXIT
      *
-     * @param assetManager recibe el assetmanager que se encarga de gestionar imagenes, sprites y demás.
+     * @param assetManager The asset manager responsible for managing images, sprites, and more.
+     * @param gameManager  The game manager responsible for managing scenes.
      */
     public MenuScene(AssetManager assetManager, SceneManager gameManager) {
         backgroundImage = assetManager.getSprite("battleship");
@@ -79,9 +84,9 @@ public class MenuScene extends Scene {
     }
 
     /**
-     * Method which allows us to customize a button.
+     * Customizes a button's appearance.
      *
-     * @param button JButton to customize
+     * @param button The JButton to customize.
      */
     private void customizeButton(JButton button) {
         button.setContentAreaFilled(false);
@@ -105,6 +110,11 @@ public class MenuScene extends Scene {
 
     }
 
+    /**
+     * Draws the background image of the scene.
+     *
+     * @param g2 The Graphics2D object.
+     */
     @Override
     public void drawBackground(Graphics2D g2) {
         if (backgroundImage != null) {
@@ -112,6 +122,11 @@ public class MenuScene extends Scene {
         }
     }
 
+    /**
+     * Called when the scene is set.
+     *
+     * @param parentPanel The parent panel containing the scene.
+     */
     @Override
     public void onSceneSet(JPanel parentPanel) {
         parentPanel.setLayout(new BorderLayout());

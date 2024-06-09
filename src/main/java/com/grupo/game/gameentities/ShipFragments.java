@@ -23,13 +23,29 @@ public class ShipFragments extends Entity {
         this.hit = false;
     }
 
+    /**
+     * Checks if the ship fragment has been hit.
+     *
+     * @return true if the ship fragment is hit, false otherwise.
+     */
     public boolean isHit() {
         return hit;
     }
 
+    /**
+     * Marks the ship fragment as hit.
+     */
     public void hit() {
         this.hit = true;
     }
+
+    /**
+     * Checks if the ship fragment is within the grid bounds.
+     *
+     * @param rows The number of rows in the grid.
+     * @param cols The number of columns in the grid.
+     * @return true if the ship fragment is within the grid bounds, false otherwise.
+     */
     public boolean inGrid(int rows, int cols) {
         return (getX() >= 0 && getX() < cols) && (getY() >= 0 && getY() < rows);
     }
@@ -64,6 +80,11 @@ public class ShipFragments extends Entity {
 
     }
 
+    /**
+     * Returns a string representation of the ship fragment.
+     *
+     * @return A string representing the ship fragment's state.
+     */
     @Override
     public String toString() {
         return "ShipFragments{" +

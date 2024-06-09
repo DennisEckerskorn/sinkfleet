@@ -9,6 +9,9 @@ import com.grupo.game.gameentities.Player;
 import com.grupo.game.input.NumericKeyboardManager;
 
 
+/**
+ * Represents the main game logic for the Sink Fleet game.
+ */
 public class SinkFleetGame extends Game {
     private final int rows;
     private final int cols;
@@ -21,7 +24,18 @@ public class SinkFleetGame extends Game {
     //Idica si el jugador esta en la fase de colocar barcos
     private boolean principio;
 
-
+    /**
+     * Constructs a SinkFleetGame instance with the specified parameters.
+     *
+     * @param width       The width of the game window.
+     * @param height      The height of the game window.
+     * @param rows        The number of rows in the game board grid.
+     * @param cols        The number of columns in the game board grid.
+     * @param fpsLimit    The frame rate limit for the game.
+     * @param updateLimit The update rate limit for the game.
+     * @param maxEntities The maximum number of entities in the game.
+     * @param mode        The game mode (single player or multi player).
+     */
     public SinkFleetGame(int width, int height, int rows, int cols, float fpsLimit, float updateLimit, int maxEntities, BlackBoard2.Mode mode) {
         super(width, height, fpsLimit, updateLimit, maxEntities);
         this.rows = rows;
@@ -36,8 +50,9 @@ public class SinkFleetGame extends Game {
     }
 
     /**
-     * Allows to set the game mode tu the corresponding game.
-     * @param mode Blackboard2.Mode
+     * Sets the game mode for the Sink Fleet game.
+     *
+     * @param mode The game mode to set (single player or multiplayer).
      */
     public void setMode(BlackBoard2.Mode mode) {
         this.mode = mode;
@@ -64,8 +79,8 @@ public class SinkFleetGame extends Game {
         this.player2 = sinkFleetEntityManager.creatPlayer(0, 0, km2, rows, cols);
         BlackBoard2.opponentPlayer = player2;
         //System.out.println(player1.addShip(99, 99, cols, principio));
-    
-        
+
+
     }
 
     /**
@@ -80,13 +95,7 @@ public class SinkFleetGame extends Game {
     }
 
     /**
-     * Updates the game state.
-     * <p>
-     * This method is called to update the game state based on the user input and current game phase.
-     * It checks if a button is pressed and if it's the beginning phase of the game. If so, it verifies
-     * whether the player has selected a valid position to place a ship. If the position is valid, it
-     * checks for collision with existing ships. If there's no collision, a new ship is added to the player's
-     * fleet. If a collision is detected, an error message is displayed, indicating that ships cannot overlap.
+     * Updates the game state based on user input and game phase.
      *
      * @param deltaTime The time elapsed since the last update.
      */
@@ -95,8 +104,8 @@ public class SinkFleetGame extends Game {
         BlackBoard2.currentPlayer.update(deltaTime);
     }
 
-   
 
+    //TODO: REMOVE????
     /**
      * Adds a new ship to the current player's fleet.
      * This method creates a new ship with the specified size and adds it to the fleet of the current player.
@@ -112,9 +121,8 @@ public class SinkFleetGame extends Game {
     //}
 
     /**
-     * Handles the resizing of the game window.
-     * This method adjusts the cell size used for rendering based on the new dimensions of the game window.
-     * It calculates the cell size to ensure that the game board remains properly scaled within the resized window.
+     * Handles resizing of the game window.
+     * Adjusts the cell size used for rendering based on the new window dimensions.
      */
     @Override
     public void gameResized() {

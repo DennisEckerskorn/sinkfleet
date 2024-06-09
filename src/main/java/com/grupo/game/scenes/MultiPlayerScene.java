@@ -15,6 +15,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+/**
+ * Represents a scene for multiplayer gameplay.
+ */
 public class MultiPlayerScene extends Scene {
     private Color backgroundColor1;
     private Color backgroundColor2;
@@ -27,6 +30,13 @@ public class MultiPlayerScene extends Scene {
     private JTextField textFieldShots2;
     private Timer timer;
 
+    /**
+     * Constructs a MultiPlayerScene with specified background colors and scene manager.
+     *
+     * @param backgroundColor1 The color of the first background.
+     * @param backgroundColor2 The color of the second background.
+     * @param sceneManager     The scene manager.
+     */
     public MultiPlayerScene(Color backgroundColor1, Color backgroundColor2, SceneManager sceneManager) {
         this.backgroundColor1 = backgroundColor1;
         this.backgroundColor2 = backgroundColor2;
@@ -44,16 +54,23 @@ public class MultiPlayerScene extends Scene {
         textFieldShots2.setEditable(false);
     }
 
-    public void setCurrentPlayer(Player currentPlayer) {
-        this.currentPlayer = currentPlayer;
-    }
-
+    /**
+     * Renders the scene with the given Graphics2D object.
+     *
+     * @param g2 The Graphics2D object.
+     */
     @Override
     public void render(Graphics2D g2) {
         //drawBackground(g2);
         drawEntity(g2, BlackBoard2.currentPlayer);
     }
 
+    /**
+     * Draws the specified entity on the scene with the given Graphics2D object.
+     *
+     * @param g2 The Graphics2D object.
+     * @param e  The entity to draw.
+     */
     @Override
     public void drawEntity(Graphics2D g2, Entity e) {
         List<Ship> ships;
@@ -71,7 +88,6 @@ public class MultiPlayerScene extends Scene {
                 }
             }
 
-            //TODO: Implementar disparos, es correcto, updated???
             disparos = ((Player) e).getDisparos();
             g2.setColor(Color.RED);
             for (int i = 0; i < disparos.size(); i++) {
@@ -85,6 +101,11 @@ public class MultiPlayerScene extends Scene {
         }
     }
 
+    /**
+     * Draws the background of the scene with the given Graphics2D object.
+     *
+     * @param g2 The Graphics2D object.
+     */
     @Override
     public void drawBackground(Graphics2D g2) {
         // Calcula el desplazamiento para el segundo tablero
@@ -119,7 +140,7 @@ public class MultiPlayerScene extends Scene {
     }
 
     /**
-     * Draws number coordinates around the board.
+     * Draws number coordinates around the game board.
      *
      * @param g2     The Graphics2D object.
      * @param offset The offset for drawing the coordinates.
@@ -138,6 +159,11 @@ public class MultiPlayerScene extends Scene {
         }
     }
 
+    /**
+     * Called when the scene is set.
+     *
+     * @param parentPanel The parent panel containing the scene.
+     */
     @Override
     public void onSceneSet(JPanel parentPanel) {
         // Set the layout of the parent panel to BorderLayout
@@ -208,6 +234,11 @@ public class MultiPlayerScene extends Scene {
         timer.start();
     }
 
+    /**
+     * Updates the game information displayed on the scene.
+     *
+     * @param player The player whose information is to be updated.
+     */
     public void updateGameInfo(Player player) {
         if (player == null) {
             textFieldShips1.setText("Barcos Jugador: 0");
@@ -232,7 +263,12 @@ public class MultiPlayerScene extends Scene {
  */
     }
 
-    // Método para formatear las coordenadas para mostrarlas en el texto
+    /**
+     * Formats the coordinates to display them in text.
+     *
+     * @param coordinates The list of coordinates to format.
+     * @return A formatted string containing the coordinates.
+     */
     private String formatCoordinates(List<Coordinates> coordinates) {
         StringBuilder coordinatesString = new StringBuilder();
         for (Coordinates coord : coordinates) {
