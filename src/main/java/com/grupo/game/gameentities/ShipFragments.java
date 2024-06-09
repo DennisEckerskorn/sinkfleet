@@ -30,6 +30,9 @@ public class ShipFragments extends Entity {
     public void hit() {
         this.hit = true;
     }
+    public boolean inGrid(int rows, int cols) {
+        return (getX() >= 0 && getX() < cols) && (getY() >= 0 && getY() < rows);
+    }
 
     /**
      * Updates the ship fragment.

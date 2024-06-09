@@ -10,6 +10,7 @@ public class NumericKeyboardManager extends KeyboardManager {
     private String posY;
     private boolean isHorizontal;
     private boolean enterPressed;
+    private boolean next; //Representa el la tecla espacio
 
     public NumericKeyboardManager(char upKey, char downKey, char leftKey, char rightKey, char fireKey, char jumpKey) {
         super(upKey, downKey, leftKey, rightKey, fireKey, jumpKey);
@@ -52,6 +53,9 @@ public class NumericKeyboardManager extends KeyboardManager {
     public void clearPosY() {
         posY = "";
     }
+    public boolean isNextTurn() {
+        return next;
+    }
 
     public boolean isEnterPressed() {
         return enterPressed;
@@ -63,6 +67,10 @@ public class NumericKeyboardManager extends KeyboardManager {
 
     public void setEnterPressed(boolean enterPressed) {
         this.enterPressed = enterPressed;
+    }
+
+    public void setNext(boolean next) {
+        this.next = next;
     }
 
     @Override
@@ -92,11 +100,14 @@ public class NumericKeyboardManager extends KeyboardManager {
             }
         }else if (key == KeyEvent.VK_ENTER) {
             enterPressed = true;
+        }else if (key == KeyEvent.VK_SPACE) {
+            next = true;
         }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         enterPressed = false;
+        next = false;
     }
 }

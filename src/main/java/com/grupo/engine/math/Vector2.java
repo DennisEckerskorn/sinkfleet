@@ -1,6 +1,5 @@
 package com.grupo.engine.math;
 
-import java.util.Vector;
 
 public class Vector2 {
     private float x;
