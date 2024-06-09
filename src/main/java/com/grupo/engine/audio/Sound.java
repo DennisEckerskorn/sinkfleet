@@ -4,12 +4,21 @@ import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
 
+/**
+ * The Sound class represents a sound file that can be played in the game.
+ * It provides methods to play, loop, stop, and dispose of the sound.
+ */
 public class Sound implements LineListener {
     private final Clip clip;
     private final AudioInputStream audioInputStream;
     private volatile boolean done;
     private Thread thread;
 
+    /**
+     * Constructs a Sound object from the specified file path.
+     *
+     * @param path The path to the sound file.
+     */
     public Sound(String path) {
         try {
             File file = new File(path);
@@ -23,6 +32,9 @@ public class Sound implements LineListener {
         }
     }
 
+    /**
+     * Starts playing the sound.
+     */
     public void play() {
         done = false;
         Runnable r = new Runnable() {
@@ -50,6 +62,9 @@ public class Sound implements LineListener {
         clip.loop(count);
     }
 
+    /**
+     * Stops playing the sound.
+     */
     public void stop() {
         if (thread != null) {
             clip.stop();
@@ -57,6 +72,9 @@ public class Sound implements LineListener {
         }
     }
 
+    /**
+     * Disposes of the sound resources.
+     */
     public void dispose() {
         try {
             audioInputStream.close();
@@ -67,6 +85,11 @@ public class Sound implements LineListener {
         clip.stop();
     }
 
+    /**
+     * The update method updates the state of the Sound object based on the LineEvent received.
+     *
+     * @param event The LineEvent representing the change in the sound's playback state.
+     */
     @Override
     public void update(LineEvent event) {
         LineEvent.Type eventType = event.getType();

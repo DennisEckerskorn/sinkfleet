@@ -2,6 +2,10 @@ package com.grupo.engine.core;
 
 import com.grupo.engine.entities.Entity;
 
+/**
+ * The Collider class represents collision detection boundaries for entities in the game world.
+ * It provides methods for checking collisions between entities and handling their collision masks.
+ */
 public class Collider {
     private float xRight;
     private float xLeft;
@@ -12,8 +16,21 @@ public class Collider {
     private static Collider collider1WorldCoordinates = new Collider();
     private static Collider collider2WorldCoordinates = new Collider();
 
-    private Collider() { }
+    /**
+     * Private constructor to prevent external instantiation of colliders without parameters.
+     */
+    private Collider() {
+    }
 
+    /**
+     * Creates a collider with the specified boundaries and collision mask.
+     *
+     * @param xLeft  The left boundary.
+     * @param xRight The right boundary.
+     * @param yDown  The lower boundary.
+     * @param yUp    The upper boundary.
+     * @param mask   The collision mask.
+     */
     public Collider(float xLeft, float xRight, float yDown, float yUp, int mask) {
         this.xLeft = xLeft;
         this.xRight = xRight;
@@ -62,6 +79,13 @@ public class Collider {
         this.yUp = yUp;
     }
 
+    /**
+     * Checks for collision between two entities based on their colliders.
+     *
+     * @param e1 The first entity.
+     * @param e2 The second entity.
+     * @return True if the entities collide, false otherwise.
+     */
     public static boolean checkCollision(Entity e1, Entity e2) {
         Collider c1 = e1.getCollider();
         Collider c2 = e2.getCollider();
@@ -82,6 +106,12 @@ public class Collider {
         return true;
     }
 
+    /**
+     * Translates the collider coordinates to world coordinates relative to the entity.
+     *
+     * @param e The entity.
+     * @param c The collider.
+     */
     private static void translateToWorldCoords(Entity e, Collider c) {
         Collider c1 = e.getCollider();
         c.xLeft = e.getX() + c1.xLeft;

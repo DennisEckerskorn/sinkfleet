@@ -3,6 +3,10 @@ package com.grupo.engine.input;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+/**
+ * The KeyboardManager class handles keyboard input by implementing the KeyListener interface.
+ * It keeps track of the state of various keys such as up, down, left, right, fire, and jump.
+ */
 public class KeyboardManager implements KeyListener {
     private boolean up;
     private boolean down;
@@ -18,6 +22,16 @@ public class KeyboardManager implements KeyListener {
     private final char fireKey;
     private final char jumpKey;
 
+    /**
+     * Constructs a KeyboardManager with specified key mappings.
+     *
+     * @param upKey    The key for the up action.
+     * @param downKey  The key for the down action.
+     * @param leftKey  The key for the left action.
+     * @param rightKey The key for the right action.
+     * @param fireKey  The key for the fire action.
+     * @param jumpKey  The key for the jump action.
+     */
     public KeyboardManager(char upKey, char downKey, char leftKey, char rightKey, char fireKey, char jumpKey) {
         this.upKey = Character.toLowerCase(upKey);
         this.downKey = Character.toLowerCase(downKey);
@@ -62,6 +76,12 @@ public class KeyboardManager implements KeyListener {
 
     }
 
+    /**
+     * Invoked when a key has been pressed. Sets the corresponding flag to indicate that
+     * the associated key is currently being held down.
+     *
+     * @param e The KeyEvent object containing information about the key event.
+     */
     @Override
     public void keyPressed(KeyEvent e) {
         char c = e.getKeyChar();
@@ -83,6 +103,13 @@ public class KeyboardManager implements KeyListener {
         }
     }
 
+
+    /**
+     * Invoked when a key has been released. Clears the corresponding flag to indicate
+     * that the associated key is no longer being held down.
+     *
+     * @param e The KeyEvent object containing information about the key event.
+     */
     @Override
     public void keyReleased(KeyEvent e) {
         char c = e.getKeyChar();
