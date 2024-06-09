@@ -1,15 +1,19 @@
 package com.grupo.game.scenes;
 
 import com.grupo.game.config.Settings;
+import com.grupo.game.core.BlackBoard2;
+import com.grupo.game.core.SinkFleetGame;
 import com.grupo.game.graphics.SinkFleetSwingRenderer;
 
 
 public class SceneManager implements ButtonClickListener {
     private Scene currentScene;
     private SinkFleetSwingRenderer renderer;
+    private SinkFleetGame sinkFleetGame;
 
-    public SceneManager(SinkFleetSwingRenderer renderer) {
+    public SceneManager(SinkFleetSwingRenderer renderer, SinkFleetGame sinkFleetGame) {
         this.renderer = renderer;
+        this.sinkFleetGame = sinkFleetGame;
     }
 
     public void setCurrentScene(Scene scene) {
@@ -27,10 +31,9 @@ public class SceneManager implements ButtonClickListener {
 
     @Override
     public void onMultiPlayerClicked() {
-        // Lógica para iniciar el modo multijugador
-        // Por ejemplo:
-        // MultiPlayerScene multiPlayerScene = new MultiPlayerScene();
-        // setCurrentScene(multiPlayerScene);
+        sinkFleetGame.setMode(BlackBoard2.Mode.MULTI_PLAYER);
+        MultiPlayerScene multiPlayerScene = new MultiPlayerScene(Settings.COLOR_BACKGROUND, Settings.COLOR_BACKGROUND, this);
+        setCurrentScene(multiPlayerScene);
     }
 
     @Override

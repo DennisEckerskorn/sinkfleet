@@ -31,6 +31,10 @@ public class SinkFleetGame extends Game {
         setMode(mode);
     }
 
+    public boolean isPrincipio() {
+        return principio;
+    }
+
     /**
      * Allows to set the game mode tu the corresponding game.
      * @param mode Blackboard2.Mode

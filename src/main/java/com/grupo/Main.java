@@ -20,7 +20,7 @@ public class Main {
         SinkFleetSwingRenderer renderer = new SinkFleetSwingRenderer(Settings.WIDTH, Settings.HEIGHT, sinkFleetGame);
         sinkFleetGame.setRenderAPI(renderer);
 
-        SceneManager sceneManager = new SceneManager(renderer);
+        SceneManager sceneManager = new SceneManager(renderer, sinkFleetGame);
         MenuScene menuScene = new MenuScene(assetManager, sceneManager);
 
         menuScene.setButtonClickListener(sceneManager);

@@ -2,7 +2,6 @@ package com.grupo.game.scenes;
 
 import com.grupo.engine.core.Blackboard;
 import com.grupo.engine.entities.Entity;
-import com.grupo.engine.entities.PlayableEntity;
 import com.grupo.game.config.Settings;
 import com.grupo.game.core.BlackBoard2;
 import com.grupo.game.gameentities.Player;
@@ -14,11 +13,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 
-public class SinglePlayerScene extends Scene {
+public class MultiPlayerScene extends Scene {
     private Color backgroundColor1;
     private Color backgroundColor2;
     private Player currentPlayer;
@@ -30,7 +27,7 @@ public class SinglePlayerScene extends Scene {
     private JTextField textFieldShots2;
     private Timer timer;
 
-    public SinglePlayerScene(Color backgroundColor1, Color backgroundColor2, SceneManager sceneManager) {
+    public MultiPlayerScene(Color backgroundColor1, Color backgroundColor2, SceneManager sceneManager) {
         this.backgroundColor1 = backgroundColor1;
         this.backgroundColor2 = backgroundColor2;
         this.sceneManager = sceneManager;
@@ -53,7 +50,7 @@ public class SinglePlayerScene extends Scene {
 
     @Override
     public void render(Graphics2D g2) {
-        updateGameInfo(BlackBoard2.currentPlayer);
+        //drawBackground(g2);
         drawEntity(g2, BlackBoard2.currentPlayer);
     }
 
@@ -78,9 +75,9 @@ public class SinglePlayerScene extends Scene {
             disparos = ((Player) e).getDisparos();
             g2.setColor(Color.RED);
             for (int i = 0; i < disparos.size(); i++) {
-            
+
                 g2.setColor(Color.ORANGE);
-                
+
                 int x = disparos.get(i).getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
                 int y = disparos.get(i).getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
                 g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
@@ -243,6 +240,5 @@ public class SinglePlayerScene extends Scene {
         }
         return coordinatesString.toString();
     }
-
 
 }
