@@ -187,12 +187,29 @@ public class SinglePlayerScene extends Scene {
         // Add the game panel to the parent panel's CENTER
         parentPanel.add(gamePanel, BorderLayout.CENTER);
 
+        // Add mouse listener to game panel
+        gamePanel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                // Determine cell clicked based on mouse coordinates
+                int cellSize = Blackboard.cellSize;
+                int x = e.getX();
+                int y = e.getY();
+                int col = (x - Settings.GAMEBOARD_OFFSET) / cellSize;
+                int row = (y - Settings.GAMEBOARD_OFFSET) / cellSize;
+
+                // Perform actions based on the clicked cell
+                // For example, you can call a method to handle placing ships or firing shots
+                handleCellClick(row, col);
+            }
+        });
+
         // Create and add the button
         button = new JButton("CAMBIAR TURNO");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: Implementar click en boton
+                //TODO: Implementar click en boton, REVISAR KEVIN
 
             }
         });
@@ -234,6 +251,25 @@ public class SinglePlayerScene extends Scene {
             }
         });
         timer.start();
+    }
+
+    /**
+     * Handles the action when a cell on the game board is clicked.
+     *
+     * @param row The row index of the clicked cell.
+     * @param col The column index of the clicked cell.
+     */
+    private void handleCellClick(int row, int col) {
+        // Implement logic for handling the click on the cell here
+        // For example, place a ship or fire a shot
+        /*
+       if(BlackBoard2.beginGame) {
+           currentPlayer.processInput();
+       } else {
+           currentPlayer.processInput();
+       }
+
+         */
     }
 
     /**
