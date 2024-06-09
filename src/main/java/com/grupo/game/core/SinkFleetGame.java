@@ -6,8 +6,6 @@ import com.grupo.engine.core.Game;
 import com.grupo.engine.input.KeyboardManager;
 
 import com.grupo.game.gameentities.Player;
-import com.grupo.game.gameentities.Ship;
-import com.grupo.game.gameentities.ShipFragments;
 import com.grupo.game.input.NumericKeyboardManager;
 
 
@@ -93,41 +91,7 @@ public class SinkFleetGame extends Game {
         BlackBoard2.currentPlayer.update(deltaTime);
     }
 
-    /**
-     * Checks if there is a collision between the current player's ship and existing ships on the game board.
-     * <p>
-     * This method iterates through all existing ships on the game board and checks if the placement of the
-     * current player's ship with the specified size would overlap with any existing ships. It considers both
-     * horizontal and vertical orientations of the current player's ship when performing the collision check.
-     *
-     * @param size The size of the ship to be checked for collision.
-     * @return true if there is a collision, false otherwise.
-     */
-    private boolean checkCollision(int size) {
-        //Obtener la posicion actual del jugador:
-        int x = BlackBoard2.currentPlayer.getActualPostionX();
-        int y = BlackBoard2.currentPlayer.getActualPostionY();
-
-        //Recorrer todos los barcos existentes
-        for (Ship ship : BlackBoard2.currentPlayer.getShips()) {
-            for (ShipFragments fragment : ship.getShipFragments()) {
-                if (BlackBoard2.currentPlayer.getIsHorizontal()) {
-                    for (int i = 0; i < size; i++) {
-                        if (fragment.getX() == x + i && fragment.getY() == y) {
-                            return true; // Hay colision
-                        }
-                    }
-                } else {
-                    for (int i = 0; i < size; i++) {
-                        if (fragment.getX() == x && fragment.getY() == y + i) {
-                            return true; // Hay colision
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
+   
 
     /**
      * Adds a new ship to the current player's fleet.

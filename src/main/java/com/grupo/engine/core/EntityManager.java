@@ -2,9 +2,7 @@ package com.grupo.engine.core;
 
 import com.grupo.engine.entities.Entity;
 import com.grupo.engine.entities.PlayableEntity;
-import com.grupo.engine.pool.ObjectPool;
 
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 

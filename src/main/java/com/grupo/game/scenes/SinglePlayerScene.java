@@ -64,11 +64,19 @@ public class SinglePlayerScene extends Scene {
             //TODO: Implementar disparos, es correcto, updated???
             disparos = ((Player) e).getDisparos();
             g2.setColor(Color.RED);
-            for (Coordinates disparo : disparos) {
-                int x = disparo.getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
-                int y = disparo.getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
+            for (int i = 0; i < disparos.size(); i++) {
+            
+                g2.setColor(Color.ORANGE);
+                
+                int x = disparos.get(i).getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
+                int y = disparos.get(i).getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
                 g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
             }
+            //for (Coordinates disparo : disparos) {
+            //    int x = disparo.getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
+            //    int y = disparo.getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
+            //    g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
+            //}
         }
     }
 

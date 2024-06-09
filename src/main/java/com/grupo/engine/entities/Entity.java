@@ -4,7 +4,6 @@ import com.grupo.engine.core.Collider;
 import com.grupo.engine.core.Updateable;
 import com.grupo.engine.math.MathUtil;
 import com.grupo.engine.math.Vector2;
-import com.grupo.engine.pool.Poolable;
 
 import java.awt.image.BufferedImage;
 

@@ -27,7 +27,9 @@ public class Player extends PlayableEntity {
     //Posicionamiento de los barcos
     private boolean isHorizontal;
 
-    private boolean enterPressed;
+    private boolean enterPressed; //Aplicar cambios
+    private boolean nextTurn; //Siguiente turno
+    private boolean turnUsed; //Turno usado
 
     //Tamaño del tablero
     private int rows;
@@ -52,6 +54,10 @@ public class Player extends PlayableEntity {
         this.cols = cols;
 
         this.shipIndex = 0;
+
+        this.enterPressed = false;
+        this.nextTurn = false;
+        this.turnUsed = false;
     }
 
     public int getRows() {
@@ -123,34 +129,44 @@ public class Player extends PlayableEntity {
 
     @Override
     public void update(double deltaTime) {
-        
+        if (nextTurn && !BlackBoard2.beginGame && turnUsed) {
+            turnUsed = false;
+            Player tmp = BlackBoard2.currentPlayer;
+                    BlackBoard2.currentPlayer = BlackBoard2.opponentPlayer;
+                    BlackBoard2.opponentPlayer = tmp; 
+        }
+
         if (enterPressed) {
-                ((NumericKeyboardManager) getKeyboardManager()).setEnterPressed(false);
-                ((NumericKeyboardManager) getKeyboardManager()).clearPosX();
-                ((NumericKeyboardManager) getKeyboardManager()).clearPosY();
+                
             if (BlackBoard2.beginGame) {
                 //System.out.println(addShip(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY), 3, isHorizontal));
-                addShips();
-                if (shipIndex == SHIP_SIZES.length) {
-                    Player tmp = BlackBoard2.currentPlayer;
-                    BlackBoard2.currentPlayer = BlackBoard2.opponentPlayer;
-                    BlackBoard2.opponentPlayer = tmp;                
-            
-                }
-                System.out.println("Numero de barcos: " + BlackBoard2.currentPlayer.getShips().size() + " " + BlackBoard2.opponentPlayer.getShips().size());
-                if (BlackBoard2.currentPlayer.getShips().size() == 7 && BlackBoard2.opponentPlayer.getShips().size() == 7) {
-                    BlackBoard2.beginGame = false;
-                }
+                    addShips();
+                    System.out.println("Numero de barcos: " + BlackBoard2.currentPlayer.getShips().size() + " " + BlackBoard2.opponentPlayer.getShips().size());
 
+                    if (shipIndex == SHIP_SIZES.length) {
+                        Player tmp = BlackBoard2.currentPlayer;
+                        BlackBoard2.currentPlayer = BlackBoard2.opponentPlayer;
+                        BlackBoard2.opponentPlayer = tmp; 
+                    }
+                    if (BlackBoard2.currentPlayer.getShips().size() == 7 && BlackBoard2.opponentPlayer.getShips().size() == 7) {
+                        BlackBoard2.beginGame = false;
+                        //turnUsed = true;
+                    }
+                    
             }
             else{
                 //TODO: Implementar disparos
-                hit();
-                System.out.println("Disparo en: " + actualPostionX + " " + actualPostionY);
-                Player tmp = BlackBoard2.currentPlayer;
-                BlackBoard2.currentPlayer = BlackBoard2.opponentPlayer;
-                BlackBoard2.opponentPlayer = tmp;  
+                if (!turnUsed) {
+                    hit();
+                    System.out.println("Disparo en: " + actualPostionX + " " + actualPostionY);
+                    turnUsed = true; 
+                }
+                
             }
+                ((NumericKeyboardManager) getKeyboardManager()).setEnterPressed(false);
+                ((NumericKeyboardManager) getKeyboardManager()).setNext(false);
+                ((NumericKeyboardManager) getKeyboardManager()).clearPosX();
+                ((NumericKeyboardManager) getKeyboardManager()).clearPosY();
                 
         }
     }
@@ -213,6 +229,7 @@ public class Player extends PlayableEntity {
         actualPostionY = keyboardManager.getPosY();
         isHorizontal = keyboardManager.isHorizontal();
         enterPressed = keyboardManager.isEnterPressed();
+        nextTurn = keyboardManager.isNextTurn();
         //System.out.println( "x: " + actualPostionX + " y: " + actualPostionY + " horizontal: " + isHorizontal + " enter: " + enterPressed);
     }
 

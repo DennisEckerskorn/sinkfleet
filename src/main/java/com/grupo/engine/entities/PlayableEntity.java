@@ -1,8 +1,6 @@
 package com.grupo.engine.entities;
 
-import com.grupo.engine.core.Collider;
 import com.grupo.engine.input.KeyboardManager;
-import com.grupo.engine.math.Vector2;
 
 import java.awt.image.BufferedImage;
 

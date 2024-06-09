@@ -3,7 +3,6 @@ package com.grupo.engine.graphics.swing;
 import com.grupo.engine.core.Blackboard;
 import com.grupo.engine.core.ResizeListener;
 import com.grupo.engine.entities.Entity;
-import com.grupo.engine.entities.PlayableEntity;
 import com.grupo.engine.graphics.RenderAPI;
 import com.grupo.game.core.BlackBoard2;
 
@@ -11,7 +10,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 
 public abstract class SwingRenderer extends JPanel implements RenderAPI {
 
@@ -20,7 +18,7 @@ public abstract class SwingRenderer extends JPanel implements RenderAPI {
         setDoubleBuffered(true);
         setFocusable(true);
 
-        //TODO: Implementar el listener de teclado PERO NO AQUI
+        
             addKeyListener(BlackBoard2.currentPlayer.getKeyboardManager());
         
 
