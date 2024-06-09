@@ -41,10 +41,7 @@ public class SinglePlayerScene extends Scene {
     @Override
     public void render(Graphics2D g2) {
         //drawBackground(g2);
-        List<PlayableEntity> playableEntities = Blackboard.entityManager.getPlayableEntities();
-        for (PlayableEntity playableEntity : playableEntities) {
-            drawEntity(g2, playableEntity);
-        }
+        drawEntity(g2, BlackBoard2.currentPlayer);
     }
 
     @Override

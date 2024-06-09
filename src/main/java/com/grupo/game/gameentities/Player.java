@@ -67,7 +67,9 @@ public class Player extends PlayableEntity {
     }
 
     
-
+    public void hit(){
+        disparos.add(new Coordinates(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY)));
+    }
     public boolean isHitBoard(float x, float y) {
         for (Ship ship : ships) {
             if (ship.isHitPosition(x, y)) {
@@ -87,13 +89,13 @@ public class Player extends PlayableEntity {
         return count;
     }
 
-    public boolean addShip(int x, int y, int size, boolean isHorizontal) {
-        Ship ship = ((SinkFleetEntityManager) Blackboard.entityManager).createShip(x, y, size, isHorizontal);
-        if (ship == null) {
-            return false;
-        }
-        return ships.add(ship);
-    }
+    //public boolean addShip(int x, int y, int size, boolean isHorizontal) {
+    //    Ship ship = ((SinkFleetEntityManager) Blackboard.entityManager).createShip(x, y, size, isHorizontal);
+    //    if (ship == null) {
+    //        return false;
+    //    }
+    //    return ships.add(ship);
+    //}
 
     public List<Ship> getShips() {
         return ships;
@@ -123,10 +125,10 @@ public class Player extends PlayableEntity {
     public void update(double deltaTime) {
         
         if (enterPressed) {
-            if (BlackBoard2.beginGame) {
                 ((NumericKeyboardManager) getKeyboardManager()).setEnterPressed(false);
                 ((NumericKeyboardManager) getKeyboardManager()).clearPosX();
                 ((NumericKeyboardManager) getKeyboardManager()).clearPosY();
+            if (BlackBoard2.beginGame) {
                 //System.out.println(addShip(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY), 3, isHorizontal));
                 addShips();
                 if (shipIndex == SHIP_SIZES.length) {
@@ -143,21 +145,48 @@ public class Player extends PlayableEntity {
             }
             else{
                 //TODO: Implementar disparos
+                hit();
+                System.out.println("Disparo en: " + actualPostionX + " " + actualPostionY);
+                Player tmp = BlackBoard2.currentPlayer;
+                BlackBoard2.currentPlayer = BlackBoard2.opponentPlayer;
+                BlackBoard2.opponentPlayer = tmp;  
             }
                 
         }
     }
     public void addShips(){
-        Ship barco  = ((SinkFleetEntityManager) Blackboard.entityManager).createShip(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY), SHIP_SIZES[shipIndex], isHorizontal);
-        if (!collision(barco)) {
+        Ship barco  = ((SinkFleetEntityManager) Blackboard.entityManager).createShip(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY), SHIP_SIZES[shipIndex], isHorizontal, true);
+        boolean a = inGrid(barco);
+        System.out.println(barco.toString() + " barco");
+        System.out.println(a);
+        if (!collision(barco) && a) {
             ((SinkFleetEntityManager) Blackboard.entityManager).addEntity(barco);
             shipIndex++;
             ships.add(barco);
             
-        }else
-        System.out.println("Colision detectada");
+        }else{
+            Ship barco2  = ((SinkFleetEntityManager) Blackboard.entityManager).createShip(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY), SHIP_SIZES[shipIndex], isHorizontal, false);
+            boolean b = inGrid(barco2);
+
+            if (!collision(barco2) && b) {
+                ((SinkFleetEntityManager) Blackboard.entityManager).addEntity(barco2);
+                shipIndex++;
+                ships.add(barco2);
+            }else{
+                System.out.println("No se puede colocar el barco");
+            }
+        }
+        
     }
 
+    public boolean inGrid(Ship ship) {
+        for (ShipFragments fragment : ship.getShipFragments()) {
+            if (!fragment.inGrid(rows, cols)) {
+                return false;
+            }
+        }
+        return true;
+    }
     /**
      * Comprueba si hay colision entre el barco actual y los barcos existentes en el tablero de juego de ese jugador.
      * @param ship El barco a comprobar si colisiona.
@@ -192,8 +221,8 @@ public class Player extends PlayableEntity {
         return "Player [ships=" + ships + ", disparos=" + disparos + ", hp=" + super.getHp() + ", keyboardManager=" + getKeyboardManager() + "]";
     }
 
-    public Ship createShip(float x, float y, int size, boolean isHorizontal) {
-        Ship fleet = new Ship(x, y, size, x, size, isHorizontal, y, size, Settings.Direction.RIGHT);
+    public Ship createShip(float x, float y, int size, boolean isHorizontal, boolean direction) {
+        Ship fleet = new Ship(x, y, size, x, size, isHorizontal, y, size, direction);
         
         return fleet;
     }

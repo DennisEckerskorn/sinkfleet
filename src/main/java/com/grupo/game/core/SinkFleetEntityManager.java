@@ -115,8 +115,8 @@ public class SinkFleetEntityManager extends EntityManager {
         return fleet;
     } */
 
-    public Ship createShip(float x, float y, int size, boolean isHorizontal) {
-        Ship fleet = new Ship(x, y, size, x, size, isHorizontal, y, size, Settings.Direction.RIGHT);
+    public Ship createShip(float x, float y, int size, boolean isHorizontal, boolean direction) {
+        Ship fleet = new Ship(x, y, size, x, size, isHorizontal, y, size, direction);
         
         return fleet;
     }

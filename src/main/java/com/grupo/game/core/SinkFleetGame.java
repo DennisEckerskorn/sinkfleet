@@ -43,6 +43,7 @@ public class SinkFleetGame extends Game {
             initPlayers(rows, cols);
         } else if (mode == BlackBoard2.Mode.MULTI_PLAYER) {
             //!TODO Implementar modo multijugador
+
         }
     }
 
@@ -136,11 +137,11 @@ public class SinkFleetGame extends Game {
      *
      * @param size The size of the ship to be added to the fleet.
      */
-    public void addShip(int size) {
-        BlackBoard2.currentPlayer.addShip(BlackBoard2.currentPlayer.getActualPostionX(),
-                BlackBoard2.currentPlayer.getActualPostionY(), size, BlackBoard2.currentPlayer.getIsHorizontal());
+    //public void addShip(int size) {
+    //    BlackBoard2.currentPlayer.addShip(BlackBoard2.currentPlayer.getActualPostionX(),
+    //            BlackBoard2.currentPlayer.getActualPostionY(), size, BlackBoard2.currentPlayer.getIsHorizontal());
 
-    }
+    //}
 
     /**
      * Handles the resizing of the game window.

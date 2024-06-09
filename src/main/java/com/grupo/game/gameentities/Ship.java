@@ -28,30 +28,34 @@ public class Ship extends Entity {
      * @param hp           The health points of the ship.
      * @param damage       The damage the ship can cause.
      */
-    public Ship(float x, float y, float width, float height, int size, boolean isHorizontal, float hp, float damage, Settings.Direction direction) {
+    public Ship(float x, float y, float width, float height, int size, boolean isHorizontal, float hp, float damage, boolean direction) {
         super(x, y, width, height, hp, damage);
         this.shipFragments = new ArrayList<>();
         this.position = new Vector2(x, y);
         this.size = size;
-        this.isHorizontal = direction == Settings.Direction.LEFT || direction == Settings.Direction.RIGHT;
-
-
-        // TODO: los fragmentos del barco se crean en base a la direccion. No funciona bien, horizontal no lo deja en el sitio correcto y vertical separa fragmentos
-        for (int i = 0; i < size; i++) {
-            float fragmentX = isHorizontal ? x + i * (width / size) : x;
-            float fragmentY = isHorizontal ? y : y + i * (height / size);
-            shipFragments.add(new ShipFragments(fragmentX, fragmentY, width / size, height / size, hp, damage));
+        this.isHorizontal = isHorizontal;
+        
+        if (direction) {
+            for (int i = 0; i < size; i++) {
+                if (isHorizontal) {
+                    shipFragments.add(new ShipFragments(x + i, y, width, height, hp, damage));
+                }
+                else {
+                    shipFragments.add(new ShipFragments(x, y + i, width, height, hp, damage));
+                }
+           }
         }
-
-        // Ajusta cómo se calculan las coordenadas de los fragmentos según la orientación del barco
-        float fragmentWidth = isHorizontal ? width / size : width;
-        float fragmentHeight = isHorizontal ? height : height / size;
-
-        for (int i = 0; i < size; i++) {
-            float fragmentX = isHorizontal ? x + i * fragmentWidth : x;
-            float fragmentY = isHorizontal ? y : y + i * fragmentHeight;
-            shipFragments.add(new ShipFragments(fragmentX, fragmentY, fragmentWidth, fragmentHeight, hp, damage));
+        else {
+            for (int i = 0; i < size; i++) {
+                if (isHorizontal) {
+                    shipFragments.add(new ShipFragments(x - i, y, width, height, hp, damage));
+                }
+                else {
+                    shipFragments.add(new ShipFragments(x, y - i, width, height, hp, damage));
+                }
+           }
         }
+       
     }
 
     /**
@@ -146,11 +150,14 @@ public class Ship extends Entity {
 
     @Override
     public String toString() {
-        return "Ship{" +
-                "shipFragments=" + shipFragments +
-                ", position=" + position +
-                ", size=" + size +
-                ", isHorizontal=" + isHorizontal +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Ship{");
+        sb.append("position=").append(position);
+        sb.append(", fragnent position=");
+        for (ShipFragments fragment : shipFragments) {
+            sb.append(fragment.getPosition() + " ");
+        }
+
+        return sb.toString();
     }
 }
