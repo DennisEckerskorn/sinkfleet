@@ -74,9 +74,9 @@ public class SinkFleetGame extends Game {
         KeyboardManager km2 = new NumericKeyboardManager('w', 's', 'a', 'd', 'f', ' '); //! Cambiar cuando Diego lo tenga
 
         KeyboardManager km1 = new NumericKeyboardManager('w', 's', 'a', 'd', 'f', ' '); //! Cambiar cuando Diego lo tenga
-        this.player1 = sinkFleetEntityManager.creatPlayer(0, 0, km1, rows, cols);
+        this.player1 = sinkFleetEntityManager.creatPlayer("player1",0, 0, km1, rows, cols);
         BlackBoard2.currentPlayer = player1;
-        this.player2 = sinkFleetEntityManager.creatPlayer(0, 0, km2, rows, cols);
+        this.player2 = sinkFleetEntityManager.creatPlayer("Player2",0, 0, km2, rows, cols);
         BlackBoard2.opponentPlayer = player2;
         //System.out.println(player1.addShip(99, 99, cols, principio));
 

@@ -64,8 +64,10 @@ public class SinglePlayerScene extends Scene {
      */
     @Override
     public void render(Graphics2D g2) {
-        updateGameInfo(BlackBoard2.currentPlayer);
-        drawEntity(g2, BlackBoard2.currentPlayer);
+            updateGameInfo(BlackBoard2.currentPlayer);
+            drawEntity(g2, BlackBoard2.currentPlayer);
+        
+        
     }
 
     /**
@@ -94,10 +96,14 @@ public class SinglePlayerScene extends Scene {
             g2.setColor(Color.RED);
             for (int i = 0; i < disparos.size(); i++) {
 
-                g2.setColor(Color.ORANGE);
+               
 
                 int x = disparos.get(i).getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
                 int y = disparos.get(i).getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
+                if(BlackBoard2.opponentPlayer.isHitBoard(disparos.get(i).getX(), disparos.get(i).getY()))
+                    g2.setColor(Color.RED);
+                else
+                    g2.setColor(Color.BLUE  );
                 g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
             }
         }

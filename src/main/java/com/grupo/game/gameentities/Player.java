@@ -21,6 +21,7 @@ public class Player extends PlayableEntity {
     //Propiedades principales del jugador
     private List<Ship> ships;
     private List<Coordinates> disparos;
+    //private int disparoActual;
 
 
     //Disparo actual
@@ -38,6 +39,7 @@ public class Player extends PlayableEntity {
     private int cols;
 
     private int shipIndex;
+    private String nombre;
 
     /**
      * Constructs a Player object with the specified parameters.
@@ -52,10 +54,11 @@ public class Player extends PlayableEntity {
      * @param rows            The number of rows in the game board.
      * @param cols            The number of columns in the game board.
      */
-    public Player(float x, float y, float width, float height, int hp, float damage, KeyboardManager keyboardManager, int rows, int cols) {
+    public Player(String nombre,float x, float y, float width, float height, int hp, float damage, KeyboardManager keyboardManager, int rows, int cols) {
         super(x, y, width, height, hp, damage, 0, 0, 0, 0, keyboardManager);
         this.ships = new ArrayList<>(hp);
         this.disparos = new ArrayList<>();
+       // this.disparoActual = 0;
 
         //Coordenada de pisparo
         this.actualPostionX = "-1";
@@ -73,6 +76,8 @@ public class Player extends PlayableEntity {
         this.enterPressed = false;
         this.nextTurn = false;
         this.turnUsed = false;
+
+        this.nombre = nombre;
     }
 
     public int getRows() {
@@ -86,6 +91,7 @@ public class Player extends PlayableEntity {
     public boolean getIsHorizontal() {
         return isHorizontal;
     }
+
 
 
     public void hit() {
@@ -192,9 +198,17 @@ public class Player extends PlayableEntity {
             } else {
                 // If the game has started, handle shooting
                 if (!turnUsed) {
+                    System.out.println(nombre + "  - Disparo en: " + actualPostionX + " " + actualPostionY);
                     hit();
-                    System.out.println("Disparo en: " + actualPostionX + " " + actualPostionY);
                     turnUsed = true;
+                    if (BlackBoard2.opponentPlayer.isHitBoard(Integer.parseInt(actualPostionX),Integer.parseInt(actualPostionY))) {
+                        System.out.println("Dado");
+                        //Meotodo para saber si el barco de esta posicion esta undido.
+                        System.out.println("Barcos hundidos: " + BlackBoard2.opponentPlayer.barcosHundidos());
+                        if (BlackBoard2.opponentPlayer.isSunk(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY))) {
+                            System.out.println("Barco hundido");
+                        }
+                    }
                 }
 
             }
@@ -205,6 +219,15 @@ public class Player extends PlayableEntity {
             ((NumericKeyboardManager) getKeyboardManager()).clearPosY();
 
         }
+    }
+
+    public boolean isSunk(int x, int y) {
+        for (Ship ship : ships) {
+            if (ship.isHitPosition(x, y)) {
+                return ship.isSunk();
+            }
+        }
+        return false;
     }
 
 
