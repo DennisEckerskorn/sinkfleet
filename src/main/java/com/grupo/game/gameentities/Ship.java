@@ -66,7 +66,7 @@ public class Ship extends Entity {
      */
     public boolean isHitPosition(float hitX, float hitY) {
         for (ShipFragments fragment : shipFragments) {
-            if (fragment.getX() == hitX && fragment.getY() == hitY && !fragment.isHit()) {
+            if (fragment.getX() == hitX && fragment.getY() == hitY) {
                 fragment.hit();
                 return true;
             }

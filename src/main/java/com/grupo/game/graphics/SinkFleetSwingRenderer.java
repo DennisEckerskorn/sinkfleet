@@ -58,7 +58,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
             addKeyListener(BlackBoard2.currentPlayer.getKeyboardManager());
 
         }
-        super.paintComponent(g);
+        //super.paintComponent(g);
         if (currentScene != null) {
             Graphics2D g2 = (Graphics2D) g;
             currentScene.render(g2);
@@ -74,6 +74,7 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
     @Override
     public void drawEntity(Graphics2D g2, Entity e) {
         // Forward the call to the current scene
+
         if (currentScene != null) {
             currentScene.drawEntity(g2, e);
         }

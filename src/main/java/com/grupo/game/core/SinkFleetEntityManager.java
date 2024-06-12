@@ -42,8 +42,8 @@ public class SinkFleetEntityManager extends EntityManager {
      * @param cols            The number of columns on the game board.
      * @return The created player entity.
      */
-    public Player creatPlayer(float x, float y, KeyboardManager keyboardManager, int rows, int cols) {
-        Player player = new Player(x, y, Settings.WIDTH, Settings.HEIGHT,
+    public Player creatPlayer(String nombre,float x, float y, KeyboardManager keyboardManager, int rows, int cols) {
+        Player player = new Player(nombre,x, y, Settings.WIDTH, Settings.HEIGHT,
                 Settings.PLAYER_HP, Settings.PLAYER_DAMAGE, keyboardManager, rows, cols);
 
         addEntity(player);
