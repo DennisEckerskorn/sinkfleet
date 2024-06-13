@@ -56,19 +56,21 @@ public class MultiPlayerScene extends Scene {
         textFieldShots2.setEditable(false);
     }
 
-    /**
+   /**
      * Renders the scene with the given Graphics2D object.
      *
      * @param g2 The Graphics2D object.
      */
     @Override
     public void render(Graphics2D g2) {
-        drawEntity(g2, BlackBoard2.currentPlayer);
-        drawEntity(g2, BlackBoard2.opponentPlayer);
+            updateGameInfo(BlackBoard2.currentPlayer);
+            drawEntity(g2, BlackBoard2.currentPlayer);
+        
+        
     }
 
     /**
-     * Draws the specified entity on the scene with the given Graphics2D object.
+     * Draws the given entity with the specified Graphics2D object.
      *
      * @param g2 The Graphics2D object.
      * @param e  The entity to draw.
@@ -89,15 +91,18 @@ public class MultiPlayerScene extends Scene {
                     }
                 }
             }
-
             disparos = ((Player) e).getDisparos();
             g2.setColor(Color.RED);
             for (int i = 0; i < disparos.size(); i++) {
 
-                g2.setColor(Color.ORANGE);
+               
 
                 int x = disparos.get(i).getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
                 int y = disparos.get(i).getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
+                if(BlackBoard2.opponentPlayer.isHitBoard(disparos.get(i).getX(), disparos.get(i).getY()))
+                    g2.setColor(Color.RED);
+                else
+                    g2.setColor(Color.BLUE  );
                 g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
             }
         }
@@ -142,7 +147,7 @@ public class MultiPlayerScene extends Scene {
     }
 
     /**
-     * Draws number coordinates around the game board.
+     * Draws number coordinates around the board.
      *
      * @param g2     The Graphics2D object.
      * @param offset The offset for drawing the coordinates.
@@ -152,19 +157,19 @@ public class MultiPlayerScene extends Scene {
 
         //Dibujar numero de filas:
         for (int row = 0; row < Settings.ROWS; row++) {
-            g2.drawString(Integer.toString(row + 1), offset - 20, (row + 1) * Blackboard.cellSize + 4);
+            g2.drawString(Integer.toString(row), offset - 20, (row + 1) * Blackboard.cellSize + 4);
         }
 
         //Dibujar numero de columnas:
         for (int col = 0; col < Settings.COLS; col++) {
-            g2.drawString(Integer.toString(col + 1), offset + col * Blackboard.cellSize + Blackboard.cellSize / 2, 20);
+            g2.drawString(Integer.toString(col), offset + col * Blackboard.cellSize + Blackboard.cellSize / 2, 20);
         }
     }
 
     /**
      * Called when the scene is set.
      *
-     * @param parentPanel The parent panel containing the scene.
+     * @param parentPanel The parent panel.
      */
     @Override
     public void onSceneSet(JPanel parentPanel) {
@@ -187,17 +192,19 @@ public class MultiPlayerScene extends Scene {
         // Add the game panel to the parent panel's CENTER
         parentPanel.add(gamePanel, BorderLayout.CENTER);
 
+        // Add mouse listener to game panel
         gamePanel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                // Determinar la celda clickeada basada en las coordenadas del ratón
+                // Determine cell clicked based on mouse coordinates
                 int cellSize = Blackboard.cellSize;
                 int x = e.getX();
                 int y = e.getY();
                 int col = (x - Settings.GAMEBOARD_OFFSET) / cellSize;
                 int row = (y - Settings.GAMEBOARD_OFFSET) / cellSize;
 
-                // Realizar acciones basadas en la celda clickeada
+                // Perform actions based on the clicked cell
+                // For example, you can call a method to handle placing ships or firing shots
                 handleCellClick(row, col);
             }
         });
@@ -208,8 +215,6 @@ public class MultiPlayerScene extends Scene {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //TODO: Implementar click en boton, REVISAR KEVIN
-                BlackBoard2.currentPlayer = (BlackBoard2.currentPlayer == BlackBoard2.opponentPlayer) ? BlackBoard2.currentPlayer : BlackBoard2.opponentPlayer;
-                updateGameInfo(BlackBoard2.currentPlayer);
 
             }
         });
@@ -262,13 +267,20 @@ public class MultiPlayerScene extends Scene {
     private void handleCellClick(int row, int col) {
         // Implement logic for handling the click on the cell here
         // For example, place a ship or fire a shot
+        /*
+       if(BlackBoard2.beginGame) {
+           currentPlayer.processInput();
+       } else {
+           currentPlayer.processInput();
+       }
 
+         */
     }
 
     /**
-     * Updates the game information displayed on the scene.
+     * Updates the game information displayed on the UI.
      *
-     * @param player The player whose information is to be updated.
+     * @param player The current player.
      */
     public void updateGameInfo(Player player) {
         if (player == null) {
@@ -295,10 +307,10 @@ public class MultiPlayerScene extends Scene {
     }
 
     /**
-     * Formats the coordinates to display them in text.
+     * Formats a list of coordinates into a string representation.
      *
-     * @param coordinates The list of coordinates to format.
-     * @return A formatted string containing the coordinates.
+     * @param coordinates The list of coordinates.
+     * @return A string representation of the coordinates.
      */
     private String formatCoordinates(List<Coordinates> coordinates) {
         StringBuilder coordinatesString = new StringBuilder();
@@ -307,5 +319,6 @@ public class MultiPlayerScene extends Scene {
         }
         return coordinatesString.toString();
     }
+
 
 }

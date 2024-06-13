@@ -41,6 +41,7 @@ public class SceneManager implements ButtonClickListener {
      */
     @Override
     public void onSinglePlayerClicked() {
+        sinkFleetGame.setMode(BlackBoard2.Mode.SINGLE_PLAYER);
         SinglePlayerScene singlePlayerScene = new SinglePlayerScene(Settings.COLOR_BACKGROUND, Settings.COLOR_BACKGROUND, this);
         setCurrentScene(singlePlayerScene);
     }

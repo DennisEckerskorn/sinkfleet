@@ -5,6 +5,7 @@ import com.grupo.engine.entities.Entity;
 import com.grupo.engine.entities.PlayableEntity;
 import com.grupo.game.config.Settings;
 import com.grupo.game.core.BlackBoard2;
+import com.grupo.game.gameentities.NPCPlayer;
 import com.grupo.game.gameentities.Player;
 import com.grupo.game.gameentities.Ship;
 import com.grupo.game.gameentities.ShipFragments;
@@ -80,16 +81,11 @@ public class SinglePlayerScene extends Scene {
     public void drawEntity(Graphics2D g2, Entity e) {
         List<Ship> ships;
         List<Coordinates> disparos;
-        if (e instanceof Player) {
-            if (BlackBoard2.currentPlayer.equals((Player) e)) {
-                ships = ((Player) e).getShips();
-                for (Ship ship : ships) {
-                    g2.setColor(Settings.COLOR_SHIP);
-                    for (ShipFragments fragment : ship.getShipFragments()) {
-                        int x = Math.round(fragment.getX() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET);
-                        int y = Math.round(fragment.getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET);
-                        g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
-                    }
+        if (e instanceof NPCPlayer) {
+            for (int row = 0; row < Settings.ROWS; row++) {
+                for (int col = 0; col < Settings.COLS; col++) {
+                    g2.setColor(Settings.COLOR_BACKGROUND_LINES);
+                    g2.fillRect(col * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET, row * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET, Blackboard.cellSize, Blackboard.cellSize);
                 }
             }
             disparos = ((Player) e).getDisparos();
@@ -105,6 +101,34 @@ public class SinglePlayerScene extends Scene {
                 else
                     g2.setColor(Color.BLUE  );
                 g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
+            }
+        }else if(e instanceof Player){
+            if (e instanceof Player) {
+                if (BlackBoard2.currentPlayer.equals((Player) e)) {
+                    ships = ((Player) e).getShips();
+                    for (Ship ship : ships) {
+                        g2.setColor(Settings.COLOR_SHIP);
+                        for (ShipFragments fragment : ship.getShipFragments()) {
+                            int x = Math.round(fragment.getX() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET);
+                            int y = Math.round(fragment.getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET);
+                            g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
+                        }
+                    }
+                }
+                disparos = ((Player) e).getDisparos();
+                g2.setColor(Color.RED);
+                for (int i = 0; i < disparos.size(); i++) {
+    
+                   
+    
+                    int x = disparos.get(i).getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
+                    int y = disparos.get(i).getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
+                    if(BlackBoard2.opponentPlayer.isHitBoard(disparos.get(i).getX(), disparos.get(i).getY()))
+                        g2.setColor(Color.RED);
+                    else
+                        g2.setColor(Color.BLUE  );
+                    g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
+                }
             }
         }
     }
@@ -158,12 +182,12 @@ public class SinglePlayerScene extends Scene {
 
         //Dibujar numero de filas:
         for (int row = 0; row < Settings.ROWS; row++) {
-            g2.drawString(Integer.toString(row + 1), offset - 20, (row + 1) * Blackboard.cellSize + 4);
+            g2.drawString(Integer.toString(row), offset - 20, (row + 1) * Blackboard.cellSize + 4);
         }
 
         //Dibujar numero de columnas:
         for (int col = 0; col < Settings.COLS; col++) {
-            g2.drawString(Integer.toString(col + 1), offset + col * Blackboard.cellSize + Blackboard.cellSize / 2, 20);
+            g2.drawString(Integer.toString(col), offset + col * Blackboard.cellSize + Blackboard.cellSize / 2, 20);
         }
     }
 

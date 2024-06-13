@@ -9,6 +9,7 @@ import com.grupo.game.core.BlackBoard2;
 import com.grupo.game.scenes.Scene;
 
 import java.awt.*;
+import java.awt.event.KeyListener;
 
 /**
  * A Swing-based renderer for the Sink Fleet game.
@@ -53,11 +54,22 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
      */
     @Override
     public void paintComponent(Graphics g) {
-        if (getKeyListeners()[0] != BlackBoard2.currentPlayer.getKeyboardManager()) {
-            removeKeyListener(BlackBoard2.opponentPlayer.getKeyboardManager());
+        if (BlackBoard2.resetListenner) {
+            for (KeyListener keyListener : this.getKeyListeners()) {
+                this.removeKeyListener(keyListener);
+            }
             addKeyListener(BlackBoard2.currentPlayer.getKeyboardManager());
-
+            
         }
+        else{
+            if (getKeyListeners()[0] != BlackBoard2.currentPlayer.getKeyboardManager()) {
+                removeKeyListener(BlackBoard2.opponentPlayer.getKeyboardManager());
+                addKeyListener(BlackBoard2.currentPlayer.getKeyboardManager());
+    
+            }
+        }
+        
+        
         //super.paintComponent(g);
         if (currentScene != null) {
             Graphics2D g2 = (Graphics2D) g;
