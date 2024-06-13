@@ -34,6 +34,7 @@ public class NPCPlayer extends Player {
         
     }
 
+    //#region @Override Methods
     /**
      * Updates the NPCPlayer's state based on the current game state.
      *
@@ -67,7 +68,7 @@ public class NPCPlayer extends Player {
         else if (!isTurnUsed()) {
             LibConf.sleep(2000);
             Coordinates attack = gameStrategy.attack();
-            System.out.println("Ataque: " + attack.getX() + " " + attack.getY());
+            System.out.println(getNombre() + " Ataque: " + attack.getX() + " " + attack.getY());
             super.hit(attack.getX(), attack.getY());
             if (BlackBoard2.opponentPlayer.isHitBoard(attack.getX(),attack.getY())) {
                 System.out.println("Barco tocado");
@@ -111,8 +112,12 @@ public class NPCPlayer extends Player {
     @Override
     public void processInput() {
     }
+    //#endregion
 
 
+
+
+    
     //#region Getters and Setters
     public void setGameStrategy(Strategy gameStrategy) {
         this.gameStrategy = gameStrategy;

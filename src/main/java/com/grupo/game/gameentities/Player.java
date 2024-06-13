@@ -397,6 +397,14 @@ public class Player extends PlayableEntity {
         return turnUsed;
     }
 
+    public boolean isWin() {
+        return win;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
     
 
     //#endregion
