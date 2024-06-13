@@ -25,11 +25,10 @@ public class MultiPlayerScene extends Scene {
     private Color backgroundColor2;
     private Player currentPlayer;
     private SceneManager sceneManager;
-    private JButton button;
-    private JTextField textFieldShips1;
-    private JTextField textFieldShots1;
-    private JTextField textFieldShips2;
-    private JTextField textFieldShots2;
+    private JTextField textFieldPlayerShips;
+    private JTextField textFieldNPCShots;
+    private JTextField textFieldPlayerShots;
+    private JTextField textFieldNPCShips;
     private Timer timer;
 
     /**
@@ -43,17 +42,16 @@ public class MultiPlayerScene extends Scene {
         this.backgroundColor1 = backgroundColor1;
         this.backgroundColor2 = backgroundColor2;
         this.sceneManager = sceneManager;
-        button = new JButton("Button");
-        textFieldShips1 = new JTextField();
-        textFieldShots1 = new JTextField();
-        textFieldShips2 = new JTextField();
-        textFieldShots2 = new JTextField();
+        textFieldPlayerShips = new JTextField();
+        textFieldNPCShots = new JTextField();
+        textFieldPlayerShots = new JTextField();
+        textFieldNPCShips = new JTextField();
 
         // Hacer los JTextField no editables
-        textFieldShips1.setEditable(false);
-        textFieldShots1.setEditable(false);
-        textFieldShips2.setEditable(false);
-        textFieldShots2.setEditable(false);
+        textFieldPlayerShips.setEditable(false);
+        textFieldNPCShots.setEditable(false);
+        textFieldPlayerShots.setEditable(false);
+        textFieldNPCShips.setEditable(false);
     }
 
     /**
@@ -191,32 +189,45 @@ public class MultiPlayerScene extends Scene {
         // Add the game panel to the parent panel's CENTER
         parentPanel.add(gamePanel, BorderLayout.CENTER);
 
-        textFieldShips1 = new JTextField();
-        textFieldShips1.setEditable(false);
+        textFieldPlayerShips = new JTextField();
+        textFieldPlayerShips.setEditable(false);
 
-        textFieldShots1 = new JTextField();
-        textFieldShots1.setEditable(false);
+        textFieldPlayerShots = new JTextField();
+        textFieldPlayerShots.setEditable(false);
 
-        textFieldShips2 = new JTextField();
-        textFieldShips2.setEditable(false);
+        textFieldNPCShips = new JTextField();
+        textFieldNPCShips.setEditable(false);
 
-        textFieldShots2 = new JTextField();
-        textFieldShots2.setEditable(false);
+        textFieldNPCShots = new JTextField();
+        textFieldNPCShots.setEditable(false);
 
+        // Create panels for organizing text fields
         JPanel textFieldsPanel1 = new JPanel();
         textFieldsPanel1.setLayout(new GridLayout(1, 2));
-        textFieldsPanel1.add(textFieldShips1);
-        textFieldsPanel1.add(textFieldShots1);
+        textFieldsPanel1.add(new JLabel("Barcos Jugador:"));
+        textFieldsPanel1.add(textFieldPlayerShips);
 
         JPanel textFieldsPanel2 = new JPanel();
         textFieldsPanel2.setLayout(new GridLayout(1, 2));
-        textFieldsPanel2.add(textFieldShips2);
-        textFieldsPanel2.add(textFieldShots2);
+        textFieldsPanel2.add(new JLabel("Disparos Jugador:"));
+        textFieldsPanel2.add(textFieldPlayerShots);
+
+        JPanel textFieldsPanel3 = new JPanel();
+        textFieldsPanel3.setLayout(new GridLayout(1, 2));
+        textFieldsPanel3.add(new JLabel("Barcos NPC:"));
+        textFieldsPanel3.add(textFieldNPCShips);
+
+        JPanel textFieldsPanel4 = new JPanel();
+        textFieldsPanel4.setLayout(new GridLayout(1, 2));
+        textFieldsPanel4.add(new JLabel("Disparos NPC:"));
+        textFieldsPanel4.add(textFieldNPCShots);
 
         JPanel textFieldsPanel = new JPanel();
-        textFieldsPanel.setLayout(new GridLayout(2, 1));
+        textFieldsPanel.setLayout(new GridLayout(2, 2));
         textFieldsPanel.add(textFieldsPanel1);
         textFieldsPanel.add(textFieldsPanel2);
+        textFieldsPanel.add(textFieldsPanel3);
+        textFieldsPanel.add(textFieldsPanel4);
 
         parentPanel.add(textFieldsPanel, BorderLayout.NORTH);
 
@@ -230,51 +241,30 @@ public class MultiPlayerScene extends Scene {
     }
 
     /**
-     * Handles the action when a cell on the game board is clicked.
-     *
-     * @param row The row index of the clicked cell.
-     * @param col The column index of the clicked cell.
-     */
-    private void handleCellClick(int row, int col) {
-        // Implement logic for handling the click on the cell here
-        // For example, place a ship or fire a shot
-        /*
-       if(BlackBoard2.beginGame) {
-           currentPlayer.processInput();
-       } else {
-           currentPlayer.processInput();
-       }
-
-         */
-    }
-
-    /**
      * Updates the game information displayed on the UI.
      *
      * @param player The current player.
      */
     public void updateGameInfo(Player player) {
         if (player == null) {
-            textFieldShips1.setText("Barcos Jugador: 0");
-            textFieldShots1.setText("Disparos Jugador: ");
-            textFieldShips2.setText("Barcos NPC: 0");
-            textFieldShots2.setText("Disparos NPC: ");
+            textFieldPlayerShips.setText("Barcos Jugador: 0");
+            textFieldPlayerShots.setText("Disparos Jugador: ");
+            textFieldNPCShips.setText("Barcos NPC: ");
+            textFieldNPCShots.setText("Disparos NPC: ");
             return;
         }
 
-        // Obtener la información actualizada del jugador
-        int shipCount1 = player.getShips().size();
-        List<Coordinates> coordinates1 = player.getDisparos();
+        // Get updated information for the player
+        int shipCountPlayer = player.getShips().size();
+        List<Coordinates> playerShots = player.getDisparos();
 
-        // Asignar información al primer tablero
-        textFieldShips1.setText("Barcos Jugador: " + shipCount1);
-        textFieldShots1.setText("Disparos Jugador: " + formatCoordinates(coordinates1));
-/*
-        // Asignar información al segundo tablero (ajustar según sea necesario)
-        textFieldShips2.setText("Barcos NPC: " + shipCount2);
-        textFieldShots2.setText("Disparos NPC: " + formatCoordinates(coordinates2));
+        // Update text fields for the player
+        textFieldPlayerShips.setText("" + shipCountPlayer);
+        textFieldPlayerShots.setText(formatCoordinates(playerShots));
 
- */
+        // Update text fields for the NPC (adjust as needed)
+        textFieldNPCShips.setText(""/* + shipCountNPC*/);
+        textFieldNPCShots.setText(""/* + formatCoordinates(coordinates2)*/);
     }
 
     /**

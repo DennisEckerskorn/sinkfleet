@@ -39,7 +39,7 @@ public class MenuScene extends Scene {
         buttonPanel.setOpaque(false);
 
         singlePlayerButton = new JButton("SINGLE PLAYER MODE");
-        //customizeButton(singlePlayerButton);
+        customizeButton(singlePlayerButton);
         singlePlayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -51,7 +51,7 @@ public class MenuScene extends Scene {
         buttonPanel.add(singlePlayerButton);
 
         multiPlayerButton = new JButton("MULTIPLAYER MODE");
-        //customizeButton(multiPlayerButton);
+        customizeButton(multiPlayerButton);
         multiPlayerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -63,7 +63,7 @@ public class MenuScene extends Scene {
         buttonPanel.add(multiPlayerButton);
 
         exitButton = new JButton("EXIT GAME");
-        //customizeButton(exitButton);
+        customizeButton(exitButton);
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

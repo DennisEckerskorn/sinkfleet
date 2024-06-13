@@ -12,6 +12,7 @@ import com.grupo.game.scenes.SceneManager;
 import com.grupo.game.scenes.SinglePlayerScene;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  * The Main class serves as the entry point for the Sink Fleet game.
@@ -52,6 +53,14 @@ public class Main {
 
         // Create and configure the game window
         JFrame frame = new JFrame("Battleship");
+        Toolkit toolkit = Toolkit.getDefaultToolkit();
+        Dimension dimension = toolkit.getScreenSize();
+        int width = Settings.WIDTH;
+        int height = Settings.HEIGHT;
+        int x = (int)(dimension.getWidth() / 2f) - Math.round(width / 2f);
+        int y = (int)(dimension.getHeight() / 2f) - Math.round(height / 2f);
+        frame.setBounds(x, y, width, height);
+
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.add(renderer);
