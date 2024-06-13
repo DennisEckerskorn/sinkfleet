@@ -51,13 +51,10 @@ public class SinglePlayerScene extends Scene {
         textFieldInputPlayer = new JTextField();
         textFieldInputNPC = new JTextField();
 
-
-        // Hacer los JTextField no editables
         textFieldPlayerShips.setEditable(false);
         textFieldNPCShots.setEditable(false);
         textFieldPlayerShots.setEditable(false);
         textFieldNPCShips.setEditable(false);
-
         textFieldInputPlayer.setEditable(false);
         textFieldInputNPC.setEditable(false);
     }
@@ -93,8 +90,6 @@ public class SinglePlayerScene extends Scene {
             disparos = ((Player) e).getDisparos();
             g2.setColor(Color.RED);
             for (int i = 0; i < disparos.size(); i++) {
-
-
                 int x = disparos.get(i).getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
                 int y = disparos.get(i).getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
                 if (BlackBoard2.opponentPlayer.isHitBoard(disparos.get(i).getX(), disparos.get(i).getY()))
@@ -119,8 +114,6 @@ public class SinglePlayerScene extends Scene {
                 disparos = ((Player) e).getDisparos();
                 g2.setColor(Color.RED);
                 for (int i = 0; i < disparos.size(); i++) {
-
-
                     int x = disparos.get(i).getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
                     int y = disparos.get(i).getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
                     if (BlackBoard2.opponentPlayer.isHitBoard(disparos.get(i).getX(), disparos.get(i).getY()))
@@ -166,7 +159,6 @@ public class SinglePlayerScene extends Scene {
                 g2.drawRect(col * Blackboard.cellSize + offset + Settings.GAMEBOARD_OFFSET, row * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET, Blackboard.cellSize, Blackboard.cellSize);
             }
         }
-
         drawNumberCoordinates(g2, Settings.GAMEBOARD_OFFSET);
         drawNumberCoordinates(g2, offset + Settings.GAMEBOARD_OFFSET);
     }
@@ -198,10 +190,8 @@ public class SinglePlayerScene extends Scene {
      */
     @Override
     public void onSceneSet(JPanel parentPanel) {
-        // Set the layout of the parent panel to BorderLayout
         parentPanel.setLayout(new BorderLayout());
 
-        // Create a panel for the game boards
         JPanel gamePanel = new JPanel() {
             @Override
             protected void paintComponent(Graphics g) {
@@ -214,15 +204,12 @@ public class SinglePlayerScene extends Scene {
             }
         };
 
-        // Add the game panel to the parent panel's CENTER
         parentPanel.add(gamePanel, BorderLayout.CENTER);
 
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new GridLayout(3, 2));
-        //infoPanel.setPreferredSize(new Dimension(800, 100));
+        infoPanel.setPreferredSize(new Dimension(800, 100));
 
-
-        // Add text fields to the info panel
         infoPanel.add(new JLabel("Barcos Jugador:"));
         infoPanel.add(textFieldPlayerShips);
         infoPanel.add(new JLabel("Barcos NPC:"));
@@ -260,11 +247,12 @@ public class SinglePlayerScene extends Scene {
             return;
         }
 
-        // Update player's information
+        // Update players information
         updatePlayerInfo(player);
 
+        //TODO: NO actualiza correctamente...
         // Update NPC's information
-        updateNPCInfo();
+        //updateNPCInfo();
     }
 
     /**
@@ -292,10 +280,12 @@ public class SinglePlayerScene extends Scene {
         // Update text fields for the player
         textFieldPlayerShips.setText(String.valueOf(shipCountPlayer));
         textFieldPlayerShots.setText(String.valueOf(totalPlayerShots));
-        //formatPlayerCoordinate(player);
+        textFieldInputPlayer.setText(String.format("X: %d, Y: %d",
+                BlackBoard2.currentPlayer.getActualPostionX(), BlackBoard2.currentPlayer.getActualPostionY()));
     }
 
     /**
+     * NOT IN USAGE AT THE MOMENT...
      * Updates UI fields with information related to the NPC.
      */
     private void updateNPCInfo() {
@@ -309,40 +299,5 @@ public class SinglePlayerScene extends Scene {
         textFieldInputNPC.setText(String.format("X: %d, Y: %d",
                 BlackBoard2.opponentPlayer.getActualPostionX(),
                 BlackBoard2.opponentPlayer.getActualPostionY()));
-    }
-
-    /**
-     * Formats player's ship coordinates and updates the corresponding text field.
-     *
-     * @param player The current player.
-     */
-    private void formatPlayerCoordinate(Player player) {
-        List<Ship> playerShips = player.getShips();
-        StringBuilder playerCoordinatesText = new StringBuilder();
-
-        for (Ship ship : playerShips) {
-            List<ShipFragments> fragments = ship.getShipFragments();
-
-            // Append X coordinates
-            playerCoordinatesText.append("X: ");
-            for (ShipFragments fragment : fragments) {
-                playerCoordinatesText.append(String.format("%.1f, ", fragment.getX()));
-                break; // Salir después de añadir la primera coordenada X
-            }
-            //playerCoordinatesText.delete(playerCoordinatesText.length() - 2, playerCoordinatesText.length()); // Remove last comma and space
-            //playerCoordinatesText.append("\n");
-
-            // Append Y coordinates
-            playerCoordinatesText.append("Y: ");
-            for (ShipFragments fragment : fragments) {
-                playerCoordinatesText.append(String.format("%.1f, ", fragment.getY()));
-                break; // Salir después de añadir la primera coordenada Y
-            }
-           // playerCoordinatesText.delete(playerCoordinatesText.length() - 2, playerCoordinatesText.length()); // Remove last comma and space
-            //playerCoordinatesText.append("\n");
-        }
-
-        textFieldInputPlayer.setText(playerCoordinatesText.toString());
-        playerCoordinatesText.setLength(0);
     }
 }

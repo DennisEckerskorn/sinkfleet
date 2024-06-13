@@ -65,4 +65,20 @@ public class SceneManager implements ButtonClickListener {
         // Lógica para salir del juego
         System.exit(0);
     }
+
+    /**
+     * Sets the game over scene.
+     */
+    public void onGameOver() {
+        GameOverScene gameOverScene = new GameOverScene(this);
+        setCurrentScene(gameOverScene);
+    }
+
+    /**
+     * Sets the winner scene.
+     */
+    public void onWinner() {
+        WinnerScene winnerScene = new WinnerScene(this);
+        setCurrentScene(winnerScene);
+    }
 }

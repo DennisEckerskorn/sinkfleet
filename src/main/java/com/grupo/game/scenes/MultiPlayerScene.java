@@ -13,8 +13,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.util.List;
 
 /**
@@ -23,12 +21,13 @@ import java.util.List;
 public class MultiPlayerScene extends Scene {
     private Color backgroundColor1;
     private Color backgroundColor2;
-    private Player currentPlayer;
     private SceneManager sceneManager;
-    private JTextField textFieldPlayerShips;
-    private JTextField textFieldNPCShots;
-    private JTextField textFieldPlayerShots;
-    private JTextField textFieldNPCShips;
+    private JTextField textFieldPlayerOneShips;
+    private JTextField textFieldPlayerTwoShots;
+    private JTextField textFieldPlayerOneShots;
+    private JTextField textFieldPlayerTwoShips;
+    private JTextField textFieldInputPlayerOne;
+    private JTextField textFieldInputPlayerTwo;
     private Timer timer;
 
     /**
@@ -42,16 +41,19 @@ public class MultiPlayerScene extends Scene {
         this.backgroundColor1 = backgroundColor1;
         this.backgroundColor2 = backgroundColor2;
         this.sceneManager = sceneManager;
-        textFieldPlayerShips = new JTextField();
-        textFieldNPCShots = new JTextField();
-        textFieldPlayerShots = new JTextField();
-        textFieldNPCShips = new JTextField();
+        textFieldPlayerOneShips = new JTextField();
+        textFieldPlayerTwoShots = new JTextField();
+        textFieldPlayerOneShots = new JTextField();
+        textFieldPlayerTwoShips = new JTextField();
+        textFieldInputPlayerOne = new JTextField();
+        textFieldInputPlayerTwo = new JTextField();
 
-        // Hacer los JTextField no editables
-        textFieldPlayerShips.setEditable(false);
-        textFieldNPCShots.setEditable(false);
-        textFieldPlayerShots.setEditable(false);
-        textFieldNPCShips.setEditable(false);
+        textFieldPlayerOneShips.setEditable(false);
+        textFieldPlayerTwoShots.setEditable(false);
+        textFieldPlayerOneShots.setEditable(false);
+        textFieldPlayerTwoShips.setEditable(false);
+        textFieldInputPlayerOne.setEditable(false);
+        textFieldInputPlayerTwo.setEditable(false);
     }
 
     /**
@@ -63,8 +65,6 @@ public class MultiPlayerScene extends Scene {
     public void render(Graphics2D g2) {
         updateGameInfo(BlackBoard2.currentPlayer);
         drawEntity(g2, BlackBoard2.currentPlayer);
-
-
     }
 
     /**
@@ -92,8 +92,6 @@ public class MultiPlayerScene extends Scene {
             disparos = ((Player) e).getDisparos();
             g2.setColor(Color.RED);
             for (int i = 0; i < disparos.size(); i++) {
-
-
                 int x = disparos.get(i).getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
                 int y = disparos.get(i).getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
                 if (BlackBoard2.opponentPlayer.isHitBoard(disparos.get(i).getX(), disparos.get(i).getY()))
@@ -189,47 +187,23 @@ public class MultiPlayerScene extends Scene {
         // Add the game panel to the parent panel's CENTER
         parentPanel.add(gamePanel, BorderLayout.CENTER);
 
-        textFieldPlayerShips = new JTextField();
-        textFieldPlayerShips.setEditable(false);
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new GridLayout(3, 1));
+        infoPanel.setPreferredSize(new Dimension(800, 100));
 
-        textFieldPlayerShots = new JTextField();
-        textFieldPlayerShots.setEditable(false);
 
-        textFieldNPCShips = new JTextField();
-        textFieldNPCShips.setEditable(false);
+        // Add text fields to the info panel
+        infoPanel.add(new JLabel("Barcos Jugador:"));
+        infoPanel.add(textFieldPlayerOneShips);
 
-        textFieldNPCShots = new JTextField();
-        textFieldNPCShots.setEditable(false);
+        infoPanel.add(new JLabel("Disparos Jugador:"));
+        infoPanel.add(textFieldPlayerOneShots);
 
-        // Create panels for organizing text fields
-        JPanel textFieldsPanel1 = new JPanel();
-        textFieldsPanel1.setLayout(new GridLayout(1, 2));
-        textFieldsPanel1.add(new JLabel("Barcos Jugador:"));
-        textFieldsPanel1.add(textFieldPlayerShips);
+        infoPanel.add(new JLabel("Posicion Jugador:"));
+        infoPanel.add(textFieldInputPlayerOne);
 
-        JPanel textFieldsPanel2 = new JPanel();
-        textFieldsPanel2.setLayout(new GridLayout(1, 2));
-        textFieldsPanel2.add(new JLabel("Disparos Jugador:"));
-        textFieldsPanel2.add(textFieldPlayerShots);
 
-        JPanel textFieldsPanel3 = new JPanel();
-        textFieldsPanel3.setLayout(new GridLayout(1, 2));
-        textFieldsPanel3.add(new JLabel("Barcos NPC:"));
-        textFieldsPanel3.add(textFieldNPCShips);
-
-        JPanel textFieldsPanel4 = new JPanel();
-        textFieldsPanel4.setLayout(new GridLayout(1, 2));
-        textFieldsPanel4.add(new JLabel("Disparos NPC:"));
-        textFieldsPanel4.add(textFieldNPCShots);
-
-        JPanel textFieldsPanel = new JPanel();
-        textFieldsPanel.setLayout(new GridLayout(2, 2));
-        textFieldsPanel.add(textFieldsPanel1);
-        textFieldsPanel.add(textFieldsPanel2);
-        textFieldsPanel.add(textFieldsPanel3);
-        textFieldsPanel.add(textFieldsPanel4);
-
-        parentPanel.add(textFieldsPanel, BorderLayout.NORTH);
+        parentPanel.add(infoPanel, BorderLayout.NORTH);
 
         timer = new Timer(1000, new ActionListener() {
             @Override
@@ -240,46 +214,93 @@ public class MultiPlayerScene extends Scene {
         timer.start();
     }
 
-    /**
-     * Updates the game information displayed on the UI.
-     *
-     * @param player The current player.
-     */
     public void updateGameInfo(Player player) {
         if (player == null) {
-            textFieldPlayerShips.setText("Barcos Jugador: 0");
-            textFieldPlayerShots.setText("Disparos Jugador: ");
-            textFieldNPCShips.setText("Barcos NPC: ");
-            textFieldNPCShots.setText("Disparos NPC: ");
+            setNullPlayerInfo();
             return;
         }
 
-        // Get updated information for the player
-        int shipCountPlayer = player.getShips().size();
-        List<Coordinates> playerShots = player.getDisparos();
+        // Update players information
+        updatePlayerInfo(player);
 
-        // Update text fields for the player
-        textFieldPlayerShips.setText("" + shipCountPlayer);
-        textFieldPlayerShots.setText(formatCoordinates(playerShots));
+        // Determine the opponent player
+        Player opponentPlayer = (player == BlackBoard2.currentPlayer) ? BlackBoard2.opponentPlayer : BlackBoard2.currentPlayer;
 
-        // Update text fields for the NPC (adjust as needed)
-        textFieldNPCShips.setText(""/* + shipCountNPC*/);
-        textFieldNPCShots.setText(""/* + formatCoordinates(coordinates2)*/);
+        // Update opponent's information
+        updateOpponentInfo(opponentPlayer);
     }
 
     /**
-     * Formats a list of coordinates into a string representation.
-     *
-     * @param coordinates The list of coordinates.
-     * @return A string representation of the coordinates.
+     * Sets UI fields to "-" when the player is null.
      */
-    private String formatCoordinates(List<Coordinates> coordinates) {
-        StringBuilder coordinatesString = new StringBuilder();
-        for (Coordinates coord : coordinates) {
-            coordinatesString.append(String.format("(%d, %d) ", coord.getX(), coord.getY()));
-        }
-        return coordinatesString.toString();
+    private void setNullPlayerInfo() {
+        textFieldPlayerOneShips.setText("-");
+        textFieldPlayerTwoShips.setText("-");
+        textFieldPlayerOneShots.setText("-");
+        textFieldPlayerTwoShots.setText("-");
+        textFieldInputPlayerOne.setText("-");
+        textFieldInputPlayerTwo.setText("-");
     }
 
+    /**
+     * Updates UI fields with information related to the player.
+     *
+     * @param player The current player.
+     */
+    private void updatePlayerInfo(Player player) {
+        int shipCountPlayer = player.getShips().size();
+        List<Coordinates> playerShots = player.getDisparos();
+        int totalPlayerShots = playerShots.size();
 
+        textFieldPlayerOneShips.setText(String.valueOf(shipCountPlayer));
+        textFieldPlayerOneShots.setText(String.valueOf(totalPlayerShots));
+
+        String x1 = "-", y1 = "-", x2 = "-", y2 = "-";
+
+        if (!player.getShips().isEmpty()) {
+            List<ShipFragments> fragments = player.getShips().get(0).getShipFragments();
+
+            if (fragments.size() > 0) {
+                x1 = String.format("%.1f", fragments.get(0).getX());
+                y1 = String.format("%.1f", fragments.get(0).getY());
+            }
+            if (fragments.size() > 1) {
+                x2 = String.format("%.1f", fragments.get(1).getX());
+                y2 = String.format("%.1f", fragments.get(1).getY());
+            }
+        }
+
+        textFieldInputPlayerOne.setText(String.format("X1: %s, Y1: %s, X2: %s, Y2: %s", x1, y1, x2, y2));
+    }
+
+    /**
+     * Updates UI fields with information related to the opponent.
+     *
+     * @param opponentPlayer The opponent player.
+     */
+    private void updateOpponentInfo(Player opponentPlayer) {
+        int shipCountNPC = opponentPlayer.getShips().size();
+        List<Coordinates> npcShots = opponentPlayer.getDisparos();
+        int totalNPCShots = npcShots.size();
+
+        textFieldPlayerTwoShips.setText(String.valueOf(shipCountNPC));
+        textFieldPlayerTwoShots.setText(String.valueOf(totalNPCShots));
+
+        String x1 = "-", y1 = "-", x2 = "-", y2 = "-";
+
+        if (!opponentPlayer.getShips().isEmpty()) {
+            List<ShipFragments> fragments = opponentPlayer.getShips().get(0).getShipFragments();
+
+            if (fragments.size() > 0) {
+                x1 = String.format("%.1f", fragments.get(0).getX());
+                y1 = String.format("%.1f", fragments.get(0).getY());
+            }
+            if (fragments.size() > 1) {
+                x2 = String.format("%.1f", fragments.get(1).getX());
+                y2 = String.format("%.1f", fragments.get(1).getY());
+            }
+        }
+
+        textFieldInputPlayerTwo.setText(String.format("X1: %s, Y1: %s, X2: %s, Y2: %s", x1, y1, x2, y2));
+    }
 }

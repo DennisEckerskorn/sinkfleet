@@ -8,6 +8,7 @@ import com.grupo.game.core.BlackBoard2;
 import com.grupo.game.core.SinkFleetEntityManager;
 import com.grupo.game.input.NumericKeyboardManager;
 import com.grupo.game.math.Coordinates;
+import com.grupo.game.scenes.SceneManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class Player extends PlayableEntity {
     private int shipIndex;
     private String nombre;
     private boolean win;
+    private SceneManager sceneManager;
 
     /**
      * Constructs a Player object with the specified parameters.
@@ -163,6 +165,7 @@ public class Player extends PlayableEntity {
                                 if (BlackBoard2.opponentPlayer.barcosHundidos() == SHIP_SIZES.length) {
                                     System.out.println("Ganaste");
                                     win = true;
+                                    sceneManager.onWinner();
                                 }
                             }
 
@@ -178,6 +181,11 @@ public class Player extends PlayableEntity {
             ((NumericKeyboardManager) getKeyboardManager()).clearPosX();
             ((NumericKeyboardManager) getKeyboardManager()).clearPosY();
 
+        }
+        //TODO: He añadido esto, si no es necesario quitalo Kevin
+        if (BlackBoard2.opponentPlayer.barcosHundidos() == SHIP_SIZES.length) {
+            System.out.println("Perdiste");
+            sceneManager.onGameOver();
         }
     }
 
