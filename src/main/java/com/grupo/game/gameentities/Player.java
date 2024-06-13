@@ -40,6 +40,7 @@ public class Player extends PlayableEntity {
 
     private int shipIndex;
     private String nombre;
+    private boolean win;
 
     /**
      * Constructs a Player object with the specified parameters.
@@ -78,6 +79,8 @@ public class Player extends PlayableEntity {
         this.turnUsed = false;
 
         this.nombre = nombre;
+
+        this.win = false;
     }
 
     public int getRows() {
@@ -105,6 +108,15 @@ public class Player extends PlayableEntity {
      * @param y The Y-coordinate to check.
      * @return true if the coordinates correspond to a hit, false otherwise.
      */
+    public boolean isHitBoard() {
+        for (Ship ship : ships) {
+            if (ship.isHitPosition(getActualPostionX(), getActualPostionY())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public boolean isHitBoard(float x, float y) {
         for (Ship ship : ships) {
             if (ship.isHitPosition(x, y)) {
@@ -198,17 +210,27 @@ public class Player extends PlayableEntity {
             } else {
                 // If the game has started, handle shooting
                 if (!turnUsed) {
-                    System.out.println(nombre + "  - Disparo en: " + actualPostionX + " " + actualPostionY);
-                    hit();
-                    turnUsed = true;
-                    if (BlackBoard2.opponentPlayer.isHitBoard(Integer.parseInt(actualPostionX),Integer.parseInt(actualPostionY))) {
-                        System.out.println("Dado");
-                        //Meotodo para saber si el barco de esta posicion esta undido.
-                        System.out.println("Barcos hundidos: " + BlackBoard2.opponentPlayer.barcosHundidos());
-                        if (BlackBoard2.opponentPlayer.isSunk(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY))) {
-                            System.out.println("Barco hundido");
+                    if (!posibleHit()) {
+                        System.out.println("No se puede disparar en esta posicion");
+                    }
+                    else{
+                        System.out.println(nombre + "  - Disparo en: " + actualPostionX + " " + actualPostionY);
+                        hit();
+                        turnUsed = true;
+                        if (BlackBoard2.opponentPlayer.isHitBoard()) {
+                            System.out.println("Dado");
+                            //Meotodo para saber si el barco de esta posicion esta undido.
+                            System.out.println("Barcos hundidos: " + BlackBoard2.opponentPlayer.barcosHundidos());
+                            if (BlackBoard2.opponentPlayer.isSunk()) {
+                                System.out.println("Barco hundido");
+                                if (BlackBoard2.opponentPlayer.barcosHundidos() == SHIP_SIZES.length) {
+                                    System.out.println("Ganaste");
+                                    win = true;
+                                }
+                            }
                         }
                     }
+                    
                 }
 
             }
@@ -221,9 +243,21 @@ public class Player extends PlayableEntity {
         }
     }
 
-    public boolean isSunk(int x, int y) {
+    public boolean posibleHit() {
+        if (getActualPostionX() < 0 || getActualPostionY() < 0 || getActualPostionX() >= Settings.COLS || getActualPostionY() >= Settings.ROWS){
+            return false;
+            
+        }
+        for (Coordinates disparo : disparos) {
+            if (disparo.getX() == Integer.parseInt(actualPostionX) && disparo.getY() == Integer.parseInt(actualPostionY)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    public boolean isSunk() {
         for (Ship ship : ships) {
-            if (ship.isHitPosition(x, y)) {
+            if (ship.isHitPosition(getActualPostionX(), getActualPostionY())) {
                 return ship.isSunk();
             }
         }
