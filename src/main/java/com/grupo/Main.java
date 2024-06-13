@@ -27,7 +27,7 @@ public class Main {
      */
     public static void main(String[] args) {
         // Create an instance of SinkFleetGame with the specified settings
-        SinkFleetGame sinkFleetGame = new SinkFleetGame(Settings.WIDTH, Settings.HEIGHT, Settings.ROWS, Settings.COLS, Settings.TARGET_FPS, Settings.TARGET_UPS, Settings.MAX_ENTITIES, BlackBoard2.Mode.SINGLE_PLAYER);
+        SinkFleetGame sinkFleetGame = new SinkFleetGame(Settings.WIDTH, Settings.HEIGHT, Settings.ROWS, Settings.COLS, Settings.TARGET_FPS, Settings.TARGET_UPS, Settings.MAX_ENTITIES, BlackBoard2.Mode.MULTI_PLAYER);
 
         // Create an instance of SinkFleetAssetManager
         SinkFleetAssetManager assetManager = new SinkFleetAssetManager();

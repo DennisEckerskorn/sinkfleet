@@ -50,7 +50,7 @@ public class SceneManager implements ButtonClickListener {
      */
     @Override
     public void onMultiPlayerClicked() {
-        sinkFleetGame.setMode(BlackBoard2.Mode.MULTI_PLAYER);
+        //sinkFleetGame.setMode(BlackBoard2.Mode.MULTI_PLAYER);
         MultiPlayerScene multiPlayerScene = new MultiPlayerScene(Settings.COLOR_BACKGROUND, Settings.COLOR_BACKGROUND, this);
         setCurrentScene(multiPlayerScene);
     }

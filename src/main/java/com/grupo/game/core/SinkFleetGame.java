@@ -57,9 +57,9 @@ public class SinkFleetGame extends Game {
     public void setMode(BlackBoard2.Mode mode) {
         this.mode = mode;
         if (mode == BlackBoard2.Mode.SINGLE_PLAYER) {
-            initPlayers(rows, cols);
+            //!TODO: Implement single player mode
         } else if (mode == BlackBoard2.Mode.MULTI_PLAYER) {
-            //!TODO Implementar modo multijugador
+            initPlayers(rows, cols);
 
         }
     }
