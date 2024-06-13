@@ -28,6 +28,8 @@ public class MultiPlayerScene extends Scene {
     private JTextField textFieldPlayerTwoShips;
     private JTextField textFieldInputPlayerOne;
     private JTextField textFieldInputPlayerTwo;
+    private JButton exitButton;
+    private JButton returnToMenuButton;
     private Timer timer;
 
     /**
@@ -47,6 +49,8 @@ public class MultiPlayerScene extends Scene {
         textFieldPlayerTwoShips = new JTextField();
         textFieldInputPlayerOne = new JTextField();
         textFieldInputPlayerTwo = new JTextField();
+        exitButton = new JButton();
+        returnToMenuButton = new JButton();
 
         textFieldPlayerOneShips.setEditable(false);
         textFieldPlayerTwoShots.setEditable(false);
@@ -204,6 +208,33 @@ public class MultiPlayerScene extends Scene {
 
 
         parentPanel.add(infoPanel, BorderLayout.NORTH);
+
+
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(1, 2));
+
+        // Exit Button
+        exitButton.setText("Salir del Juego");
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sceneManager.onExitClicked();
+            }
+        });
+
+        // Return to Menu Button
+        returnToMenuButton.setText("Volver al Menu Principal");
+        returnToMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sceneManager.onReturnToMainMenu();
+            }
+        });
+
+        buttonPanel.add(returnToMenuButton);
+        buttonPanel.add(exitButton);
+
+        parentPanel.add(buttonPanel, BorderLayout.SOUTH);
 
         timer = new Timer(1000, new ActionListener() {
             @Override

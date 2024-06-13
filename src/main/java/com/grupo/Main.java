@@ -40,10 +40,11 @@ public class Main {
         sinkFleetGame.setRenderAPI(renderer);
 
         // Create an instance of SceneManager for managing game scenes
-        SceneManager sceneManager = new SceneManager(renderer, sinkFleetGame);
+        SceneManager sceneManager = new SceneManager(renderer, sinkFleetGame, assetManager);
+        BlackBoard2.sceneManager = sceneManager;
 
         // Create an instance of MenuScene for the main menu
-        MenuScene menuScene = new MenuScene(assetManager, sceneManager);
+        MenuScene menuScene = new MenuScene(assetManager);
 
         // Set the button click listener for the menu scene
         menuScene.setButtonClickListener(sceneManager);

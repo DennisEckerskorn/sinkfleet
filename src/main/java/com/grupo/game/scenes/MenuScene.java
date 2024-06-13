@@ -31,10 +31,9 @@ public class MenuScene extends Scene {
      * Exit EXIT
      *
      * @param assetManager The asset manager responsible for managing images, sprites, and more.
-     * @param gameManager  The game manager responsible for managing scenes.
      */
-    public MenuScene(AssetManager assetManager, SceneManager gameManager) {
-        backgroundImage = assetManager.getSprite("battleship");
+    public MenuScene(AssetManager assetManager) {
+        //backgroundImage = assetManager.getSprite("battleship");
         buttonPanel = new JPanel(new GridLayout(3, 1));
         buttonPanel.setOpaque(false);
 
@@ -67,8 +66,9 @@ public class MenuScene extends Scene {
         exitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (buttonClickListener != null) {
-                    buttonClickListener.onExitClicked();
+                int option = JOptionPane.showConfirmDialog(null, "Seguro que quieres salir?");
+                if (option == JOptionPane.YES_OPTION) {
+                    System.exit(0);
                 }
             }
         });
@@ -94,7 +94,7 @@ public class MenuScene extends Scene {
         button.setForeground(Color.BLACK);
         button.setFont(new Font("Arial", Font.PLAIN, 18));
         button.setBorder(BorderFactory.createEmptyBorder(10, 30, 10, 30));
-        button.setPreferredSize(new Dimension(250, 50));
+        button.setPreferredSize(new Dimension(150, 20));
 
         button.setOpaque(true);
     }

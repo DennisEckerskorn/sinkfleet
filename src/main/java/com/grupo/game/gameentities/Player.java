@@ -42,7 +42,6 @@ public class Player extends PlayableEntity {
     private int shipIndex;
     private String nombre;
     private boolean win;
-    private SceneManager sceneManager;
 
     /**
      * Constructs a Player object with the specified parameters.
@@ -145,6 +144,7 @@ public class Player extends PlayableEntity {
                 if (BlackBoard2.currentPlayer.getShips().size() == 7 && BlackBoard2.opponentPlayer.getShips().size() == 7) {
                     BlackBoard2.beginGame = false;
                     //turnUsed = true;
+                    BlackBoard2.sceneManager.notifyAllShipsPlaced();
                 }
 
             } else {
@@ -152,6 +152,7 @@ public class Player extends PlayableEntity {
                 if (!turnUsed) {
                     if (!posibleHit()) {
                         System.out.println("No se puede disparar en esta posicion");
+                        BlackBoard2.sceneManager.notifyCannotShoot();
                     } else {
                         System.out.println(nombre + "  - Disparo en: " + actualPostionX + " " + actualPostionY);
                         hit(getActualPostionX(), getActualPostionY());
@@ -159,13 +160,15 @@ public class Player extends PlayableEntity {
                         turnUsed = true;
                         if (BlackBoard2.opponentPlayer.isHitBoard(getActualPostionX(), getActualPostionY())) {
                             System.out.println("Dado");
+                            BlackBoard2.sceneManager.onSuccessfulHit();
                             if (BlackBoard2.opponentPlayer.isSunk(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY))) {
                                 System.out.println("Barcos hundidos: " + BlackBoard2.opponentPlayer.barcosHundidos());
                                 System.out.println("Barco hundido");
+                                BlackBoard2.sceneManager.onShipSunk();
                                 if (BlackBoard2.opponentPlayer.barcosHundidos() == SHIP_SIZES.length) {
                                     System.out.println("Ganaste");
                                     win = true;
-                                    sceneManager.onWinner();
+                                    BlackBoard2.sceneManager.onWinner();
                                 }
                             }
 
@@ -185,7 +188,7 @@ public class Player extends PlayableEntity {
         //TODO: He añadido esto, si no es necesario quitalo Kevin
         if (BlackBoard2.opponentPlayer.barcosHundidos() == SHIP_SIZES.length) {
             System.out.println("Perdiste");
-            sceneManager.onGameOver();
+            BlackBoard2.sceneManager.onGameOver();
         }
     }
 

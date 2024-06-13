@@ -31,6 +31,8 @@ public class SinglePlayerScene extends Scene {
     private JTextField textFieldNPCShips;
     private JTextField textFieldInputPlayer;
     private JTextField textFieldInputNPC;
+    private JButton exitButton;
+    private JButton returnToMenuButton;
     private Timer timer;
 
     /**
@@ -50,6 +52,8 @@ public class SinglePlayerScene extends Scene {
         textFieldNPCShips = new JTextField();
         textFieldInputPlayer = new JTextField();
         textFieldInputNPC = new JTextField();
+        exitButton = new JButton();
+        returnToMenuButton = new JButton();
 
         textFieldPlayerShips.setEditable(false);
         textFieldNPCShots.setEditable(false);
@@ -227,6 +231,31 @@ public class SinglePlayerScene extends Scene {
 
         parentPanel.add(infoPanel, BorderLayout.NORTH);
 
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(1, 2));
+
+        // Exit Button
+        exitButton.setText("Salir del Juego");
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sceneManager.onExitClicked();
+            }
+        });
+
+        // Return to Menu Button
+        returnToMenuButton.setText("Volver al Menu Principal");
+        returnToMenuButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sceneManager.onReturnToMainMenu();
+            }
+        });
+
+        buttonPanel.add(returnToMenuButton);
+        buttonPanel.add(exitButton);
+
+        parentPanel.add(buttonPanel, BorderLayout.SOUTH);
         timer = new Timer(1000, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
