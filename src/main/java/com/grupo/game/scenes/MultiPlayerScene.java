@@ -56,17 +56,17 @@ public class MultiPlayerScene extends Scene {
         textFieldShots2.setEditable(false);
     }
 
-   /**
+    /**
      * Renders the scene with the given Graphics2D object.
      *
      * @param g2 The Graphics2D object.
      */
     @Override
     public void render(Graphics2D g2) {
-            updateGameInfo(BlackBoard2.currentPlayer);
-            drawEntity(g2, BlackBoard2.currentPlayer);
-        
-        
+        updateGameInfo(BlackBoard2.currentPlayer);
+        drawEntity(g2, BlackBoard2.currentPlayer);
+
+
     }
 
     /**
@@ -95,14 +95,13 @@ public class MultiPlayerScene extends Scene {
             g2.setColor(Color.RED);
             for (int i = 0; i < disparos.size(); i++) {
 
-               
 
                 int x = disparos.get(i).getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
                 int y = disparos.get(i).getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
-                if(BlackBoard2.opponentPlayer.isHitBoard(disparos.get(i).getX(), disparos.get(i).getY()))
+                if (BlackBoard2.opponentPlayer.isHitBoard(disparos.get(i).getX(), disparos.get(i).getY()))
                     g2.setColor(Color.RED);
                 else
-                    g2.setColor(Color.BLUE  );
+                    g2.setColor(Color.BLUE);
                 g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
             }
         }
@@ -191,34 +190,6 @@ public class MultiPlayerScene extends Scene {
 
         // Add the game panel to the parent panel's CENTER
         parentPanel.add(gamePanel, BorderLayout.CENTER);
-
-        // Add mouse listener to game panel
-        gamePanel.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                // Determine cell clicked based on mouse coordinates
-                int cellSize = Blackboard.cellSize;
-                int x = e.getX();
-                int y = e.getY();
-                int col = (x - Settings.GAMEBOARD_OFFSET) / cellSize;
-                int row = (y - Settings.GAMEBOARD_OFFSET) / cellSize;
-
-                // Perform actions based on the clicked cell
-                // For example, you can call a method to handle placing ships or firing shots
-                handleCellClick(row, col);
-            }
-        });
-
-        // Create and add the button
-        button = new JButton("CAMBIAR TURNO");
-        button.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO: Implementar click en boton, REVISAR KEVIN
-
-            }
-        });
-        parentPanel.add(button, BorderLayout.SOUTH);
 
         textFieldShips1 = new JTextField();
         textFieldShips1.setEditable(false);

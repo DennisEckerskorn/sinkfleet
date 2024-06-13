@@ -28,13 +28,14 @@ public class NPCPlayer extends Player {
      * @param cols   The number of columns in the game board grid.
      */
     public NPCPlayer(float x, float y, float width, float height, int hp, float damage, int rows, int cols, Strategy gameStrategy) {
-        super("NPC",x, y, width, height, hp, damage, null, rows, cols);
+        super("NPC", x, y, width, height, hp, damage, null, rows, cols);
         this.random = new Random();
         this.gameStrategy = gameStrategy;
-        
+
     }
 
     //#region @Override Methods
+
     /**
      * Updates the NPCPlayer's state based on the current game state.
      *
@@ -42,35 +43,33 @@ public class NPCPlayer extends Player {
      */
     @Override
     public void update(double deltaTime) {
-        
+
         if (isTurnUsed()) {
             LibConf.sleep(1000);
             setTurnUsed(false);
             Player tmp = BlackBoard2.currentPlayer;
             BlackBoard2.currentPlayer = BlackBoard2.opponentPlayer;
             BlackBoard2.opponentPlayer = tmp;
-            
-        }
-        else if(BlackBoard2.beginGame){
+
+        } else if (BlackBoard2.beginGame) {
             Coordinates s = gameStrategy.addShips();
             super.addShips(s.getX(), s.getY());
             System.out.println("Numero de barcos: " + BlackBoard2.currentPlayer.getShips().size() + " " + BlackBoard2.opponentPlayer.getShips().size());
-                // If both players have placed all their ships, start the game
+            // If both players have placed all their ships, start the game
             if (BlackBoard2.currentPlayer.getShips().size() == 7 && BlackBoard2.opponentPlayer.getShips().size() == 7) {
                 BlackBoard2.beginGame = false;
                 LibConf.sleep(1000);
                 Player tmp = BlackBoard2.currentPlayer;
                 BlackBoard2.currentPlayer = BlackBoard2.opponentPlayer;
                 BlackBoard2.opponentPlayer = tmp;
-                
+
             }
-        }
-        else if (!isTurnUsed()) {
+        } else if (!isTurnUsed()) {
             LibConf.sleep(2000);
             Coordinates attack = gameStrategy.attack();
             System.out.println(getNombre() + " Ataque: " + attack.getX() + " " + attack.getY());
             super.hit(attack.getX(), attack.getY());
-            if (BlackBoard2.opponentPlayer.isHitBoard(attack.getX(),attack.getY())) {
+            if (BlackBoard2.opponentPlayer.isHitBoard(attack.getX(), attack.getY())) {
                 System.out.println("Barco tocado");
                 if (BlackBoard2.opponentPlayer.isSunk(attack.getX(), attack.getY())) {
                     System.out.println("Barco hundido");
@@ -78,14 +77,13 @@ public class NPCPlayer extends Player {
                         System.out.println("Juego terminado");
                         setWin(true);
                     }
-                    
+
                 }
             }
             setTurnUsed(true);
         }
-        
-            
-           
+
+
     }
 
     /**
@@ -115,9 +113,6 @@ public class NPCPlayer extends Player {
     //#endregion
 
 
-
-
-    
     //#region Getters and Setters
     public void setGameStrategy(Strategy gameStrategy) {
         this.gameStrategy = gameStrategy;
@@ -125,6 +120,5 @@ public class NPCPlayer extends Player {
 
     //#endregion
 
-    
 
 }

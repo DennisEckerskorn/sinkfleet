@@ -11,7 +11,7 @@ public class BlackBoard2 {
     public static Mode mode;
     public static boolean buttonPressed = false;
     public static boolean beginGame = true;
-    
+
     public static boolean resetListenner = false;
 
     /**

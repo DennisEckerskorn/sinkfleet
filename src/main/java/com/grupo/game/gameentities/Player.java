@@ -55,11 +55,11 @@ public class Player extends PlayableEntity {
      * @param rows            The number of rows in the game board.
      * @param cols            The number of columns in the game board.
      */
-    public Player(String nombre,float x, float y, float width, float height, int hp, float damage, KeyboardManager keyboardManager, int rows, int cols) {
+    public Player(String nombre, float x, float y, float width, float height, int hp, float damage, KeyboardManager keyboardManager, int rows, int cols) {
         super(x, y, width, height, hp, damage, 0, 0, 0, 0, keyboardManager);
         this.ships = new ArrayList<>(hp);
         this.disparos = new ArrayList<>();
-       // this.disparoActual = 0;
+        // this.disparoActual = 0;
 
         //Coordenada de pisparo
         this.actualPostionX = "-1";
@@ -106,7 +106,7 @@ public class Player extends PlayableEntity {
         //System.out.println( "x: " + actualPostionX + " y: " + actualPostionY + " horizontal: " + isHorizontal + " enter: " + enterPressed);
     }
 
-     public int getShipIndex() {
+    public int getShipIndex() {
         return shipIndex;
     }
 
@@ -150,8 +150,7 @@ public class Player extends PlayableEntity {
                 if (!turnUsed) {
                     if (!posibleHit()) {
                         System.out.println("No se puede disparar en esta posicion");
-                    }
-                    else{
+                    } else {
                         System.out.println(nombre + "  - Disparo en: " + actualPostionX + " " + actualPostionY);
                         hit(getActualPostionX(), getActualPostionY());
                         //System.out.println(isHitBoard(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY)));
@@ -166,10 +165,10 @@ public class Player extends PlayableEntity {
                                     win = true;
                                 }
                             }
-                            
+
                         }
                     }
-                    
+
                 }
 
             }
@@ -183,11 +182,6 @@ public class Player extends PlayableEntity {
     }
 
     //#endregion
-
-
-
-
-
 
 
     //#region Methods for handling player actions
@@ -245,12 +239,13 @@ public class Player extends PlayableEntity {
 
     /**
      * method to know if the shot is valid
+     *
      * @return boolean
      */
     public boolean posibleHit() {
-        if (getActualPostionX() < 0 || getActualPostionY() < 0 || getActualPostionX() >= Settings.COLS || getActualPostionY() >= Settings.ROWS){
+        if (getActualPostionX() < 0 || getActualPostionY() < 0 || getActualPostionX() >= Settings.COLS || getActualPostionY() >= Settings.ROWS) {
             return false;
-            
+
         }
         for (Coordinates disparo : disparos) {
             if (disparo.getX() == Integer.parseInt(actualPostionX) && disparo.getY() == Integer.parseInt(actualPostionY)) {
@@ -339,11 +334,6 @@ public class Player extends PlayableEntity {
     //#endregion
 
 
-
-
-
-
-
     //#region Getters and Setters
     public int getRows() {
         return rows;
@@ -392,7 +382,7 @@ public class Player extends PlayableEntity {
         win = b;
     }
 
-    
+
     public boolean isTurnUsed() {
         return turnUsed;
     }
@@ -405,15 +395,8 @@ public class Player extends PlayableEntity {
         return nombre;
     }
 
-    
 
     //#endregion
-   
 
-    
 
-   
-
-    
-   
 }
