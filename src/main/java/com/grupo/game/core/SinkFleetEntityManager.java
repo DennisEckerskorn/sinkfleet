@@ -5,11 +5,13 @@ import com.grupo.engine.core.AssetManager;
 
 import com.grupo.engine.core.EntityManager;
 import com.grupo.engine.entities.Entity;
+import com.grupo.engine.entities.PlayableEntity;
 import com.grupo.engine.input.KeyboardManager;
 import com.grupo.game.config.Settings;
 import com.grupo.game.gameentities.NPCPlayer;
 import com.grupo.game.gameentities.Player;
 import com.grupo.game.gameentities.Ship;
+import com.grupo.game.gameentities.strategy.Strategy1;
 
 /**
  * Manages the entities specific to the Sink Fleet game.
@@ -62,7 +64,7 @@ public class SinkFleetEntityManager extends EntityManager {
      */
     public Player creatNPCPlayer(float x, float y, int rows, int cols) {
         Player player = new NPCPlayer(x, y, Settings.WIDTH, Settings.HEIGHT,
-                Settings.PLAYER_HP, Settings.PLAYER_DAMAGE, rows, cols);
+                Settings.PLAYER_HP, Settings.PLAYER_DAMAGE, rows, cols, new Strategy1());
 
         addEntity(player);
 
@@ -142,6 +144,13 @@ public class SinkFleetEntityManager extends EntityManager {
     @Override
     public void processInput() {
         BlackBoard2.currentPlayer.processInput();
+    }
+
+
+    public void removeAllPlayeableEntities() {
+        for (PlayableEntity ship : super.getPlayableEntities()) {
+            removeEntity(ship);
+        }
     }
 
 }

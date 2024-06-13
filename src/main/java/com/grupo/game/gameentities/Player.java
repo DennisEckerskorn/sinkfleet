@@ -16,7 +16,7 @@ import java.util.List;
  * Represents a player in the Sink Fleet game.
  */
 public class Player extends PlayableEntity {
-    private static final int[] SHIP_SIZES = {5, 4, 3, 3, 3, 2, 2};
+    protected static final int[] SHIP_SIZES = {5, 4, 3, 3, 3, 2, 2};
 
     //Propiedades principales del jugador
     private List<Ship> ships;
@@ -83,22 +83,117 @@ public class Player extends PlayableEntity {
         this.win = false;
     }
 
-    public int getRows() {
-        return rows;
+    //#region Overridden methods from PlayableEntity
+    @Override
+    public void lastUpdate(double deltaTime) {
     }
 
-    public int getCols() {
-        return cols;
+    @Override
+    public void postUpdate(double deltaTime) {
     }
 
-    public boolean getIsHorizontal() {
-        return isHorizontal;
+    /**
+     * Processes player input to update the current position and other flags.
+     */
+    @Override
+    public void processInput() {
+        NumericKeyboardManager keyboardManager = (NumericKeyboardManager) getKeyboardManager();
+        actualPostionX = keyboardManager.getPosX();
+        actualPostionY = keyboardManager.getPosY();
+        isHorizontal = keyboardManager.isHorizontal();
+        enterPressed = keyboardManager.isEnterPressed();
+        nextTurn = keyboardManager.isNextTurn();
+        //System.out.println( "x: " + actualPostionX + " y: " + actualPostionY + " horizontal: " + isHorizontal + " enter: " + enterPressed);
     }
 
+     public int getShipIndex() {
+        return shipIndex;
+    }
+
+    /**
+     * Updates the player's state based on the current game state.
+     *
+     * @param deltaTime The time elapsed since the last update.
+     */
+    @Override
+    public void update(double deltaTime) {
+        // If it's the next turn and the current turn is used, swap players
+        if (nextTurn && !BlackBoard2.beginGame && turnUsed) {
+            turnUsed = false;
+            Player tmp = BlackBoard2.currentPlayer;
+            BlackBoard2.currentPlayer = BlackBoard2.opponentPlayer;
+            BlackBoard2.opponentPlayer = tmp;
+        }
+
+        // Process player input and perform actions accordingly
+        if (enterPressed) {
+            // If the game has begun, handle ship placement and shooting
+            if (BlackBoard2.beginGame) {
+                //System.out.println(addShip(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY), 3, isHorizontal));
+                addShips(getActualPostionX(), getActualPostionY());
+                // Check if all ships are placed and switch to the opponent's turn
+                System.out.println("Numero de barcos: " + BlackBoard2.currentPlayer.getShips().size() + " " + BlackBoard2.opponentPlayer.getShips().size());
+
+                if (shipIndex == SHIP_SIZES.length) {
+                    Player tmp = BlackBoard2.currentPlayer;
+                    BlackBoard2.currentPlayer = BlackBoard2.opponentPlayer;
+                    BlackBoard2.opponentPlayer = tmp;
+                }
+                // If both players have placed all their ships, start the game
+                if (BlackBoard2.currentPlayer.getShips().size() == 7 && BlackBoard2.opponentPlayer.getShips().size() == 7) {
+                    BlackBoard2.beginGame = false;
+                    //turnUsed = true;
+                }
+
+            } else {
+                // If the game has started, handle shooting
+                if (!turnUsed) {
+                    if (!posibleHit()) {
+                        System.out.println("No se puede disparar en esta posicion");
+                    }
+                    else{
+                        System.out.println(nombre + "  - Disparo en: " + actualPostionX + " " + actualPostionY);
+                        hit(getActualPostionX(), getActualPostionY());
+                        //System.out.println(isHitBoard(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY)));
+                        turnUsed = true;
+                        if (BlackBoard2.opponentPlayer.isHitBoard(getActualPostionX(), getActualPostionY())) {
+                            System.out.println("Dado");
+                            if (BlackBoard2.opponentPlayer.isSunk(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY))) {
+                                System.out.println("Barcos hundidos: " + BlackBoard2.opponentPlayer.barcosHundidos());
+                                System.out.println("Barco hundido");
+                                if (BlackBoard2.opponentPlayer.barcosHundidos() == SHIP_SIZES.length) {
+                                    System.out.println("Ganaste");
+                                    win = true;
+                                }
+                            }
+                            
+                        }
+                    }
+                    
+                }
+
+            }
+            // Reset keyboard input flags after processing
+            ((NumericKeyboardManager) getKeyboardManager()).setEnterPressed(false);
+            ((NumericKeyboardManager) getKeyboardManager()).setNext(false);
+            ((NumericKeyboardManager) getKeyboardManager()).clearPosX();
+            ((NumericKeyboardManager) getKeyboardManager()).clearPosY();
+
+        }
+    }
+
+    //#endregion
 
 
-    public void hit() {
-        disparos.add(new Coordinates(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY)));
+
+
+
+
+
+    //#region Methods for handling player actions
+
+    public void hit(int x, int y) {
+        disparos.add(new Coordinates(x, y));
     }
 
     /**
@@ -108,15 +203,22 @@ public class Player extends PlayableEntity {
      * @param y The Y-coordinate to check.
      * @return true if the coordinates correspond to a hit, false otherwise.
      */
-    public boolean isHitBoard() {
+    public boolean isHitBoard(int x, int y) {
         for (Ship ship : ships) {
-            if (ship.isHitPosition(getActualPostionX(), getActualPostionY())) {
+            if (ship.isHitPosition(x, y)) {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Checks if the given coordinates correspond to a hit on any of the player's ships.
+     *
+     * @param x The X-coordinate to check.
+     * @param y The Y-coordinate to check.
+     * @return true if the coordinates correspond to a hit, false otherwise.
+     */
     public boolean isHitBoard(float x, float y) {
         for (Ship ship : ships) {
             if (ship.isHitPosition(x, y)) {
@@ -141,108 +243,10 @@ public class Player extends PlayableEntity {
         return count;
     }
 
-    //public boolean addShip(int x, int y, int size, boolean isHorizontal) {
-    //    Ship ship = ((SinkFleetEntityManager) Blackboard.entityManager).createShip(x, y, size, isHorizontal);
-    //    if (ship == null) {
-    //        return false;
-    //    }
-    //    return ships.add(ship);
-    //}
-
-    public List<Ship> getShips() {
-        return ships;
-    }
-
-    public List<Coordinates> getDisparos() {
-        return disparos;
-    }
-
-
-    public int getActualPostionX() {
-        return Integer.parseInt(actualPostionX);
-    }
-
-
-    public int getActualPostionY() {
-        return Integer.parseInt(actualPostionY);
-    }
-
-
-    public KeyboardManager getKeyboardManager() {
-        return super.getKeyboardManager();
-    }
-
     /**
-     * Updates the player's state based on the current game state.
-     *
-     * @param deltaTime The time elapsed since the last update.
+     * method to know if the shot is valid
+     * @return boolean
      */
-    @Override
-    public void update(double deltaTime) {
-        // If it's the next turn and the current turn is used, swap players
-        if (nextTurn && !BlackBoard2.beginGame && turnUsed) {
-            turnUsed = false;
-            Player tmp = BlackBoard2.currentPlayer;
-            BlackBoard2.currentPlayer = BlackBoard2.opponentPlayer;
-            BlackBoard2.opponentPlayer = tmp;
-        }
-
-        // Process player input and perform actions accordingly
-        if (enterPressed) {
-            // If the game has begun, handle ship placement and shooting
-            if (BlackBoard2.beginGame) {
-                //System.out.println(addShip(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY), 3, isHorizontal));
-                addShips();
-                // Check if all ships are placed and switch to the opponent's turn
-                System.out.println("Numero de barcos: " + BlackBoard2.currentPlayer.getShips().size() + " " + BlackBoard2.opponentPlayer.getShips().size());
-
-                if (shipIndex == SHIP_SIZES.length) {
-                    Player tmp = BlackBoard2.currentPlayer;
-                    BlackBoard2.currentPlayer = BlackBoard2.opponentPlayer;
-                    BlackBoard2.opponentPlayer = tmp;
-                }
-                // If both players have placed all their ships, start the game
-                if (BlackBoard2.currentPlayer.getShips().size() == 7 && BlackBoard2.opponentPlayer.getShips().size() == 7) {
-                    BlackBoard2.beginGame = false;
-                    //turnUsed = true;
-                }
-
-            } else {
-                // If the game has started, handle shooting
-                if (!turnUsed) {
-                    if (!posibleHit()) {
-                        System.out.println("No se puede disparar en esta posicion");
-                    }
-                    else{
-                        System.out.println(nombre + "  - Disparo en: " + actualPostionX + " " + actualPostionY);
-                        hit();
-                        turnUsed = true;
-                        if (BlackBoard2.opponentPlayer.isHitBoard()) {
-                            System.out.println("Dado");
-                            //Meotodo para saber si el barco de esta posicion esta undido.
-                            System.out.println("Barcos hundidos: " + BlackBoard2.opponentPlayer.barcosHundidos());
-                            if (BlackBoard2.opponentPlayer.isSunk()) {
-                                System.out.println("Barco hundido");
-                                if (BlackBoard2.opponentPlayer.barcosHundidos() == SHIP_SIZES.length) {
-                                    System.out.println("Ganaste");
-                                    win = true;
-                                }
-                            }
-                        }
-                    }
-                    
-                }
-
-            }
-            // Reset keyboard input flags after processing
-            ((NumericKeyboardManager) getKeyboardManager()).setEnterPressed(false);
-            ((NumericKeyboardManager) getKeyboardManager()).setNext(false);
-            ((NumericKeyboardManager) getKeyboardManager()).clearPosX();
-            ((NumericKeyboardManager) getKeyboardManager()).clearPosY();
-
-        }
-    }
-
     public boolean posibleHit() {
         if (getActualPostionX() < 0 || getActualPostionY() < 0 || getActualPostionX() >= Settings.COLS || getActualPostionY() >= Settings.ROWS){
             return false;
@@ -255,9 +259,15 @@ public class Player extends PlayableEntity {
         }
         return true;
     }
-    public boolean isSunk() {
+
+    /**
+     * Checks if the player's ship at the current position is sunk.
+     *
+     * @return true if the ship is sunk, false otherwise.
+     */
+    public boolean isSunk(int x, int y) {
         for (Ship ship : ships) {
-            if (ship.isHitPosition(getActualPostionX(), getActualPostionY())) {
+            if (ship.isHitPosition(x, y)) {
                 return ship.isSunk();
             }
         }
@@ -268,10 +278,10 @@ public class Player extends PlayableEntity {
     /**
      * Adds a ship to the player's fleet based on the current input.
      */
-    public void addShips() {
+    public void addShips(int x, int y) {
         // Attempt to create and add a ship based on the current input
 
-        Ship barco = ((SinkFleetEntityManager) Blackboard.entityManager).createShip(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY), SHIP_SIZES[shipIndex], isHorizontal, true);
+        Ship barco = ((SinkFleetEntityManager) Blackboard.entityManager).createShip(x, y, SHIP_SIZES[shipIndex], isHorizontal, true);
         boolean a = inGrid(barco);
         System.out.println(barco.toString() + " barco");
         System.out.println(a);
@@ -326,51 +336,76 @@ public class Player extends PlayableEntity {
         return false; // No hay colision
     }
 
-    @Override
-    public void lastUpdate(double deltaTime) {
+    //#endregion
+
+
+
+
+
+
+
+    //#region Getters and Setters
+    public int getRows() {
+        return rows;
     }
 
-    @Override
-    public void postUpdate(double deltaTime) {
+    public int getCols() {
+        return cols;
     }
 
-    /**
-     * Processes player input to update the current position and other flags.
-     */
-    @Override
-    public void processInput() {
-        NumericKeyboardManager keyboardManager = (NumericKeyboardManager) getKeyboardManager();
-        actualPostionX = keyboardManager.getPosX();
-        actualPostionY = keyboardManager.getPosY();
-        isHorizontal = keyboardManager.isHorizontal();
-        enterPressed = keyboardManager.isEnterPressed();
-        nextTurn = keyboardManager.isNextTurn();
-        //System.out.println( "x: " + actualPostionX + " y: " + actualPostionY + " horizontal: " + isHorizontal + " enter: " + enterPressed);
+    public boolean getIsHorizontal() {
+        return isHorizontal;
     }
 
-    /**
-     * Returns a string representation of the Player object.
-     *
-     * @return A string containing player information.
-     */
-    @Override
-    public String toString() {
-        return "Player [ships=" + ships + ", disparos=" + disparos + ", hp=" + super.getHp() + ", keyboardManager=" + getKeyboardManager() + "]";
+    public List<Ship> getShips() {
+        return ships;
     }
 
-    /**
-     * Creates a new ship entity based on the provided parameters.
-     *
-     * @param x            The X-coordinate of the ship.
-     * @param y            The Y-coordinate of the ship.
-     * @param size         The size of the ship.
-     * @param isHorizontal true if the ship is horizontal, false otherwise.
-     * @param direction    true for positive direction, false for negative direction.
-     * @return The created ship entity.
-     */
-    public Ship createShip(float x, float y, int size, boolean isHorizontal, boolean direction) {
-        Ship fleet = new Ship(x, y, size, x, size, isHorizontal, y, size, direction);
-
-        return fleet;
+    public List<Coordinates> getDisparos() {
+        return disparos;
     }
+
+
+    public int getActualPostionX() {
+        return Integer.parseInt(actualPostionX);
+    }
+
+
+    public int getActualPostionY() {
+        return Integer.parseInt(actualPostionY);
+    }
+
+
+    public KeyboardManager getKeyboardManager() {
+        return super.getKeyboardManager();
+    }
+
+    public void setTurnUsed(boolean b) {
+        turnUsed = b;
+    }
+
+    public void setNextTurn(boolean b) {
+        nextTurn = b;
+    }
+
+    public void setWin(boolean b) {
+        win = b;
+    }
+
+    
+    public boolean isTurnUsed() {
+        return turnUsed;
+    }
+
+    
+
+    //#endregion
+   
+
+    
+
+   
+
+    
+   
 }

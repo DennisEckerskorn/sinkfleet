@@ -57,11 +57,22 @@ public class SinkFleetGame extends Game {
     public void setMode(BlackBoard2.Mode mode) {
         this.mode = mode;
         if (mode == BlackBoard2.Mode.SINGLE_PLAYER) {
-            //!TODO: Implement single player mode
+            initPlayer(rows,cols);
         } else if (mode == BlackBoard2.Mode.MULTI_PLAYER) {
             initPlayers(rows, cols);
 
         }
+    }
+
+    public void initPlayer(int rowsshoot, int cols) {
+        BlackBoard2.resetListenner = true;
+        KeyboardManager km1 = new NumericKeyboardManager('w', 's', 'a', 'd', 'f', ' '); //! Cambiar cuando Diego lo tenga
+        this.player1 = sinkFleetEntityManager.creatPlayer("player1",0, 0, km1, rows, cols);
+       
+        this.player2 = sinkFleetEntityManager.creatNPCPlayer(cols, cols, rowsshoot, cols);
+        sinkFleetEntityManager.removeAllPlayeableEntities();
+        BlackBoard2.currentPlayer = player1;
+        BlackBoard2.opponentPlayer = player2;
     }
 
     /**
@@ -71,12 +82,17 @@ public class SinkFleetGame extends Game {
      * @param cols      The number of columns in the game board.
      */
     private void initPlayers(int rowsshoot, int cols) {
+        BlackBoard2.resetListenner = true;
         KeyboardManager km2 = new NumericKeyboardManager('w', 's', 'a', 'd', 'f', ' '); //! Cambiar cuando Diego lo tenga
 
         KeyboardManager km1 = new NumericKeyboardManager('w', 's', 'a', 'd', 'f', ' '); //! Cambiar cuando Diego lo tenga
         this.player1 = sinkFleetEntityManager.creatPlayer("player1",0, 0, km1, rows, cols);
-        BlackBoard2.currentPlayer = player1;
+        
         this.player2 = sinkFleetEntityManager.creatPlayer("Player2",0, 0, km2, rows, cols);
+        
+        sinkFleetEntityManager.removeAllPlayeableEntities();
+
+        BlackBoard2.currentPlayer = player1;
         BlackBoard2.opponentPlayer = player2;
         //System.out.println(player1.addShip(99, 99, cols, principio));
 

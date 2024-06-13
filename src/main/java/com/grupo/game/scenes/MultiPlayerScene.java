@@ -157,12 +157,12 @@ public class MultiPlayerScene extends Scene {
 
         //Dibujar numero de filas:
         for (int row = 0; row < Settings.ROWS; row++) {
-            g2.drawString(Integer.toString(row + 1), offset - 20, (row + 1) * Blackboard.cellSize + 4);
+            g2.drawString(Integer.toString(row), offset - 20, (row + 1) * Blackboard.cellSize + 4);
         }
 
         //Dibujar numero de columnas:
         for (int col = 0; col < Settings.COLS; col++) {
-            g2.drawString(Integer.toString(col + 1), offset + col * Blackboard.cellSize + Blackboard.cellSize / 2, 20);
+            g2.drawString(Integer.toString(col), offset + col * Blackboard.cellSize + Blackboard.cellSize / 2, 20);
         }
     }
 
