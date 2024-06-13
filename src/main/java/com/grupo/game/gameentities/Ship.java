@@ -130,6 +130,8 @@ public class Ship extends Entity {
         this.size = size;
     }
 
+
+
     /**
      * Updates the ship.
      *

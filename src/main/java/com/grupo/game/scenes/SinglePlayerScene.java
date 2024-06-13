@@ -2,6 +2,7 @@ package com.grupo.game.scenes;
 
 import com.grupo.engine.core.Blackboard;
 import com.grupo.engine.entities.Entity;
+import com.grupo.engine.math.Vector2;
 import com.grupo.game.config.Settings;
 import com.grupo.game.core.BlackBoard2;
 import com.grupo.game.gameentities.NPCPlayer;
@@ -28,6 +29,8 @@ public class SinglePlayerScene extends Scene {
     private JTextField textFieldNPCShots;
     private JTextField textFieldPlayerShots;
     private JTextField textFieldNPCShips;
+    private JTextField textFieldInputPlayer;
+    private JTextField textFieldInputNPC;
     private Timer timer;
 
     /**
@@ -45,12 +48,18 @@ public class SinglePlayerScene extends Scene {
         textFieldNPCShots = new JTextField();
         textFieldPlayerShots = new JTextField();
         textFieldNPCShips = new JTextField();
+        textFieldInputPlayer = new JTextField();
+        textFieldInputNPC = new JTextField();
+
 
         // Hacer los JTextField no editables
         textFieldPlayerShips.setEditable(false);
         textFieldNPCShots.setEditable(false);
         textFieldPlayerShots.setEditable(false);
         textFieldNPCShips.setEditable(false);
+
+        textFieldInputPlayer.setEditable(false);
+        textFieldInputNPC.setEditable(false);
     }
 
     /**
@@ -208,47 +217,28 @@ public class SinglePlayerScene extends Scene {
         // Add the game panel to the parent panel's CENTER
         parentPanel.add(gamePanel, BorderLayout.CENTER);
 
-        textFieldPlayerShips = new JTextField();
-        textFieldPlayerShips.setEditable(false);
+        JPanel infoPanel = new JPanel();
+        infoPanel.setLayout(new GridLayout(3, 2));
+        //infoPanel.setPreferredSize(new Dimension(800, 100));
 
-        textFieldPlayerShots = new JTextField();
-        textFieldPlayerShots.setEditable(false);
 
-        textFieldNPCShips = new JTextField();
-        textFieldNPCShips.setEditable(false);
+        // Add text fields to the info panel
+        infoPanel.add(new JLabel("Barcos Jugador:"));
+        infoPanel.add(textFieldPlayerShips);
+        infoPanel.add(new JLabel("Barcos NPC:"));
+        infoPanel.add(textFieldNPCShips);
 
-        textFieldNPCShots = new JTextField();
-        textFieldNPCShots.setEditable(false);
+        infoPanel.add(new JLabel("Disparos Jugador:"));
+        infoPanel.add(textFieldPlayerShots);
+        infoPanel.add(new JLabel("Disparos NPC:"));
+        infoPanel.add(textFieldNPCShots);
 
-        // Create panels for organizing text fields
-        JPanel textFieldsPanel1 = new JPanel();
-        textFieldsPanel1.setLayout(new GridLayout(1, 2));
-        textFieldsPanel1.add(new JLabel("Barcos Jugador:"));
-        textFieldsPanel1.add(textFieldPlayerShips);
+        infoPanel.add(new JLabel("Posicion Jugador:"));
+        infoPanel.add(textFieldInputPlayer);
+        infoPanel.add(new JLabel("Posicion NPC:"));
+        infoPanel.add(textFieldInputNPC);
 
-        JPanel textFieldsPanel2 = new JPanel();
-        textFieldsPanel2.setLayout(new GridLayout(1, 2));
-        textFieldsPanel2.add(new JLabel("Disparos Jugador:"));
-        textFieldsPanel2.add(textFieldPlayerShots);
-
-        JPanel textFieldsPanel3 = new JPanel();
-        textFieldsPanel3.setLayout(new GridLayout(1, 2));
-        textFieldsPanel3.add(new JLabel("Barcos NPC:"));
-        textFieldsPanel3.add(textFieldNPCShips);
-
-        JPanel textFieldsPanel4 = new JPanel();
-        textFieldsPanel4.setLayout(new GridLayout(1, 2));
-        textFieldsPanel4.add(new JLabel("Disparos NPC:"));
-        textFieldsPanel4.add(textFieldNPCShots);
-
-        JPanel textFieldsPanel = new JPanel();
-        textFieldsPanel.setLayout(new GridLayout(2, 2));
-        textFieldsPanel.add(textFieldsPanel1);
-        textFieldsPanel.add(textFieldsPanel2);
-        textFieldsPanel.add(textFieldsPanel3);
-        textFieldsPanel.add(textFieldsPanel4);
-
-        parentPanel.add(textFieldsPanel, BorderLayout.NORTH);
+        parentPanel.add(infoPanel, BorderLayout.NORTH);
 
         timer = new Timer(1000, new ActionListener() {
             @Override
@@ -266,37 +256,93 @@ public class SinglePlayerScene extends Scene {
      */
     public void updateGameInfo(Player player) {
         if (player == null) {
-            textFieldPlayerShips.setText("Barcos Jugador: 0");
-            textFieldPlayerShots.setText("Disparos Jugador: ");
-            textFieldNPCShips.setText("Barcos NPC: ");
-            textFieldNPCShots.setText("Disparos NPC: ");
+            setNullPlayerInfo();
             return;
         }
 
-        // Get updated information for the player
-        int shipCountPlayer = player.getShips().size();
-        List<Coordinates> playerShots = player.getDisparos();
+        // Update player's information
+        updatePlayerInfo(player);
 
-        // Update text fields for the player
-        textFieldPlayerShips.setText("" + shipCountPlayer);
-        textFieldPlayerShots.setText(formatCoordinates(playerShots));
-
-        // Update text fields for the NPC (adjust as needed)
-        textFieldNPCShips.setText(""/* + shipCountNPC*/);
-        textFieldNPCShots.setText(""/* + formatCoordinates(coordinates2)*/);
+        // Update NPC's information
+        updateNPCInfo();
     }
 
     /**
-     * Formats a list of coordinates into a string representation.
-     *
-     * @param coordinates The list of coordinates.
-     * @return A string representation of the coordinates.
+     * Sets UI fields to "-" when the player is null.
      */
-    private String formatCoordinates(List<Coordinates> coordinates) {
-        StringBuilder coordinatesString = new StringBuilder();
-        for (Coordinates coord : coordinates) {
-            coordinatesString.append(String.format("(%d, %d) ", coord.getX(), coord.getY()));
+    private void setNullPlayerInfo() {
+        textFieldPlayerShips.setText("-");
+        textFieldNPCShips.setText("-");
+        textFieldPlayerShots.setText("-");
+        textFieldNPCShots.setText("-");
+        textFieldInputPlayer.setText("-");
+        textFieldInputNPC.setText("-");
+    }
+
+    /**
+     * Updates UI fields with information related to the player.
+     *
+     * @param player The current player.
+     */
+    private void updatePlayerInfo(Player player) {
+        int shipCountPlayer = player.getShips().size();
+        List<Coordinates> playerShots = player.getDisparos();
+        int totalPlayerShots = playerShots.size();
+
+        // Update text fields for the player
+        textFieldPlayerShips.setText(String.valueOf(shipCountPlayer));
+        textFieldPlayerShots.setText(String.valueOf(totalPlayerShots));
+        //formatPlayerCoordinate(player);
+    }
+
+    /**
+     * Updates UI fields with information related to the NPC.
+     */
+    private void updateNPCInfo() {
+        int shipCountNPC = BlackBoard2.opponentPlayer.getShips().size();
+        List<Coordinates> npcShots = BlackBoard2.opponentPlayer.getDisparos();
+        int totalNPCShots = npcShots.size();
+
+        // Update text fields for the NPC
+        textFieldNPCShips.setText(String.valueOf(shipCountNPC));
+        textFieldNPCShots.setText(String.valueOf(totalNPCShots));
+        textFieldInputNPC.setText(String.format("X: %d, Y: %d",
+                BlackBoard2.opponentPlayer.getActualPostionX(),
+                BlackBoard2.opponentPlayer.getActualPostionY()));
+    }
+
+    /**
+     * Formats player's ship coordinates and updates the corresponding text field.
+     *
+     * @param player The current player.
+     */
+    private void formatPlayerCoordinate(Player player) {
+        List<Ship> playerShips = player.getShips();
+        StringBuilder playerCoordinatesText = new StringBuilder();
+
+        for (Ship ship : playerShips) {
+            List<ShipFragments> fragments = ship.getShipFragments();
+
+            // Append X coordinates
+            playerCoordinatesText.append("X: ");
+            for (ShipFragments fragment : fragments) {
+                playerCoordinatesText.append(String.format("%.1f, ", fragment.getX()));
+                break; // Salir después de añadir la primera coordenada X
+            }
+            //playerCoordinatesText.delete(playerCoordinatesText.length() - 2, playerCoordinatesText.length()); // Remove last comma and space
+            //playerCoordinatesText.append("\n");
+
+            // Append Y coordinates
+            playerCoordinatesText.append("Y: ");
+            for (ShipFragments fragment : fragments) {
+                playerCoordinatesText.append(String.format("%.1f, ", fragment.getY()));
+                break; // Salir después de añadir la primera coordenada Y
+            }
+           // playerCoordinatesText.delete(playerCoordinatesText.length() - 2, playerCoordinatesText.length()); // Remove last comma and space
+            //playerCoordinatesText.append("\n");
         }
-        return coordinatesString.toString();
+
+        textFieldInputPlayer.setText(playerCoordinatesText.toString());
+        playerCoordinatesText.setLength(0);
     }
 }
