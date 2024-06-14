@@ -8,9 +8,11 @@ import java.awt.*;
 
 public class WinnerScene extends Scene {
     private SceneManager sceneManager;
+    private final String winner;
 
-    public WinnerScene(SceneManager sceneManager) {
+    public WinnerScene(SceneManager sceneManager, String winner) {
         this.sceneManager = sceneManager;
+        this.winner = winner;
     }
 
     @Override
@@ -19,7 +21,7 @@ public class WinnerScene extends Scene {
     }
 
     private void drawWinnerMessage(Graphics2D g2) {
-        String message = "CONGRATULATIONS! YOU'RE THE WINNER!";
+        String message = "CONGRATULATIONS!" + winner + " YOU'RE THE WINNER!";
         g2.setColor(Color.GREEN);
         g2.setFont(new Font("Arial", Font.BOLD, 50));
         FontMetrics fm = g2.getFontMetrics();

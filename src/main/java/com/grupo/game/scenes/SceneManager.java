@@ -75,8 +75,11 @@ public class SceneManager implements ButtonClickListener {
     public void onExitClicked() {
         int option = JOptionPane.showConfirmDialog(null, "Seguro que quieres salir?");
         if (option == JOptionPane.YES_OPTION) {
-            System.exit(0);
+            exitGame();
         }
+    }
+    public void exitGame() {
+        System.exit(0);
     }
 
     /**
@@ -91,9 +94,9 @@ public class SceneManager implements ButtonClickListener {
     /**
      * Sets the winner scene.
      */
-    public void onWinner() {
+    public void onWinner(String nombre) {
         JOptionPane.showMessageDialog(null, "Enhorabuena! Has ganado el juego!", "Win", JOptionPane.INFORMATION_MESSAGE);
-        WinnerScene winnerScene = new WinnerScene(this);
+        WinnerScene winnerScene = new WinnerScene(this, nombre);
         setCurrentScene(winnerScene);
     }
 
