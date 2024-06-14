@@ -123,7 +123,6 @@ public class Player extends PlayableEntity {
         if (win) {
             BlackBoard2.sceneManager.onWinner(getNombre());
             LibConf.sleep(1300);
-            BlackBoard2.sceneManager.onExitClicked();
             BlackBoard2.sceneManager.exitGame();
             
         }

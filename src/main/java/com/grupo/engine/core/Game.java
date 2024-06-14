@@ -140,6 +140,10 @@ public abstract class Game implements Runnable, Updateable, ResizeListener {
         return height;
     }
 
+    public void setFinished(boolean finished) {
+        this.finished = finished;
+    }
+
     /**
      * Handles resizing of the game window.
      *

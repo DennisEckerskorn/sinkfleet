@@ -47,6 +47,7 @@ public class NPCPlayer extends Player {
         // Check if the NPCPlayer has won the game
         if (isWin()) {
             BlackBoard2.sceneManager.onGameOver();
+            System.out.println("Juego terminado");
             LibConf.sleep(1300);
             BlackBoard2.sceneManager.exitGame();
         }
@@ -87,7 +88,7 @@ public class NPCPlayer extends Player {
                     System.out.println("Barco hundido");
                     // Check if all the opponent player's ships are sunk
                     if (BlackBoard2.opponentPlayer.barcosHundidos() == SHIP_SIZES.length) {
-                        System.out.println("Juego terminado");
+                        //System.out.println("Juego terminado");
                         setWin(true);
                         
                     }

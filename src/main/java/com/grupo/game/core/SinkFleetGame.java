@@ -118,6 +118,7 @@ public class SinkFleetGame extends Game {
     @Override
     public void update(double deltaTime) {
         BlackBoard2.currentPlayer.update(deltaTime);
+       
     }
 
 
