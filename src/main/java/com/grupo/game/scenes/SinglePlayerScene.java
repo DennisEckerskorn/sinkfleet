@@ -32,7 +32,7 @@ public class SinglePlayerScene extends Scene {
     private JTextField textFieldInputPlayer;
     private JTextField textFieldInputNPC;
     private JButton exitButton;
-    private JButton returnToMenuButton;
+    
     private Timer timer;
 
     /**
@@ -53,7 +53,7 @@ public class SinglePlayerScene extends Scene {
         textFieldInputPlayer = new JTextField();
         textFieldInputNPC = new JTextField();
         exitButton = new JButton();
-        returnToMenuButton = new JButton();
+        
 
         textFieldPlayerShips.setEditable(false);
         textFieldNPCShots.setEditable(false);
@@ -70,8 +70,12 @@ public class SinglePlayerScene extends Scene {
      */
     @Override
     public void render(Graphics2D g2) {
+        try {
         updateGameInfo(BlackBoard2.currentPlayer);
         drawEntity(g2, BlackBoard2.currentPlayer);
+        } catch (Exception e) {
+            System.out.println("\u001B[32mError: " + e.getMessage() + "\u001B[0m");
+        }
     }
 
     /**
@@ -91,17 +95,7 @@ public class SinglePlayerScene extends Scene {
                     g2.fillRect(col * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET, row * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET, Blackboard.cellSize, Blackboard.cellSize);
                 }
             }
-            disparos = ((Player) e).getDisparos();
-            g2.setColor(Color.RED);
-            for (int i = 0; i < disparos.size(); i++) {
-                int x = disparos.get(i).getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
-                int y = disparos.get(i).getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
-                if (BlackBoard2.opponentPlayer.isHitBoard(disparos.get(i).getX(), disparos.get(i).getY()))
-                    g2.setColor(Color.RED);
-                else
-                    g2.setColor(Color.BLUE);
-                g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
-            }
+            
         } else if (e instanceof Player) {
             if (e instanceof Player) {
                 if (BlackBoard2.currentPlayer.equals((Player) e)) {
@@ -115,7 +109,10 @@ public class SinglePlayerScene extends Scene {
                         }
                     }
                 }
-                disparos = ((Player) e).getDisparos();
+                
+            }
+        }
+        disparos = ((Player) e).getDisparos();
                 g2.setColor(Color.RED);
                 for (int i = 0; i < disparos.size(); i++) {
                     int x = disparos.get(i).getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
@@ -126,8 +123,6 @@ public class SinglePlayerScene extends Scene {
                         g2.setColor(Color.BLUE);
                     g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
                 }
-            }
-        }
     }
 
     /**
@@ -244,15 +239,9 @@ public class SinglePlayerScene extends Scene {
         });
 
         // Return to Menu Button
-        returnToMenuButton.setText("Volver al Menu Principal");
-        returnToMenuButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sceneManager.onReturnToMainMenu();
-            }
-        });
+       
 
-        buttonPanel.add(returnToMenuButton);
+     
         buttonPanel.add(exitButton);
 
         parentPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -281,7 +270,7 @@ public class SinglePlayerScene extends Scene {
 
         //TODO: NO actualiza correctamente...
         // Update NPC's information
-        //updateNPCInfo();
+        updateNPCInfo();
     }
 
     /**
@@ -307,12 +296,12 @@ public class SinglePlayerScene extends Scene {
         int totalPlayerShots = playerShots.size();
 
         // Update text fields for the player
-        textFieldPlayerShips.setText(String.valueOf(shipCountPlayer));
+        textFieldPlayerShips.setText(String.valueOf(shipCountPlayer) + " isHorizontal: " + player.getIsHorizontal());
         textFieldPlayerShots.setText(String.valueOf(totalPlayerShots));
         textFieldInputPlayer.setText(String.format("X: %d, Y: %d",
                 BlackBoard2.currentPlayer.getActualPostionX(), BlackBoard2.currentPlayer.getActualPostionY()));
     }
-
+    
     /**
      * NOT IN USAGE AT THE MOMENT...
      * Updates UI fields with information related to the NPC.

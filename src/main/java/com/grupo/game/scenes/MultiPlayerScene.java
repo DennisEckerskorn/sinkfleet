@@ -23,13 +23,16 @@ public class MultiPlayerScene extends Scene {
     private Color backgroundColor2;
     private SceneManager sceneManager;
     private JTextField textFieldPlayerOneShips;
-    private JTextField textFieldPlayerTwoShots;
     private JTextField textFieldPlayerOneShots;
-    private JTextField textFieldPlayerTwoShips;
     private JTextField textFieldInputPlayerOne;
-    private JTextField textFieldInputPlayerTwo;
     private JButton exitButton;
-    private JButton returnToMenuButton;
+    //private JTextField textFieldPlayerTwoShots;
+    //private JTextField textFieldInputPlayerTwo;
+    //private JTextField textFieldPlayerTwoShips;
+
+
+
+    
     private Timer timer;
 
     /**
@@ -44,20 +47,20 @@ public class MultiPlayerScene extends Scene {
         this.backgroundColor2 = backgroundColor2;
         this.sceneManager = sceneManager;
         textFieldPlayerOneShips = new JTextField();
-        textFieldPlayerTwoShots = new JTextField();
+        //textFieldPlayerTwoShots = new JTextField();
         textFieldPlayerOneShots = new JTextField();
-        textFieldPlayerTwoShips = new JTextField();
+        //textFieldPlayerTwoShips = new JTextField();
         textFieldInputPlayerOne = new JTextField();
-        textFieldInputPlayerTwo = new JTextField();
+        //textFieldInputPlayerTwo = new JTextField();
         exitButton = new JButton();
-        returnToMenuButton = new JButton();
+      
 
         textFieldPlayerOneShips.setEditable(false);
-        textFieldPlayerTwoShots.setEditable(false);
+        //textFieldPlayerTwoShots.setEditable(false);
         textFieldPlayerOneShots.setEditable(false);
-        textFieldPlayerTwoShips.setEditable(false);
+        //textFieldPlayerTwoShips.setEditable(false);
         textFieldInputPlayerOne.setEditable(false);
-        textFieldInputPlayerTwo.setEditable(false);
+        //textFieldInputPlayerTwo.setEditable(false);
     }
 
     /**
@@ -67,8 +70,14 @@ public class MultiPlayerScene extends Scene {
      */
     @Override
     public void render(Graphics2D g2) {
-        updateGameInfo(BlackBoard2.currentPlayer);
-        drawEntity(g2, BlackBoard2.currentPlayer);
+        try {
+            updateGameInfo(BlackBoard2.currentPlayer);
+            drawEntity(g2, BlackBoard2.currentPlayer);
+        } catch (Exception e) {
+            System.out.println("\u001B[32mError: " + e.getMessage() + "\u001B[0m");
+            System.out.println(g2);
+        }
+        
     }
 
     /**
@@ -222,16 +231,7 @@ public class MultiPlayerScene extends Scene {
             }
         });
 
-        // Return to Menu Button
-        returnToMenuButton.setText("Volver al Menu Principal");
-        returnToMenuButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sceneManager.onReturnToMainMenu();
-            }
-        });
-
-        buttonPanel.add(returnToMenuButton);
+       
         buttonPanel.add(exitButton);
 
         parentPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -255,10 +255,10 @@ public class MultiPlayerScene extends Scene {
         updatePlayerInfo(player);
 
         // Determine the opponent player
-        Player opponentPlayer = (player == BlackBoard2.currentPlayer) ? BlackBoard2.opponentPlayer : BlackBoard2.currentPlayer;
+        
 
         // Update opponent's information
-        updateOpponentInfo(opponentPlayer);
+        //updateOpponentInfo(opponentPlayer);
     }
 
     /**
@@ -266,11 +266,11 @@ public class MultiPlayerScene extends Scene {
      */
     private void setNullPlayerInfo() {
         textFieldPlayerOneShips.setText("-");
-        textFieldPlayerTwoShips.setText("-");
+        //textFieldPlayerTwoShips.setText("-");
         textFieldPlayerOneShots.setText("-");
-        textFieldPlayerTwoShots.setText("-");
+        //textFieldPlayerTwoShots.setText("-");
         textFieldInputPlayerOne.setText("-");
-        textFieldInputPlayerTwo.setText("-");
+        //textFieldInputPlayerTwo.setText("-");
     }
 
     /**
@@ -279,59 +279,11 @@ public class MultiPlayerScene extends Scene {
      * @param player The current player.
      */
     private void updatePlayerInfo(Player player) {
-        int shipCountPlayer = player.getShips().size();
-        List<Coordinates> playerShots = player.getDisparos();
-        int totalPlayerShots = playerShots.size();
+        textFieldPlayerOneShips.setText(String.valueOf(player.getShips().size()) + " Horizontal: " + player.getIsHorizontal());
+        textFieldPlayerOneShots.setText(String.valueOf(player.getDisparos().size()));
 
-        textFieldPlayerOneShips.setText(String.valueOf(shipCountPlayer));
-        textFieldPlayerOneShots.setText(String.valueOf(totalPlayerShots));
-
-        String x1 = "-", y1 = "-", x2 = "-", y2 = "-";
-
-        if (!player.getShips().isEmpty()) {
-            List<ShipFragments> fragments = player.getShips().get(0).getShipFragments();
-
-            if (fragments.size() > 0) {
-                x1 = String.format("%.1f", fragments.get(0).getX());
-                y1 = String.format("%.1f", fragments.get(0).getY());
-            }
-            if (fragments.size() > 1) {
-                x2 = String.format("%.1f", fragments.get(1).getX());
-                y2 = String.format("%.1f", fragments.get(1).getY());
-            }
-        }
-
-        textFieldInputPlayerOne.setText(String.format("X1: %s, Y1: %s, X2: %s, Y2: %s", x1, y1, x2, y2));
+        textFieldInputPlayerOne.setText(player.getActualPostionX() + " - " + player.getActualPostionY());
     }
 
-    /**
-     * Updates UI fields with information related to the opponent.
-     *
-     * @param opponentPlayer The opponent player.
-     */
-    private void updateOpponentInfo(Player opponentPlayer) {
-        int shipCountNPC = opponentPlayer.getShips().size();
-        List<Coordinates> npcShots = opponentPlayer.getDisparos();
-        int totalNPCShots = npcShots.size();
-
-        textFieldPlayerTwoShips.setText(String.valueOf(shipCountNPC));
-        textFieldPlayerTwoShots.setText(String.valueOf(totalNPCShots));
-
-        String x1 = "-", y1 = "-", x2 = "-", y2 = "-";
-
-        if (!opponentPlayer.getShips().isEmpty()) {
-            List<ShipFragments> fragments = opponentPlayer.getShips().get(0).getShipFragments();
-
-            if (fragments.size() > 0) {
-                x1 = String.format("%.1f", fragments.get(0).getX());
-                y1 = String.format("%.1f", fragments.get(0).getY());
-            }
-            if (fragments.size() > 1) {
-                x2 = String.format("%.1f", fragments.get(1).getX());
-                y2 = String.format("%.1f", fragments.get(1).getY());
-            }
-        }
-
-        textFieldInputPlayerTwo.setText(String.format("X1: %s, Y1: %s, X2: %s, Y2: %s", x1, y1, x2, y2));
-    }
+   
 }

@@ -3,6 +3,7 @@ package com.grupo.game.gameentities;
 import java.util.Random;
 
 import com.grupo.engine.core.Game;
+import com.grupo.game.config.Settings;
 import com.grupo.game.core.BlackBoard2;
 import com.grupo.game.gameentities.strategy.Strategy;
 import com.grupo.game.math.Coordinates;
@@ -43,9 +44,15 @@ public class NPCPlayer extends Player {
      */
     @Override
     public void update(double deltaTime) {
+        // Check if the NPCPlayer has won the game
+        if (isWin()) {
+            BlackBoard2.sceneManager.onGameOver();
+            LibConf.sleep(1300);
+            BlackBoard2.sceneManager.exitGame();
+        }
 
-        if (isTurnUsed()) {
-            LibConf.sleep(1000);
+        if (isTurnUsed() && !isWin()) {
+            LibConf.sleep(800);
             setTurnUsed(false);
             Player tmp = BlackBoard2.currentPlayer;
             BlackBoard2.currentPlayer = BlackBoard2.opponentPlayer;
@@ -56,7 +63,7 @@ public class NPCPlayer extends Player {
             super.addShips(s.getX(), s.getY());
             System.out.println("Numero de barcos: " + BlackBoard2.currentPlayer.getShips().size() + " " + BlackBoard2.opponentPlayer.getShips().size());
             // If both players have placed all their ships, start the game
-            if (BlackBoard2.currentPlayer.getShips().size() == 7 && BlackBoard2.opponentPlayer.getShips().size() == 7) {
+            if (BlackBoard2.currentPlayer.getShips().size() == Settings.NUM_SHIPS && BlackBoard2.opponentPlayer.getShips().size() == Settings.NUM_SHIPS) {
                 BlackBoard2.beginGame = false;
                 LibConf.sleep(1000);
                 Player tmp = BlackBoard2.currentPlayer;
@@ -65,17 +72,24 @@ public class NPCPlayer extends Player {
 
             }
         } else if (!isTurnUsed()) {
-            LibConf.sleep(2000);
+            LibConf.sleep(1300);
+            // Attack the opponent player
             Coordinates attack = gameStrategy.attack();
             System.out.println(getNombre() + " Ataque: " + attack.getX() + " " + attack.getY());
+
+            // Safe the attack
             super.hit(attack.getX(), attack.getY());
+            // Check if the attack hit a ship
             if (BlackBoard2.opponentPlayer.isHitBoard(attack.getX(), attack.getY())) {
                 System.out.println("Barco tocado");
+                // Check if the attack sunk a ship
                 if (BlackBoard2.opponentPlayer.isSunk(attack.getX(), attack.getY())) {
                     System.out.println("Barco hundido");
+                    // Check if all the opponent player's ships are sunk
                     if (BlackBoard2.opponentPlayer.barcosHundidos() == SHIP_SIZES.length) {
                         System.out.println("Juego terminado");
                         setWin(true);
+                        
                     }
 
                 }

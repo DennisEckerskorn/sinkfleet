@@ -9,6 +9,7 @@ import com.grupo.game.core.SinkFleetEntityManager;
 import com.grupo.game.input.NumericKeyboardManager;
 import com.grupo.game.math.Coordinates;
 import com.grupo.game.scenes.SceneManager;
+import com.grupo.lib.LibConf;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -118,6 +119,14 @@ public class Player extends PlayableEntity {
      */
     @Override
     public void update(double deltaTime) {
+        // If the player has won, display the winner message and exit the game
+        if (win) {
+            BlackBoard2.sceneManager.onWinner(getNombre());
+            LibConf.sleep(1300);
+            BlackBoard2.sceneManager.onExitClicked();
+            BlackBoard2.sceneManager.exitGame();
+            
+        }
         // If it's the next turn and the current turn is used, swap players
         if (nextTurn && !BlackBoard2.beginGame && turnUsed) {
             turnUsed = false;
@@ -133,7 +142,6 @@ public class Player extends PlayableEntity {
                 //System.out.println(addShip(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY), 3, isHorizontal));
                 addShips(getActualPostionX(), getActualPostionY());
                 // Check if all ships are placed and switch to the opponent's turn
-                System.out.println("Numero de barcos: " + BlackBoard2.currentPlayer.getShips().size() + " " + BlackBoard2.opponentPlayer.getShips().size());
 
                 if (shipIndex == SHIP_SIZES.length) {
                     Player tmp = BlackBoard2.currentPlayer;
@@ -141,7 +149,7 @@ public class Player extends PlayableEntity {
                     BlackBoard2.opponentPlayer = tmp;
                 }
                 // If both players have placed all their ships, start the game
-                if (BlackBoard2.currentPlayer.getShips().size() == 7 && BlackBoard2.opponentPlayer.getShips().size() == 7) {
+                if (BlackBoard2.currentPlayer.getShips().size() == Settings.NUM_SHIPS && BlackBoard2.opponentPlayer.getShips().size() == Settings.NUM_SHIPS) {
                     BlackBoard2.beginGame = false;
                     //turnUsed = true;
                     BlackBoard2.sceneManager.notifyAllShipsPlaced();
@@ -151,24 +159,21 @@ public class Player extends PlayableEntity {
                 // If the game has started, handle shooting
                 if (!turnUsed) {
                     if (!posibleHit()) {
-                        System.out.println("No se puede disparar en esta posicion");
+                        //Muestra mensaje de disparo invalido
                         BlackBoard2.sceneManager.notifyCannotShoot();
                     } else {
-                        System.out.println(nombre + "  - Disparo en: " + actualPostionX + " " + actualPostionY);
+                        //Almazenar disparo
                         hit(getActualPostionX(), getActualPostionY());
-                        //System.out.println(isHitBoard(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY)));
+                        // Disparo exitoso turno usado
                         turnUsed = true;
                         if (BlackBoard2.opponentPlayer.isHitBoard(getActualPostionX(), getActualPostionY())) {
-                            System.out.println("Dado");
+                            //Muestra mensaje de impacto exitoso
                             BlackBoard2.sceneManager.onSuccessfulHit();
                             if (BlackBoard2.opponentPlayer.isSunk(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY))) {
-                                System.out.println("Barcos hundidos: " + BlackBoard2.opponentPlayer.barcosHundidos());
-                                System.out.println("Barco hundido");
+                               //Muesta mensaje de barco hundido
                                 BlackBoard2.sceneManager.onShipSunk();
                                 if (BlackBoard2.opponentPlayer.barcosHundidos() == SHIP_SIZES.length) {
-                                    System.out.println("Ganaste");
                                     win = true;
-                                    BlackBoard2.sceneManager.onWinner();
                                 }
                             }
 
@@ -184,11 +189,6 @@ public class Player extends PlayableEntity {
             ((NumericKeyboardManager) getKeyboardManager()).clearPosX();
             ((NumericKeyboardManager) getKeyboardManager()).clearPosY();
 
-        }
-        //TODO: He añadido esto, si no es necesario quitalo Kevin
-        if (BlackBoard2.opponentPlayer.barcosHundidos() == SHIP_SIZES.length) {
-            System.out.println("Perdiste");
-            BlackBoard2.sceneManager.onGameOver();
         }
     }
 
@@ -288,10 +288,9 @@ public class Player extends PlayableEntity {
         // Attempt to create and add a ship based on the current input
 
         Ship barco = ((SinkFleetEntityManager) Blackboard.entityManager).createShip(x, y, SHIP_SIZES[shipIndex], isHorizontal, true);
-        boolean a = inGrid(barco);
-        System.out.println(barco.toString() + " barco");
-        System.out.println(a);
-        if (!collision(barco) && a) {
+        
+        
+        if (!collision(barco) && inGrid(barco)) {
             ((SinkFleetEntityManager) Blackboard.entityManager).addEntity(barco);
             shipIndex++;
             ships.add(barco);
@@ -307,6 +306,7 @@ public class Player extends PlayableEntity {
                 shipIndex++;
                 ships.add(barco2);
             } else {
+                // If the ship placement fails again, notify the player
                 System.out.println("No se puede colocar el barco");
             }
         }
