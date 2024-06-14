@@ -25,7 +25,6 @@ public class Player extends PlayableEntity {
     private List<Coordinates> disparos;
     //private int disparoActual;
 
-
     //Disparo actual
     private String actualPostionX;
     private String actualPostionY;
@@ -124,7 +123,7 @@ public class Player extends PlayableEntity {
             BlackBoard2.sceneManager.onWinner(getNombre());
             LibConf.sleep(1300);
             BlackBoard2.sceneManager.exitGame();
-            
+
         }
         // If it's the next turn and the current turn is used, swap players
         if (nextTurn && !BlackBoard2.beginGame && turnUsed) {
@@ -169,28 +168,23 @@ public class Player extends PlayableEntity {
                             //Muestra mensaje de impacto exitoso
                             BlackBoard2.sceneManager.onSuccessfulHit();
                             if (BlackBoard2.opponentPlayer.isSunk(Integer.parseInt(actualPostionX), Integer.parseInt(actualPostionY))) {
-                               //Muesta mensaje de barco hundido
+                                //Muesta mensaje de barco hundido
                                 BlackBoard2.sceneManager.onShipSunk();
                                 if (BlackBoard2.opponentPlayer.barcosHundidos() == SHIP_SIZES.length) {
                                     win = true;
                                 }
                             }
-
                         }
                     }
-
                 }
-
             }
             // Reset keyboard input flags after processing
             ((NumericKeyboardManager) getKeyboardManager()).setEnterPressed(false);
             ((NumericKeyboardManager) getKeyboardManager()).setNext(false);
             ((NumericKeyboardManager) getKeyboardManager()).clearPosX();
             ((NumericKeyboardManager) getKeyboardManager()).clearPosY();
-
         }
     }
-
     //#endregion
 
 
@@ -287,8 +281,8 @@ public class Player extends PlayableEntity {
         // Attempt to create and add a ship based on the current input
 
         Ship barco = ((SinkFleetEntityManager) Blackboard.entityManager).createShip(x, y, SHIP_SIZES[shipIndex], isHorizontal, true);
-        
-        
+
+
         if (!collision(barco) && inGrid(barco)) {
             ((SinkFleetEntityManager) Blackboard.entityManager).addEntity(barco);
             shipIndex++;
@@ -407,6 +401,4 @@ public class Player extends PlayableEntity {
 
 
     //#endregion
-
-
 }

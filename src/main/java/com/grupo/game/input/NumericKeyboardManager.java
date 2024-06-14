@@ -49,6 +49,11 @@ public class NumericKeyboardManager extends KeyboardManager {
         return posX;
     }
 
+    /**
+     * Gets the y-coordinate input value.
+     *
+     * @return The y-coordinate input value.
+     */
     public String getPosY() {
         if (posY == null || posY.isEmpty()) {
             return "0";

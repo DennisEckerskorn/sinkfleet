@@ -22,7 +22,7 @@ public class MenuScene extends Scene {
     private JButton exitButton;
 
     /**
-     * Constructs a MenuScene with the specified asset manager and game manager.
+     * Constructs a MenuScene with the specified asset manager.
      * Initializes all attributes and creates a menu with buttons.
      * Constructs the panel with 3 buttons in a GridLayout, with one column and three rows.
      * Each button has its own functionality:
@@ -75,10 +75,20 @@ public class MenuScene extends Scene {
         buttonPanel.add(exitButton);
     }
 
+    /**
+     * Returns the panel containing the buttons.
+     *
+     * @return The JPanel containing the buttons.
+     */
     public JPanel getPanel() {
         return buttonPanel;
     }
 
+    /**
+     * Sets the listener for button click events.
+     *
+     * @param listener The listener for button click events.
+     */
     public void setButtonClickListener(ButtonClickListener listener) {
         this.buttonClickListener = listener;
     }
@@ -100,17 +110,29 @@ public class MenuScene extends Scene {
     }
 
 
+    /**
+     * Renders the scene with the given Graphics2D object. Currently not implemented.
+     *
+     * @param g2 The Graphics2D object.
+     */
     @Override
     public void render(Graphics2D g2) {
 
     }
 
+    /**
+     * Draws the given entity with the specified Graphics2D object. Currently not implemented.
+     *
+     * @param g2 The Graphics2D object.
+     * @param e  The entity to draw.
+     */
     @Override
     public void drawEntity(Graphics2D g2, Entity e) {
 
     }
 
     /**
+     * NOT WORKING; OTHER RELATED CODE IS COMMENTED AS IT DOESN'T WORK YET
      * Draws the background image of the scene.
      *
      * @param g2 The Graphics2D object.
@@ -124,6 +146,7 @@ public class MenuScene extends Scene {
 
     /**
      * Called when the scene is set.
+     * Initializes the layout and adds the button panel to the parent panel.
      *
      * @param parentPanel The parent panel containing the scene.
      */

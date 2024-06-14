@@ -45,6 +45,11 @@ public class SinkFleetGame extends Game {
         setMode(mode);
     }
 
+    /**
+     * Retrieves whether the game is in the ship placement phase.
+     *
+     * @return true if the game is in the ship placement phase, false otherwise.
+     */
     public boolean isPrincipio() {
         return principio;
     }
@@ -64,6 +69,12 @@ public class SinkFleetGame extends Game {
         }
     }
 
+    /**
+     * Initializes the player for single player mode.
+     *
+     * @param rowsshoot The number of rows in the shooting board.
+     * @param cols      The number of columns in the game board.
+     */
     public void initPlayer(int rowsshoot, int cols) {
         BlackBoard2.resetListenner = true;
         KeyboardManager km1 = new NumericKeyboardManager('w', 's', 'a', 'd', 'f', ' '); //! Cambiar cuando Diego lo tenga
@@ -76,9 +87,9 @@ public class SinkFleetGame extends Game {
     }
 
     /**
-     * Initializes the players for the Sink Fleet game.
+     * Initializes players for multiplayer mode.
      *
-     * @param rowsshoot The number of rows in the game board.
+     * @param rowsshoot The number of rows in the shooting board.
      * @param cols      The number of columns in the game board.
      */
     private void initPlayers(int rowsshoot, int cols) {
@@ -100,7 +111,7 @@ public class SinkFleetGame extends Game {
     }
 
     /**
-     * Creates an instance of the entity manager.
+     * Creates an instance of the entity manager for Sink Fleet game.
      *
      * @param maxEntities The maximum number of entities the manager can handle.
      * @return An instance of the SinkFleetEntityManager.
@@ -118,35 +129,26 @@ public class SinkFleetGame extends Game {
     @Override
     public void update(double deltaTime) {
         BlackBoard2.currentPlayer.update(deltaTime);
-       
+
     }
 
-
-    //TODO: REMOVE????
     /**
-     * Adds a new ship to the current player's fleet.
-     * This method creates a new ship with the specified size and adds it to the fleet of the current player.
-     * The position and orientation of the new ship are determined by the current position and orientation
-     * of the player on the game board.
-     *
-     * @param size The size of the ship to be added to the fleet.
-     */
-    //public void addShip(int size) {
-    //    BlackBoard2.currentPlayer.addShip(BlackBoard2.currentPlayer.getActualPostionX(),
-    //            BlackBoard2.currentPlayer.getActualPostionY(), size, BlackBoard2.currentPlayer.getIsHorizontal());
-
-    //}
-
-    /**
-     * Handles resizing of the game window.
-     * Adjusts the cell size used for rendering based on the new window dimensions.
+     * Handles resizing of the game window by adjusting the rendering cell size.
+     * This method ensures that the game board and its elements scale proportionately
+     * to fit within the new dimensions of the window.
      */
     @Override
     public void gameResized() {
+        // Problems with resizing, needs to be solved in the future, adjusted to certain resize.
         //Blackboard.cellSize = getWidth() < getHeight() ? getWidth() / (cols * 2) : getHeight() / rows;
 
+        // Determine the larger dimension of the game window
         int largerDimension = Math.max(getWidth(), getHeight());
+
+        // Determine the maximum size of the game board
         int largerDimensionOfGameBoard = Math.max(cols, rows);
+
+        // Calculate the new cell size based on the larger dimension and game board size
         Blackboard.cellSize = Math.round((float) largerDimension / (2 * largerDimensionOfGameBoard) * 0.91f);
     }
 }

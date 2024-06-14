@@ -43,6 +43,11 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
         repaint();
     }
 
+    /**
+     * Gets the current scene.
+     *
+     * @return The current scene.
+     */
     public Scene getCurrentScene() {
         return currentScene;
     }
@@ -59,17 +64,13 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
                 this.removeKeyListener(keyListener);
             }
             addKeyListener(BlackBoard2.currentPlayer.getKeyboardManager());
-
         } else {
             if (getKeyListeners()[0] != BlackBoard2.currentPlayer.getKeyboardManager()) {
                 removeKeyListener(BlackBoard2.opponentPlayer.getKeyboardManager());
                 addKeyListener(BlackBoard2.currentPlayer.getKeyboardManager());
-
             }
         }
 
-
-        //super.paintComponent(g);
         if (currentScene != null) {
             Graphics2D g2 = (Graphics2D) g;
             currentScene.render(g2);
@@ -85,11 +86,9 @@ public class SinkFleetSwingRenderer extends SwingRenderer {
     @Override
     public void drawEntity(Graphics2D g2, Entity e) {
         // Forward the call to the current scene
-
         if (currentScene != null) {
             currentScene.drawEntity(g2, e);
         }
-
     }
 
     /**

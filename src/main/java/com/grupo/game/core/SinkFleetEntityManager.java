@@ -44,8 +44,8 @@ public class SinkFleetEntityManager extends EntityManager {
      * @param cols            The number of columns on the game board.
      * @return The created player entity.
      */
-    public Player creatPlayer(String nombre,float x, float y, KeyboardManager keyboardManager, int rows, int cols) {
-        Player player = new Player(nombre,x, y, Settings.WIDTH, Settings.HEIGHT,
+    public Player creatPlayer(String nombre, float x, float y, KeyboardManager keyboardManager, int rows, int cols) {
+        Player player = new Player(nombre, x, y, Settings.WIDTH, Settings.HEIGHT,
                 Settings.PLAYER_HP, Settings.PLAYER_DAMAGE, keyboardManager, rows, cols);
 
         addEntity(player);
@@ -100,7 +100,6 @@ public class SinkFleetEntityManager extends EntityManager {
         return new SinkFleetAssetManager();
     }
 
-    //TODO: REMOVE ?????
     /**
      * Spawns a Ship entity at the specified coordinates and adds it to the entity manager.
      *
@@ -108,27 +107,7 @@ public class SinkFleetEntityManager extends EntityManager {
      * @param y            The y-coordinate where the ship will be spawned.
      * @param size         The size of the ship.
      * @param isHorizontal True if the ship is placed horizontally, false if vertically.
-     * @return The spawned Ship entity, or null if spawning failed due to collision.
-     */
-    /* 
-    public Ship spawnShip(float x, float y, int size, boolean isHorizontal) {
-        Ship fleet = new Ship(x, y, size, x, size, isHorizontal, y, size);
-        for (int i = 0; i < shipIndex; i++) {
-            if (ships[i].collides(fleet)) {
-                return null;
-            }
-        }
-        addEntity(fleet);
-        return fleet;
-    } */
-
-    /**
-     * Spawns a Ship entity at the specified coordinates and adds it to the entity manager.
-     *
-     * @param x            The x-coordinate where the ship will be spawned.
-     * @param y            The y-coordinate where the ship will be spawned.
-     * @param size         The size of the ship.
-     * @param isHorizontal True if the ship is placed horizontally, false if vertically.
+     * @param direction    The direction of the ship.
      * @return The spawned Ship entity, or null if spawning failed due to collision.
      */
     public Ship createShip(float x, float y, int size, boolean isHorizontal, boolean direction) {
@@ -146,7 +125,9 @@ public class SinkFleetEntityManager extends EntityManager {
         BlackBoard2.currentPlayer.processInput();
     }
 
-
+    /**
+     * Removes all playable entities from the entity manager.
+     */
     public void removeAllPlayeableEntities() {
         for (PlayableEntity ship : super.getPlayableEntities()) {
             removeEntity(ship);

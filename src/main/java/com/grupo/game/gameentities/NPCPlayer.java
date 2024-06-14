@@ -90,15 +90,11 @@ public class NPCPlayer extends Player {
                     if (BlackBoard2.opponentPlayer.barcosHundidos() == SHIP_SIZES.length) {
                         //System.out.println("Juego terminado");
                         setWin(true);
-                        
                     }
-
                 }
             }
             setTurnUsed(true);
         }
-
-
     }
 
     /**

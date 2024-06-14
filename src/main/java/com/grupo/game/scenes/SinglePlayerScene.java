@@ -32,7 +32,7 @@ public class SinglePlayerScene extends Scene {
     private JTextField textFieldInputPlayer;
     private JTextField textFieldInputNPC;
     private JButton exitButton;
-    
+
     private Timer timer;
 
     /**
@@ -53,7 +53,7 @@ public class SinglePlayerScene extends Scene {
         textFieldInputPlayer = new JTextField();
         textFieldInputNPC = new JTextField();
         exitButton = new JButton();
-        
+
 
         textFieldPlayerShips.setEditable(false);
         textFieldNPCShots.setEditable(false);
@@ -71,8 +71,8 @@ public class SinglePlayerScene extends Scene {
     @Override
     public void render(Graphics2D g2) {
         try {
-        updateGameInfo(BlackBoard2.currentPlayer);
-        drawEntity(g2, BlackBoard2.currentPlayer);
+            updateGameInfo(BlackBoard2.currentPlayer);
+            drawEntity(g2, BlackBoard2.currentPlayer);
         } catch (Exception e) {
             System.out.println("\u001B[32mError: " + e.getMessage() + "\u001B[0m");
         }
@@ -95,7 +95,7 @@ public class SinglePlayerScene extends Scene {
                     g2.fillRect(col * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET, row * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET, Blackboard.cellSize, Blackboard.cellSize);
                 }
             }
-            
+
         } else if (e instanceof Player) {
             if (e instanceof Player) {
                 if (BlackBoard2.currentPlayer.equals((Player) e)) {
@@ -109,20 +109,20 @@ public class SinglePlayerScene extends Scene {
                         }
                     }
                 }
-                
+
             }
         }
         disparos = ((Player) e).getDisparos();
+        g2.setColor(Color.RED);
+        for (int i = 0; i < disparos.size(); i++) {
+            int x = disparos.get(i).getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
+            int y = disparos.get(i).getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
+            if (BlackBoard2.opponentPlayer.isHitBoard(disparos.get(i).getX(), disparos.get(i).getY()))
                 g2.setColor(Color.RED);
-                for (int i = 0; i < disparos.size(); i++) {
-                    int x = disparos.get(i).getX() * Blackboard.cellSize + Settings.COLS * Blackboard.cellSize + Settings.SPACE_BETWEEN_GAMEBOARDS + Settings.GAMEBOARD_OFFSET;
-                    int y = disparos.get(i).getY() * Blackboard.cellSize + Settings.GAMEBOARD_OFFSET;
-                    if (BlackBoard2.opponentPlayer.isHitBoard(disparos.get(i).getX(), disparos.get(i).getY()))
-                        g2.setColor(Color.RED);
-                    else
-                        g2.setColor(Color.BLUE);
-                    g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
-                }
+            else
+                g2.setColor(Color.BLUE);
+            g2.fillRect(x, y, Blackboard.cellSize, Blackboard.cellSize);
+        }
     }
 
     /**
@@ -238,10 +238,6 @@ public class SinglePlayerScene extends Scene {
             }
         });
 
-        // Return to Menu Button
-       
-
-     
         buttonPanel.add(exitButton);
 
         parentPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -268,8 +264,6 @@ public class SinglePlayerScene extends Scene {
         // Update players information
         updatePlayerInfo(player);
 
-        //TODO: NO actualiza correctamente...
-        // Update NPC's information
         updateNPCInfo();
     }
 
@@ -301,9 +295,8 @@ public class SinglePlayerScene extends Scene {
         textFieldInputPlayer.setText(String.format("X: %d, Y: %d",
                 BlackBoard2.currentPlayer.getActualPostionX(), BlackBoard2.currentPlayer.getActualPostionY()));
     }
-    
+
     /**
-     * NOT IN USAGE AT THE MOMENT...
      * Updates UI fields with information related to the NPC.
      */
     private void updateNPCInfo() {

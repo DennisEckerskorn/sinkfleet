@@ -78,6 +78,7 @@ public class SceneManager implements ButtonClickListener {
             exitGame();
         }
     }
+
     public void exitGame() {
         System.exit(0);
     }

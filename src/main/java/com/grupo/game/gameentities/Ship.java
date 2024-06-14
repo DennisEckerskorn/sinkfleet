@@ -6,6 +6,7 @@ import com.grupo.game.config.Settings;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Represents a ship entity in the Sink Fleet game.
@@ -131,7 +132,6 @@ public class Ship extends Entity {
     }
 
 
-
     /**
      * Updates the ship.
      *
@@ -160,6 +160,26 @@ public class Ship extends Entity {
     @Override
     public void postUpdate(double deltaTime) {
 
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Ship ship = (Ship) o;
+        return size == ship.size && isHorizontal == ship.isHorizontal && Objects.equals(shipFragments, ship.shipFragments) && Objects.equals(position, ship.position);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + Objects.hashCode(shipFragments);
+        result = 31 * result + Objects.hashCode(position);
+        result = 31 * result + size;
+        result = 31 * result + Boolean.hashCode(isHorizontal);
+        return result;
     }
 
     @Override

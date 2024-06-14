@@ -13,7 +13,6 @@ public class BlackBoard2 {
     public static boolean buttonPressed = false;
     public static boolean beginGame = true;
     public static SceneManager sceneManager;
-
     public static boolean resetListenner = false;
 
     /**

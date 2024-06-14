@@ -26,13 +26,6 @@ public class MultiPlayerScene extends Scene {
     private JTextField textFieldPlayerOneShots;
     private JTextField textFieldInputPlayerOne;
     private JButton exitButton;
-    //private JTextField textFieldPlayerTwoShots;
-    //private JTextField textFieldInputPlayerTwo;
-    //private JTextField textFieldPlayerTwoShips;
-
-
-
-    
     private Timer timer;
 
     /**
@@ -47,20 +40,14 @@ public class MultiPlayerScene extends Scene {
         this.backgroundColor2 = backgroundColor2;
         this.sceneManager = sceneManager;
         textFieldPlayerOneShips = new JTextField();
-        //textFieldPlayerTwoShots = new JTextField();
         textFieldPlayerOneShots = new JTextField();
-        //textFieldPlayerTwoShips = new JTextField();
         textFieldInputPlayerOne = new JTextField();
-        //textFieldInputPlayerTwo = new JTextField();
         exitButton = new JButton();
-      
+
 
         textFieldPlayerOneShips.setEditable(false);
-        //textFieldPlayerTwoShots.setEditable(false);
         textFieldPlayerOneShots.setEditable(false);
-        //textFieldPlayerTwoShips.setEditable(false);
         textFieldInputPlayerOne.setEditable(false);
-        //textFieldInputPlayerTwo.setEditable(false);
     }
 
     /**
@@ -77,7 +64,7 @@ public class MultiPlayerScene extends Scene {
             System.out.println("\u001B[32mError: " + e.getMessage() + "\u001B[0m");
             System.out.println(g2);
         }
-        
+
     }
 
     /**
@@ -231,7 +218,7 @@ public class MultiPlayerScene extends Scene {
             }
         });
 
-       
+
         buttonPanel.add(exitButton);
 
         parentPanel.add(buttonPanel, BorderLayout.SOUTH);
@@ -245,6 +232,11 @@ public class MultiPlayerScene extends Scene {
         timer.start();
     }
 
+    /**
+     * Updates the game information for the current player.
+     *
+     * @param player The current player.
+     */
     public void updateGameInfo(Player player) {
         if (player == null) {
             setNullPlayerInfo();
@@ -253,12 +245,6 @@ public class MultiPlayerScene extends Scene {
 
         // Update players information
         updatePlayerInfo(player);
-
-        // Determine the opponent player
-        
-
-        // Update opponent's information
-        //updateOpponentInfo(opponentPlayer);
     }
 
     /**
@@ -266,11 +252,8 @@ public class MultiPlayerScene extends Scene {
      */
     private void setNullPlayerInfo() {
         textFieldPlayerOneShips.setText("-");
-        //textFieldPlayerTwoShips.setText("-");
         textFieldPlayerOneShots.setText("-");
-        //textFieldPlayerTwoShots.setText("-");
         textFieldInputPlayerOne.setText("-");
-        //textFieldInputPlayerTwo.setText("-");
     }
 
     /**
@@ -281,9 +264,8 @@ public class MultiPlayerScene extends Scene {
     private void updatePlayerInfo(Player player) {
         textFieldPlayerOneShips.setText(String.valueOf(player.getShips().size()) + " Horizontal: " + player.getIsHorizontal());
         textFieldPlayerOneShots.setText(String.valueOf(player.getDisparos().size()));
-
         textFieldInputPlayerOne.setText(player.getActualPostionX() + " - " + player.getActualPostionY());
     }
 
-   
+
 }
